@@ -5,6 +5,15 @@ using System;
 using Object = UnityEngine.Object;
 public static class ComTool
 {
+    public static T NameOf<T>(this string name, IList<T> components) where T : Component
+    {
+        foreach (var com in components)
+        {
+            if (com.gameObject.name == name)
+                return com.GetComponent<T>();
+        }
+        return default(T);
+    }
     public static string GetDirOrCreate(this string dir)
     {
         if (string.IsNullOrEmpty(dir)) return "";
