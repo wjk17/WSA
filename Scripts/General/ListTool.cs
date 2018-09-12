@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -65,5 +66,27 @@ public static partial class ListTool
         {
             if (!b.Contains(i)) main.Add(i);
         }
+    }
+    internal static bool Contains<T>(this IList<T> list, T item) where T : class
+    {
+        foreach (var t in list)
+        {
+            if (t == item) return true;
+        }
+        return false;
+    }
+
+    internal static List<T> Combine<T>(IList<T> list1, IList<T> list2)
+    {
+        var list = new List<T>();
+        foreach (var t in list1)
+        {
+            list.Add(t);
+        }
+        foreach (var t in list2)
+        {
+            list.Add(t);
+        }
+        return list;
     }
 }

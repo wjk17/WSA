@@ -8,7 +8,7 @@ public enum RotSeq
     zyx, zyz, zxy, zxz, yxz, yxy,
     yzx, yzy, xyz, xyx, xzy, xzx
 }
-public static class MathTool
+public static partial class MathTool
 {
     public static Vector4 NaNTo0(Vector4 v)
     {
@@ -162,12 +162,6 @@ public static class MathTool
                 Debug.LogError("No good sequence");
                 return Vector3.zero;
         }
-    }
-    public static float approxRange = 0.00001f;
-    public static bool Approx(float a, float b)
-    {
-        var r = Mathf.Abs(a - b) < approxRange;
-        return r;
     }
     internal static Vector2 ReverseX(Vector2 a)
     {

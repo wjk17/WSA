@@ -313,11 +313,19 @@ public static partial class TransformTool
     {
         target.transform.localPosition = Vector3.zero;
         target.transform.localRotation = Quaternion.identity;
+        target.transform.localScale = Vector3.one;
+    }
+    public static void Reset(this Component target)
+    {
+        target.transform.localPosition = Vector3.zero;
+        target.transform.localRotation = Quaternion.identity;
+        target.transform.localScale = Vector3.one;
     }
     public static void Reset(this Transform target)
     {
         target.localPosition = Vector3.zero;
         target.localRotation = Quaternion.identity;
+        target.localScale = Vector3.one;
     }
     public static float PosX(this string target)
     {
@@ -467,6 +475,14 @@ public static partial class TransformTool
     public static void SetUIPosY(this Transform trans, float f)
     {
         (trans as RectTransform).anchoredPosition = new Vector2(trans.localPosition.x, f);
+    }
+    public static void SetUIPosX(this Component com, float f)
+    {
+        (com.transform as RectTransform).anchoredPosition = new Vector2(f, com.transform.localPosition.y);
+    }
+    public static void SetUIPosY(this Component com, float f)
+    {
+        (com.transform as RectTransform).anchoredPosition = new Vector2(com.transform.localPosition.x, f);
     }
     //component
     public static void SetLocalEulerX(this Component com, float f)
