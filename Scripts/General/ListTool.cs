@@ -67,7 +67,7 @@ public static partial class ListTool
             if (!b.Contains(i)) main.Add(i);
         }
     }
-    internal static bool Contains<T>(this IList<T> list, T item) where T : class
+    public static bool Contains<T>(this IList<T> list, T item) where T : class
     {
         foreach (var t in list)
         {
@@ -76,7 +76,7 @@ public static partial class ListTool
         return false;
     }
 
-    internal static List<T> Combine<T>(IList<T> list1, IList<T> list2)
+    public static List<T> Combine<T>(IList<T> list1, IList<T> list2)
     {
         var list = new List<T>();
         foreach (var t in list1)

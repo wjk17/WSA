@@ -42,12 +42,12 @@ public class CameraController : MonoSingleton<CameraController>
     bool dragging;
 
     public InputCallBack cb;
-    public bool on;
+    public bool on = true;
     public bool mouseInWin;
     //Show Instrustion Window
     int x = 5;
     int y = 5;
-    float timer = 0;
+    [HideInInspector] public float timer = 0;
     public Vector3 diff;
     public bool rotateOn = true;
 
@@ -76,11 +76,11 @@ public class CameraController : MonoSingleton<CameraController>
     {
         SetEulerWithTx(startEuler);
 
-//#if UNITY_EDITOR
+        //#if UNITY_EDITOR
         orthoCamSize = GetComponent<Camera>().orthographicSize;
-//#else
-//        orthoCamSize = GetComponent<Camera>().orthographicSize = orthoCamSizeMOM.y;
-//#endif
+        //#else
+        //        orthoCamSize = GetComponent<Camera>().orthographicSize = orthoCamSizeMOM.y;
+        //#endif
         SyncCamSize();
         cb = UI.I.AddInputCB(name, GetInput, -1);
     }
