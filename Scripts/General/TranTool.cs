@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+/// <summary>
+/// 包含Position和Euler Rotation的类型
+/// 用于快捷操作Transform，缩短成员名
+/// </summary>
 [Serializable]
 public class Tran2E
 {

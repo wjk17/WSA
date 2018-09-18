@@ -8,6 +8,27 @@ public enum MB
     Right,
     Middle,
 };
+public static class ICBTool
+{
+    // 自动使用mono对象的名字和rectTransform
+    public static InputCallBack AddInputCB(this MonoBehaviour mono)
+    {
+        return UI.I.inputCallBacks.Add_R(new InputCallBack(mono, null, 0));
+    }
+    public static InputCallBack AddInputCB(this MonoBehaviour mono, int order)
+    {
+        return UI.I.inputCallBacks.Add_R(new InputCallBack(mono, null, order));
+    }
+    public static InputCallBack AddInputCB(this MonoBehaviour mono, Action updateFunc, int order)
+    {
+        return UI.I.inputCallBacks.Add_R(new InputCallBack(mono, updateFunc, order));
+    }
+    // 自定义名字，mono为null时rectTransform为null
+    public static InputCallBack AddInputCB(this MonoBehaviour mono, string name, Action updateFunc, int order)
+    {
+        return UI.I.inputCallBacks.Add_R(new InputCallBack(name, updateFunc, order));
+    }
+}
 [Serializable]
 public class InputCallBack
 {
@@ -15,11 +36,36 @@ public class InputCallBack
     /// <summary>
     /// 降序
     /// </summary>
-    public InputCallBack(string name, Action gi, int order = 0)
-    { this.name = name; getInput = gi; this.order = order; }
+    public InputCallBack(MonoBehaviour mono, Action getInput, int order = 0)
+    {
+        this.RT = mono.transform as RectTransform;
+        this.name = mono.name;
+        this.getInput = getInput;
+        this.order = order;
+    }
+    public InputCallBack(string name, Action getInput, int order = 0)
+    {
+        this.name = name;
+        this.getInput = getInput;
+        this.order = order;
+    }
+    public RectTransform RT;
+    public Rt rt;
+    public bool mouseOver;
     public string name;
     public Action getInput;
     public int order;
+}
+public static class UITool
+{
+    public static Rt GetRt(this RectTransform rt)
+    {
+        // anchor 和 pivot 都要上下翻转，转成左上角坐标
+        var pos = rt.anchorMin.SubY_L(1) * UI.scaler.referenceResolution;
+        pos += rt.anchoredPosition.ReverseY();
+        pos += -rt.pivot.SubY_L(1) * rt.rect.size;
+        return new Rt(pos, rt.rect.size);
+    }
 }
 public class UI : MonoSingleton<UI>
 {
@@ -35,19 +81,14 @@ public class UI : MonoSingleton<UI>
 
     public InputCallBack AddInputCB(string name, Action updateFunc, int order)
     {
-        inputCallBacks.Add(new InputCallBack(name, updateFunc, order));
-        return inputCallBacks.Last();
+        return inputCallBacks.Add_R(new InputCallBack(name, updateFunc, order));
     }
-    public List<InputCallBack> inputCallBacks
+    void Awake()
     {
-        get
-        {
-            if (_inputCallBacks == null)
-                _inputCallBacks = new List<InputCallBack>();
-            return _inputCallBacks;
-        }
+        I.inputCallBacks = new List<InputCallBack>();
     }
-    List<InputCallBack> _inputCallBacks;
+    public List<InputCallBack> inputCallBacks;
+    public List<InputCallBack> listCalled;
     public Vector2 _mousePositionRef;
     public virtual int SortList(InputCallBack a, InputCallBack b)
     {
@@ -57,7 +98,7 @@ public class UI : MonoSingleton<UI>
     }
     private void ShowInInspector()
     {
-        _mousePositionRef = mousePositionRef;
+        _mousePositionRef = mousePosRef;
     }
     public void Update()
     {
@@ -65,13 +106,21 @@ public class UI : MonoSingleton<UI>
 
         Events.used = false;
         inputCallBacks.Sort(SortList);
+        listCalled = new List<InputCallBack>();
         foreach (var call in inputCallBacks)
         {
-            call.getInput();
+            if (call.getInput != null) call.getInput();
+            listCalled.Add(call);
+            if (call.RT != null)
+            {
+                call.rt = call.RT.GetRt();
+                call.mouseOver = call.rt.Contains(mousePosRef);
+                if (call.RT.gameObject.activeInHierarchy && call.mouseOver) return;
+            }
             if (Events.used) return;
         }
-    }
 
+    }
     private static Canvas _canvas;
     public static Canvas canvas
     {
@@ -83,6 +132,7 @@ public class UI : MonoSingleton<UI>
         set { _canvas = value; }
     }
     private static CanvasScaler _scaler;
+
     public static CanvasScaler scaler
     {
         get
@@ -106,13 +156,14 @@ public class UI : MonoSingleton<UI>
             return scaler.referenceResolution.x / Screen.width;
         }
     }
+
     public static Vector2 ToRefLT(Vector2 pos) // input screen pos
     {
         pos *= facterToReference;
         pos.y = scaler.referenceResolution.y - pos.y;
         return pos;
     }
-    internal static Vector2 mousePositionRef
+    internal static Vector2 mousePosRef // LT
     {
         get
         {
@@ -122,6 +173,14 @@ public class UI : MonoSingleton<UI>
             return ip;
         }
     }
+    internal static Vector2 mousePosRef_LB // LB
+    {
+        get
+        {
+            return Input.mousePosition * facterToReference;
+        }
+    }
+
     internal static bool MouseOver(params RectTransform[] rts)
     {
         var ip = Input.mousePosition;
@@ -252,47 +311,41 @@ public static class Events
     /// <summary>
     /// Input.GetMouseButton
     /// </summary>
+    public static bool MouseUp0
+    {
+        get { return !used && Input.GetMouseButtonUp(0); }
+    }
+    public static bool MouseUp1
+    {
+        get { return !used && Input.GetMouseButtonUp(1); }
+    }
+    public static bool MouseUp2
+    {
+        get { return !used && Input.GetMouseButtonUp(2); }
+    }
     public static bool MouseDown0
     {
-        get
-        {
-            return !used && Input.GetMouseButtonDown(0);
-        }
+        get { return !used && Input.GetMouseButtonDown(0); }
     }
     public static bool MouseDown1
     {
-        get
-        {
-            return !used && Input.GetMouseButtonDown(1);
-        }
+        get { return !used && Input.GetMouseButtonDown(1); }
     }
     public static bool MouseDown2
     {
-        get
-        {
-            return !used && Input.GetMouseButtonDown(2);
-        }
+        get { return !used && Input.GetMouseButtonDown(2); }
     }
     public static bool Mouse0
     {
-        get
-        {
-            return !used && Input.GetMouseButton(0);
-        }
+        get { return !used && Input.GetMouseButton(0); }
     }
     public static bool Mouse1
     {
-        get
-        {
-            return !used && Input.GetMouseButton(1);
-        }
+        get { return !used && Input.GetMouseButton(1); }
     }
     public static bool Mouse2
     {
-        get
-        {
-            return !used && Input.GetMouseButton(2);
-        }
+        get { return !used && Input.GetMouseButton(2); }
     }
     public static bool Mouse(int button)
     {
@@ -312,29 +365,19 @@ public static class Events
     }
     public static bool Mouse1to3
     {
-        get
-        {
-            return Mouse(MB.Left) ||
-                Mouse(MB.Right) ||
-                Mouse(MB.Middle);
-        }
+        get { return Mouse0 || Mouse1 || Mouse2; }
     }
     public static bool MouseDown1to3
     {
-        get
-        {
-            return MouseDown(MB.Left) ||
-                MouseDown(MB.Right) ||
-                MouseDown(MB.Middle);
-        }
+        get { return MouseDown0 || MouseDown1 || MouseDown2; }
     }
     public static bool Click
     {
         get
         {
-            return MouseDown(MB.Left) || MouseUp(MB.Left) ||
-                MouseDown(MB.Right) || MouseUp(MB.Right) ||
-                MouseDown(MB.Middle) || MouseUp(MB.Middle);
+            return MouseDown0 || MouseUp0 ||
+                MouseDown1 || MouseUp1 ||
+                MouseDown2 || MouseUp2;
         }
     }
     internal static float Axis(string v)

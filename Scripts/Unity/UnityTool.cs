@@ -13,7 +13,7 @@ public class MonoSingleton<TMono> : MonoBehaviour where TMono : MonoBehaviour
     public bool startActive = true;
     public void GetInstance()
     {
-        if (startActive == false) gameObject.SetActive(false);
+        gameObject.SetActive(startActive);
         _i = (TMono)(object)this;
     }
     public static TMono I

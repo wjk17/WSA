@@ -4,26 +4,7 @@ using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 [CustomEditor(typeof(CopyTransformMatchName))]
-public class CopyTransformMatchNameEditor : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        var o = (CopyTransformMatchName)target;
-        base.OnInspectorGUI();
-        if (GUILayout.Button("SetLocalTrans3"))
-        {
-            o.SetLocalTrans3();
-        }
-        if (GUILayout.Button("SetMesh"))
-        {
-            o.SetMesh();
-        }
-        if (GUILayout.Button("GetPairs"))
-        {
-            o.GetPairs();
-        }
-    }
-}
+public class CopyTransformMatchNameEditor : E_ShowButtons<CopyTransformMatchName> { }
 #endif
 public class CopyTransformMatchName : MonoBehaviour
 {
@@ -46,6 +27,7 @@ public class CopyTransformMatchName : MonoBehaviour
         if (from == null || to == null) return;
         GetPairs();
     }
+    [ShowButton]
     public void GetPairs()
     {
         pairs = new Dictionary<Transform, Transform>();
@@ -67,6 +49,7 @@ public class CopyTransformMatchName : MonoBehaviour
             }
         }
     }
+    [ShowButton]
     public void SetMesh()
     {
         List<string> fromNames = new List<string>();
@@ -92,6 +75,7 @@ public class CopyTransformMatchName : MonoBehaviour
             }
         }
     }
+    [ShowButton]
     public void SetLocalTrans3()
     {
         List<string> fromNames = new List<string>();

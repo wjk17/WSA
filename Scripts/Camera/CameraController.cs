@@ -39,7 +39,7 @@ public class CameraController : MonoSingleton<CameraController>
     public float trackSensitivity = 1f;
     public float moveSensitivity = 1f;
     private Quaternion originRotation;
-    bool dragging;
+    public bool dragging;
 
     public InputCallBack cb;
     public bool on = true;
@@ -67,6 +67,8 @@ public class CameraController : MonoSingleton<CameraController>
     }
     Transform pivotT { get { return pivotGO == null ? null : pivotGO.transform; } }
     public Vector3 startEuler = new Vector3(55, 0, 0);
+    public int CB_Order = -1;
+
     public void SetEulerWithTx(Vector3 euler)
     {
         pivotT.eulerAngles = euler;
@@ -82,7 +84,7 @@ public class CameraController : MonoSingleton<CameraController>
         //        orthoCamSize = GetComponent<Camera>().orthographicSize = orthoCamSizeMOM.y;
         //#endif
         SyncCamSize();
-        cb = UI.I.AddInputCB(name, GetInput, -1);
+        cb = UI.I.AddInputCB(name, GetInput, CB_Order);
     }
     public void SyncCamSize()
     {
@@ -98,7 +100,7 @@ public class CameraController : MonoSingleton<CameraController>
         mouseInWin = MathTool.Between(Input.mousePosition, Vector2.zero, new Vector2(Screen.width, Screen.height));
         if (on && mouseInWin)
         {
-            cb.order = -1;
+            cb.order = CB_Order;
             mouseEvent();
         }
     }
@@ -122,8 +124,7 @@ public class CameraController : MonoSingleton<CameraController>
     void mouseEvent()
     {
         float delta = Events.Axis("Mouse ScrollWheel");
-        if (delta != 0.0f)
-            mouseWheelEvent(delta * wheelSensitivity);
+        if (delta != 0.0f) mouseWheelEvent(delta * wheelSensitivity);
 
         if (Events.MouseDown1to3)
         {
@@ -132,8 +133,7 @@ public class CameraController : MonoSingleton<CameraController>
         }
         else if (Events.Mouse1to3)
         {
-            if (dragging)
-                mouseDragEvent(Input.mousePosition);
+            if (dragging) mouseDragEvent(Input.mousePosition);
         }
         else { dragging = false; }
         oldPos = Input.mousePosition;
@@ -148,7 +148,7 @@ public class CameraController : MonoSingleton<CameraController>
         diff = mousePos - oldPos;
         Vector2 diffN = new Vector2(diff.x / Screen.width, diff.y / Screen.height);
         Vector2 diffWorld = Vector2.Scale(diffN, size);
-        if (Events.Mouse(MB.Left))
+        if (Events.Mouse0)
         {
             //Operation for Mac : "Left Alt + Left Command + LMB Drag" is Track
             if ((Events.Alt && Events.Command) || (Events.Alt && Events.Ctrl))
@@ -169,12 +169,12 @@ public class CameraController : MonoSingleton<CameraController>
             //Only "LMB Drag" is no action.
         }
         //Track
-        else if (Events.Mouse(MB.Middle))
+        else if (Events.Mouse2)
         {
             cameraTranslate(-diffWorld);
         }
         //Tumble
-        else if (Events.Mouse(MB.Right))
+        else if (Events.Mouse1)
         {
             cameraRotate(new Vector3(diff.y, diff.x, 0.0f));
         }

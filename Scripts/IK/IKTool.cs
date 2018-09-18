@@ -156,7 +156,7 @@ public class Joint
     public float minAngle;
     public Transform transform;
     public bool skipClip;
-    public ASDOF dof;
+    public DOF dof;
     public string name;
     public Joint Clone()
     {

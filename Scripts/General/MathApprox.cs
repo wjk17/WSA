@@ -15,7 +15,7 @@ public static partial class MathTool
     {
         return Approx(f1, f2, 2);
     }
-    public static bool Approx(float f1, float f2, int dec)
+    public static bool Approx(this float f1, float f2, int dec)
     {
         float factor = Mathf.Pow(10, dec);
         return Approx(f1, f2, factor);

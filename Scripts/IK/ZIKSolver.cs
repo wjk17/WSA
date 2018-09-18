@@ -75,7 +75,7 @@ public class ZIKSolver : MonoBehaviour
             j.minAngle = -360;            
             j.transform = t;
             j.name = j.transform.name;
-            j.dof = ASDOF.NoLimit;
+            j.dof = DOF.NoLimit;
             origin.Add(j);
             i++;
             if (i == length) break;

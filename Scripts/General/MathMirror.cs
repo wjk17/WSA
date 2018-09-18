@@ -21,6 +21,31 @@ public static class MathMirror
     {
         tran.position = new Vector3(-tran.position.x, tran.position.y, tran.position.z);
     }
+    public static Vector2 SubY_L(this Vector2 v, float L)
+    {
+        return new Vector2(v.x, L - v.y);
+    }
+    public static Vector2 SubY_R(this Vector2 v, float R)
+    {
+        return new Vector2(v.x, v.y - R);
+    }
+    public static Vector2 AddY_L(this Vector2 v, float L)
+    {
+        return new Vector2(v.x, L + v.y);
+    }
+    public static Vector2 AddY(this Vector2 v, float R)
+    {
+        return new Vector2(v.x, v.y + R);
+    }
+    public static Vector2 ReverseX(this Vector2 v)
+    {
+        return v * new Vector2(-1, 1);
+    }
+    public static Vector2 ReverseY(this Vector2 v)
+    {
+        return v * new Vector2(1, -1);
+    }
+
     // bounds Mirror
     public static Bounds MirrorX(this Bounds bound)
     {

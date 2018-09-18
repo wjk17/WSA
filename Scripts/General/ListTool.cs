@@ -5,6 +5,31 @@ using UnityEngine;
 
 public static partial class ListTool
 {
+    public static T Add_R<T>(this List<T> list, T item)
+    {
+        list.Add(item);
+        return item;
+    }
+    public static List<T> AndSet<T>(this IList<T> list1, IList<T> list2, Func<IList<T>, T, bool> contains)
+    {
+        var list3 = new List<T>();
+        list3.AddRange(list1);
+        foreach (var i in list2)
+        {
+            if (!contains(list1, i))
+                list3.Add(i);
+        }
+        return list3;
+    }
+    public static int IdxOf<T>(this IList<T> objs, string name) where T : UnityEngine.Object
+    {
+        for (int i = 0; i < objs.Count; i++)
+        {
+            if (objs[i].name == name) return i;
+        }
+        return -1;
+    }
+
     public static void ConstructList<T>(ref List<T> list, int count) where T : new()
     {
         list = new List<T>();

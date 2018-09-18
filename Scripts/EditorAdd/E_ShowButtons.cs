@@ -55,9 +55,22 @@ public class UsageExample { }
 [CanEditMultipleObjects]
 public class E_ShowButtons<T> : Editor
 {
-    public BindingFlags bindingFlags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Instance;
+    public BindingFlags bindingFlags =
+        //BindingFlags.DeclaredOnly | // 排除继承
+        //BindingFlags.FlattenHierarchy |
+        BindingFlags.Instance |
+        BindingFlags.NonPublic |
+        BindingFlags.Public;
     public T o;
     public T[] os;
+    bool ContainsMethod(IList<MethodInfo> methods, MethodInfo method)
+    {
+        foreach (var m in methods)
+        {
+            if (method.Name == m.Name) return true;
+        }
+        return false;
+    }
     public override void OnInspectorGUI()
     {
         o = (T)Convert.ChangeType(target, typeof(T));
@@ -71,9 +84,9 @@ public class E_ShowButtons<T> : Editor
         EditorGUILayout.Separator();
 
         var t = typeof(T);
-        var fields = t.GetFields(bindingFlags);
+        var fields = t.GetFields(); // bindingFlags);
+        //var methods = t.GetMethods().AndSet(t.GetMethods(bindingFlags), ContainsMethod);
         var methods = t.GetMethods(bindingFlags);
-
         var stsRows = new Dictionary<int, List<Inline>>(); ;
         foreach (var field in fields)
         {

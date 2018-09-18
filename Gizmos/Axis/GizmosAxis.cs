@@ -10,6 +10,7 @@ public partial class GizmosAxis : MonoSingleton<GizmosAxis>
         GetInstance();
         originSize = cam.orthographicSize;
         originScale = transform.localScale;
+        this.AddInputCB(GetInput, CB_Order);
     }
     private void LateUpdate()
     {
@@ -17,7 +18,7 @@ public partial class GizmosAxis : MonoSingleton<GizmosAxis>
         var ratio = cam.orthographicSize / originSize;
         transform.localScale = originScale * ratio;
     }
-    void Update()
+    void GetInput()
     {
         deltaPosition = Vector3.zero;
         if (!dragging) CheckHover();
@@ -46,6 +47,8 @@ public partial class GizmosAxis : MonoSingleton<GizmosAxis>
     Vector2 screenThisPos;
     Vector2 screenAxis;
     Vector2 mousePosProj;
+    public int CB_Order = 10;
+
     Vector3 GetProjPos()
     {
         var axis = (Axis)axisIndex;
@@ -66,7 +69,7 @@ public partial class GizmosAxis : MonoSingleton<GizmosAxis>
         var n = screenAxis;
         mousePosProj = screenThisPos + (Vector2)Vector3.Project(v, n);
 
-        var hits = InputEvents.I.SVRaycastAll(mask.value, mousePosProj);
+        var hits = this.SVRaycastAll(mask.value, mousePosProj);
         if (dragging)
         {
             int i = 0;
@@ -120,12 +123,13 @@ public partial class GizmosAxis : MonoSingleton<GizmosAxis>
                 a.GetComponent<MeshRenderer>().enabled = false;
             }
         }
-        var hits = InputEvents.I.SVRaycastAll(mask.value);
+        var hits = this.SVRaycastAll(mask.value);
         foreach (var hit in hits)
         {
+            //Debug.Log(hit.transform.name);
             if (hit.transform == planes[0] || hit.transform == planes[1]
                 || hit.transform == planes[2]) continue;
-            dragging = true;
+            hovering = true;
             var n = hit.transform.name;
             switch (n)
             {
@@ -142,15 +146,17 @@ public partial class GizmosAxis : MonoSingleton<GizmosAxis>
             SetMats(handles[axisIndex], selected);
             return;
         }
-    }
+        hovering = false;
+    }    
     void CheckClick()
     {
-        if (dragging == true && Input.GetMouseButton(0) == false)
+        if (Events.Mouse0 == false)
         {
             dragging = false;
         }
-        if (dragging && Input.GetMouseButtonDown(0))
+        if (hovering && Events.MouseDown0)
         {
+            dragging = true;
             downPosAxisWorld = transform.position;
             downPosWorld = GetProjPos();
         }

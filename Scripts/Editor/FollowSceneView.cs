@@ -1,9 +1,9 @@
-﻿using Cinemachine;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR && CINEMACHINE
+using Cinemachine;
 [ExecuteInEditMode]
 public class FollowSceneView : MonoBehaviour
 {

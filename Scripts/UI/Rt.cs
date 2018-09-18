@@ -8,19 +8,19 @@ public struct Rt
     public Vector2 pos;
     public Vector2 size;
     public Vector2 anchor;
-    public Rt(Vector2 p, float sideLength) : this(p, Vector2.one * sideLength)
+    public Rt(Vector2 pos, float sideLength) : this(pos, Vector2.one * sideLength)
     {
     }
-    public Rt(Vector2 p, float sideLength, Vector2 anchor) : this(p, Vector2.one * sideLength, anchor)
+    public Rt(Vector2 pos, float sideLength, Vector2 anchor) : this(pos, Vector2.one * sideLength, anchor)
     {
     }
-    public Rt(Vector2 p, Vector2 size)
+    public Rt(Vector2 pos, Vector2 size)
     {
-        this.pos = p;
+        this.pos = pos;
         this.size = size;
         anchor = Vector2.zero;
     }
-    public Rt(Vector2 p, Vector2 size, Vector2 anchor) : this(p, size)
+    public Rt(Vector2 pos, Vector2 size, Vector2 anchor) : this(pos, size)
     {
         this.anchor = anchor;
     }

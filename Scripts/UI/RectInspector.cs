@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-//[ExecuteInEditMode]
+[ExecuteInEditMode]
 public class RectInspector : MonoBehaviour
 {
+    public bool updateInEditor = true;
     [Header("Anchors")]
     public Vector2 anchorMin;
     public Vector2 anchorMax;
@@ -16,29 +17,45 @@ public class RectInspector : MonoBehaviour
     public Vector2 anchoredPosition;
     public Vector2 sizeDelta;
 
-    private RectTransform rect;
+    [Header("Rect")]
+    public Vector2 rectSize;
+    public Rt rect;
+
+    [Header("Mouse")]
+    public bool mouseOver;
+
+    private RectTransform rt;
+    private void Reset()
+    {
+        rt = transform as RectTransform;
+    }
     void Start()
     {
-        rect = transform as RectTransform;
+        rt = transform as RectTransform;
     }
     bool modify;
     void Update()
     {
+        if (!updateInEditor) return;
         if (modify)
         {
-            rect.anchorMin = anchorMin;
-            rect.anchorMax = anchorMax;
-            rect.pivot = pivot;
+            rt.anchorMin = anchorMin;
+            rt.anchorMax = anchorMax;
+            rt.pivot = pivot;
         }
         else
         {
-            anchorMin = rect.anchorMin;
-            anchorMax = rect.anchorMax;
-            offsetMin = rect.offsetMin;
-            offsetMax = rect.offsetMax;
-            pivot = rect.pivot;
-            anchoredPosition = rect.anchoredPosition;
-            sizeDelta = rect.sizeDelta;
+            anchorMin = rt.anchorMin;
+            anchorMax = rt.anchorMax;
+            offsetMin = rt.offsetMin;
+            offsetMax = rt.offsetMax;
+            pivot = rt.pivot;
+            anchoredPosition = rt.anchoredPosition;
+            sizeDelta = rt.sizeDelta;
+
+            rectSize = rt.rect.size;
+            rect = rt.GetRt();
+            mouseOver = rect.Contains(UI.mousePosRef);
         }
     }
 }

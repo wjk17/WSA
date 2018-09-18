@@ -18,6 +18,7 @@ public partial class GizmosAxis
     public bool showAxes;
     public int axisIndex;
     public bool dragging;
+    public bool hovering;
 
     public Vector3 downPosAxisWorld;
     Vector3 downPosWorld;
@@ -53,14 +54,14 @@ public partial class GizmosAxis
             render.material = mat;
         }
     }
-    public void SetVisible(bool visible)
-    {
-        var renderers = GetComponentsInChildren<Renderer>(true);
-        foreach (var renderer in renderers)
-        {
-            renderer.enabled = visible;
-        }
-    }
+    //public void SetVisible(bool visible)
+    //{
+    //    var renderers = GetComponentsInChildren<Renderer>(true);
+    //    foreach (var renderer in renderers)
+    //    {
+    //        renderer.enabled = visible;
+    //    }
+    //}
     CameraController cc { get { return FindObjectOfType<CameraController>(); } }
     Camera cam { get { return cc.cam; } }
     Transform camT { get { return cam.transform; } }
