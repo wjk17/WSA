@@ -10,6 +10,8 @@ public partial class Curve2
     /// <param name="key"></param>
     public void InsertKey(Key2 key) // 插入帧并且立即排序
     {
+        var idx = TimeOf(key.time);
+        if (idx > -1) { keys[idx] = key; return; }
         Add(key);
         Sort();
         var i = IndexOf(key);

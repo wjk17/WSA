@@ -95,15 +95,15 @@ public static class ComTool
         b = c;
     }
 #if UNITY_EDITOR
-    public static void DestroyAuto(this UnityEngine.Object target)
+    public static void DestroyAuto(this Object target)
     {
         if (Application.isPlaying == false)
         {
-            UnityEngine.Object.DestroyImmediate(target);
+            Object.DestroyImmediate(target);
         }
         else
         {
-            UnityEngine.Object.Destroy(target);
+            Object.Destroy(target);
         }
     }
 #else

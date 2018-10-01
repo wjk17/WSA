@@ -19,6 +19,10 @@ public interface IFind
 public static class IFindExtend
 {
     //IFind
+    public static void Clear(this IFind fc)
+    {
+        fc.transform.ClearChildren();
+    }
     public static Transform Find(this IFind fc)
     {
         return GOTool.GetOrAddTrans(fc.transform, fc.findName);

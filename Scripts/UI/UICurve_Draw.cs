@@ -7,6 +7,7 @@ public partial class UICurve
 {
     public Color clrVectorSel;
     public Color clrVectorUnSel = Color.grey;
+    public Color _clrVectorUnSel;
 
     public Color clrCtrlLinesSel;
     public Color clrCtrlLinesUnSel = Color.grey;
@@ -15,7 +16,9 @@ public partial class UICurve
     public Color clrSubSel = Color.red;
     private void Awake()
     {
-        GetInstance();
+        UIDOFEditor.I.onDropdownChanged += GetCurve;
+        UIClip.I.onLoadClip += GetCurve;
+
         Curve2.drawLine = DrawLine;
         Curve2.drawVector = DrawVector;
         Curve2.drawTangent = DrawTangent;
@@ -53,9 +56,29 @@ public partial class UICurve
     public Color clrBorder = Color.grey;
 
     public Color clrFrameIdx = Color.green;
-    private void OnRenderObject()
+
+    public Color clrOthersTrack = Color.grey;
+    public Color clrOthersVector = Color.grey;
+
+    void DrawOthers()
     {
-        Curve2.colorTrack = clrTrack;
+        Curve2.colorTrack = clrOthersTrack;
+        _clrVectorUnSel = clrOthersVector;
+        if (UIDOFEditor.I.ast != null)
+        {
+            var oc = UIClip.I.clip.GetCurve(UIDOFEditor.I.ast);
+            if (oc != null)
+            {
+                foreach (var curve in oc.curves)
+                {
+                    if (curve != this.curve)
+                        curve.Draw(mtx_ViewToRect, false, nSize);
+                }
+            }
+        }
+    }
+    private void OnRenderObject()
+    {        
         Curve2.colorCtrlLines = clrCtrlLinesUnSel;
         Curve2.colorBorder = clrBorder;
 
@@ -75,6 +98,13 @@ public partial class UICurve
             b.x = a.x = i * factor.x;
             DrawLine(a, b, clrGridLines, mtx_ViewToRect);
         }
+
+        //others
+        DrawOthers();
+        Curve2.colorTrack = clrTrack;
+        _clrVectorUnSel = clrVectorUnSel;
+
+        // timeline
         a = new Vector2(UITimeLine.I.frameIdx, 0);
         b = new Vector2(UITimeLine.I.frameIdx, nSize.y);
         DrawLine(a, b, clrFrameIdx, mtx_ViewToRect);
@@ -141,7 +171,7 @@ public partial class UICurve
     }
     void DrawVector(Vector2 p, Color color, Matrix4x4 m)
     {
-        DrawRect(p, Vector2.one * sizeDrawVector, color, m, clrVectorUnSel, true);
+        DrawRect(p, Vector2.one * sizeDrawVector, color, m, _clrVectorUnSel, true);
     }
     void DrawLine(Vector2 a, Vector2 b, Color color, Matrix4x4 m) // 接口 
     {

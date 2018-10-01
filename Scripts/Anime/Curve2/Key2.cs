@@ -56,4 +56,11 @@ public class Key2
         outTangent += os;
         inTangent += os;
     }
+    public void SetTime(float v)
+    {
+        var os = v - vector.x;
+        time = v;
+        outTangent.x += os;
+        inTangent.x += os;
+    }
 }

@@ -31,8 +31,29 @@ public partial class UICurve
     private Matrix4x4 mtx_RefToRect;
     public Vector2 mousePosRf;
 
-    bool dragging;
+    public bool dragging;
     Key2 keySel;
+    void SetKeySelValue()
+    {
+        if (keySel == null) return;
+        var i = subIdxs[id];
+        if (i == 0)
+        {
+            keySel.SetVector(-os + mousePosRectN);
+            for (int k = 0; k < otherKeys.Count; k++)
+            {
+                //otherKeys[k].SetVector(-otherOss[k] + mousePosRectN);//sync vector
+                otherKeys[k].SetTime(-otherOss[k].x + mousePosRectN.x);//sync time
+            }
+            curve.Sort();
+        }
+        else if (i == 1)
+            keySel.inTangent = -os + mousePosRectN;
+        else if (i == 2)
+            keySel.outTangent = -os + mousePosRectN;
+    }
+    List<Key2> otherKeys;
+    List<Vector2> otherOss;
     List<Vector2> oss;
     Vector2 os;
 
@@ -44,7 +65,7 @@ public partial class UICurve
     public bool move;
     public float moveError = 2;
     public int id;
-    
+
     public Curve2 curveMirror;
     public bool mirror;
     public float mirrorError = 0.01f;

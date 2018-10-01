@@ -11,6 +11,7 @@ public class SetParent : MonoBehaviour
     public Transform[] childs;
     public Transform parent;
     public bool worldPositionStays = true;
+    public bool doOnAwake = true;
     private void Reset()
     {
         childs = new Transform[] { transform };
@@ -28,6 +29,7 @@ public class SetParent : MonoBehaviour
     [ShowButton("SetParent")]
     void Awake()
     {
+        if (!doOnAwake) return;
         foreach (var child in childs)
         {
             child.SetParent(parent, worldPositionStays);

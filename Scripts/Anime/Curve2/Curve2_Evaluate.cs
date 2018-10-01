@@ -84,6 +84,7 @@ public partial class Curve2
     }
     public Vector2 Evaluate2D(float t)
     {
+        if (Count == 0) { return Vector2.zero; }
         var i = 1;
         for (; i < Count; i++)
         {

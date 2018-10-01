@@ -8,7 +8,7 @@ public partial class Curve2
 {
     public List<Key2> keys;
     public bool time1D = true; //limit Time Between Vectors In X Axis
-    [XmlIgnore] public float approxRange = 0.00001f;
+    [XmlIgnore] public int approxDec = 4; // 4位小数
     [XmlIgnore] public static float tangentSlopeCalDeltaX = 0.0000001f;
     public Curve2(Vector2 a, Vector2 b) : this(a, b, true)
     {
@@ -31,7 +31,7 @@ public partial class Curve2
         if (!hasKey) return -1;
         for (int i = 0; i < keys.Count; i++)
         {
-            if (keys[i].time == time) { return i; }
+            if (keys[i].time.Approx(time, approxDec)) { return i; }
         }
         return -1;
     }

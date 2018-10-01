@@ -7,7 +7,7 @@ public partial class GizmosAxis : MonoSingleton<GizmosAxis>
 {
     private void Start()
     {
-        GetInstance();
+        //GetInstance();
         originSize = cam.orthographicSize;
         originScale = transform.localScale;
         this.AddInputCB(GetInput, CB_Order);

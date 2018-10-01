@@ -13,7 +13,7 @@ public class UICurveMgr : MonoBehaviour
     }
     void SetAllCurveToLinear()
     {
-        foreach (var oc in UIClip.clip.curves)
+        foreach (var oc in UIClip.I.clip.curves)
         {
             foreach (var curve in oc.curves)
             {
