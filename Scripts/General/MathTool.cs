@@ -175,27 +175,34 @@ public static partial class MathTool
     {
         return new Vector2(a.x / b.x, a.y / b.y);
     }
-    internal static bool Between(Vector2 v, Vector2 min, Vector2 max)
+    internal static bool Between<T>(this T v, T min, T max)
+    {
+        int V = (int)(object)v;
+        int A = (int)(object)min;
+        int B = (int)(object)max;
+        return (V >= A) && (V <= B);
+    }
+    internal static bool Between(this Vector2 v, Vector2 min, Vector2 max)
     {
         return (v.x >= min.x && v.y >= min.y) && (v.x <= max.x && v.y <= max.y);
     }
-    internal static bool Between(int index, int min, int max)
+    internal static bool Between(this int index, int min, int max)
     {
         return (index >= min) && (index <= max);
     }
-    internal static bool Between(int index, float min, int max)
+    internal static bool Between(this int index, float min, int max)
     {
         return (index >= min) && (index <= max);
     }
-    internal static bool Between(int index, int min, float max)
+    internal static bool Between(this int index, int min, float max)
     {
         return (index >= min) && (index <= max);
     }
-    internal static bool Between(int index, float min, float max)
+    internal static bool Between(this int index, float min, float max)
     {
         return (index >= min) && (index <= max);
     }
-    internal static bool Between(float index, float min, float max)
+    internal static bool Between(this float index, float min, float max)
     {
         return (index >= min) && (index <= max);
     }

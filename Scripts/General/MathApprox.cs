@@ -4,6 +4,27 @@ using UnityEngine;
 
 public static partial class MathTool
 {
+    // TODO
+    //public static bool Approx(this Vector2 f1, Vector2 f2)
+    //{
+    //    return Approx(f1, f2, 2);
+    //}
+    //public static bool Approx(this Vector2 f1, Vector2 f2, int dec)
+    //{
+    //    float factor = Mathf.Pow(10, dec);
+    //    return Approx(f1, f2, factor);
+    //}
+    //public static bool Approx(this Vector3 f1, Vector3 f2)
+    //{
+    //    return Approx(f1, f2, 2);
+    //}
+    //public static bool Approx(this Vector3 f1, Vector3 f2, int dec)
+    //{
+    //    float factor = Mathf.Pow(10, dec);
+    //    return Approx(f1, f2, factor);
+    //}
+
+
     /// <summary>
     /// 浮点数近似比较（用处近似于Mathf.Approximately，可调整精度）
     /// 保留dec位小数的近似比较（默认2位）
