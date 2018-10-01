@@ -8,7 +8,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public static class Serializer
 {
-    public static void XMLSerialize<T>(T o, string filePath)
+    public static T XMLSerialize<T>(T o, string filePath)
     {
         try
         {
@@ -17,8 +17,9 @@ public static class Serializer
             formatter.Serialize(sw, o);
             sw.Flush();
             sw.Close();
+            return o;
         }
-        catch (Exception e) { Debug.LogError(e); }
+        catch (Exception e) { Debug.LogError(e); return default(T); }
     }
     public static T XMLDeSerialize<T>(string filePath)
     {
@@ -30,8 +31,7 @@ public static class Serializer
             sr.Close();
             return o;
         }
-        catch (Exception e) { Debug.LogError(e); }
-        return default(T);
+        catch (Exception e) { Debug.LogError(e); return default(T); }
     }
     public static void BINSerialize<T>(T o, string filePath)
     {

@@ -4,6 +4,13 @@ using UnityEngine;
 using StrCom = System.StringComparison;
 public static class StringTool
 {
+    public static List<string> Combine(this string[] strs, params string[] strs2)
+    {
+        var list = new List<string>();
+        list.AddRange(strs);
+        list.AddRange(strs2);
+        return list;
+    }
     public static int SortList(string a, string b)
     {
         int na, nb;
