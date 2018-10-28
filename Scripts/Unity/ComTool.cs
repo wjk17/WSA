@@ -33,7 +33,15 @@ public static class ComTool
         com.GetComponent<SkinnedMeshRenderer>().BakeMesh(m);
         com.GetComponent<MeshCollider>().sharedMesh = m;
     }
-    public static GameObject Copy(this Component com, bool keepParent = true)
+    public static T Copy<T>(this T com, bool keepParent = true) where T: Component
+    {
+        var go = com.gameObject;
+        var copy = Object.Instantiate(go);
+        copy.name = go.name;
+        if (keepParent) copy.SetParent(go.transform.parent);
+        return copy.GetComponent<T>();
+    }
+    public static GameObject CopyGO(this Component com, bool keepParent = true)
     {
         var go = com.gameObject;
         var copy = Object.Instantiate(go);
@@ -107,9 +115,9 @@ public static class ComTool
         }
     }
 #else
-    public static void DestroyAuto(this UnityEngine.Object target)
+    public static void DestroyAuto(this Object target)
     {
-        UnityEngine.Object.Destroy(target);
+        Object.Destroy(target);
     }
 #endif
     public static T GetComOrAdd<T>(this Component c) where T : Component

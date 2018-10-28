@@ -1,19 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class Selectoble 
-{
-    public virtual void OnSelected() { }
-}
+
 public partial class Curve3Edit
 {
     public int accuracy = 100; // 曲线精度
 
-    public Color clrSubSel = Color.yellow;
-    public Color clrPointsSel = Color.cyan;
+    public Color clrSubSel = Color.cyan;
+    public Color clrPointsSel = Color.grey;//4E6E8E
     public Color clrPointsUnSel = Color.black;
+    public float pointSize = 13;
 
-    public float pointSize = 10;
     void Awake()
     {
         Curve3.drawLine = DrawLine;
@@ -33,6 +30,7 @@ public partial class Curve3Edit
         var rt = p + size * 0.5f;
 
         DrawLines.DrawQuads(color, new Vector2[] { lt, lb, rb, rt }, m);
+
     }
     void DrawPoint(Vector3 p, Color color)
     {
@@ -54,9 +52,8 @@ public partial class Curve3Edit
             Curve3.accuracy = accuracy;
             if (useSelector)
             {
-                var selected = Selector.current.GetComponent<Selectoble>();
-                selected.OnSelected();
-                    //.curveData.curve.Draw();
+                var hair = Selector.current.GetComponent<Hair>();
+                hair.curveData.curve.Draw();
             }
             else curve.Draw();
 

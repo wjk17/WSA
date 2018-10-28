@@ -3,35 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public static partial class MathTool
-{
-    // TODO
-    //public static bool Approx(this Vector2 f1, Vector2 f2)
-    //{
-    //    return Approx(f1, f2, 2);
-    //}
-    //public static bool Approx(this Vector2 f1, Vector2 f2, int dec)
-    //{
-    //    float factor = Mathf.Pow(10, dec);
-    //    return Approx(f1, f2, factor);
-    //}
-    //public static bool Approx(this Vector3 f1, Vector3 f2)
-    //{
-    //    return Approx(f1, f2, 2);
-    //}
-    //public static bool Approx(this Vector3 f1, Vector3 f2, int dec)
-    //{
-    //    float factor = Mathf.Pow(10, dec);
-    //    return Approx(f1, f2, factor);
-    //}
-
-
+{ 
     /// <summary>
     /// 浮点数近似比较（用处近似于Mathf.Approximately，可调整精度）
     /// 保留dec位小数的近似比较（默认2位）
     /// </summary>
     /// <param name="f1">浮点数1</param>
     /// <param name="f2">浮点数2</param>
-    /// <returns>返回是否近似</returns>
+    /// <returns>返回是否近似</returns>    
+
+    public static bool Approx(this Vector3 a, Vector3 b)
+    {
+        return Approx(a.x, b.x) && Approx(a.y, b.y) && Approx(a.z, b.z);
+    }
+    public static bool Approx(this Vector2 a, Vector2 b)
+    {
+        return Approx(a.x, b.x) && Approx(a.y, b.y);
+    }
     public static bool Approx(this float f1, float f2)
     {
         return Approx(f1, f2, 2);
@@ -43,14 +31,9 @@ public static partial class MathTool
     }
     public static bool Approx(float f1, float f2, float factor)
     {
-        //return
-        //(Ceil(f1, factor) == Ceil(f2, factor)) ||
-        //(Floor(f1, factor) == Ceil(f2, factor)) ||
-        //(Floor(f1, factor) == Floor(f2, factor)) ||
-        //(Ceil(f1, factor) == Floor(f2, factor));
         return Round(f1, factor) == Round(f2, factor);
     }
-    public static float Round(float f, float factor)//进一
+    public static float Round(float f, float factor)//近
     {
         f *= factor;
         f = Mathf.Round(f);

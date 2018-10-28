@@ -54,6 +54,30 @@ public class MeshWrapper
 }
 public static class MeshTool
 {
+    public static void UseBinormalAsTangent(this SkinnedMeshRenderer smr)
+    {
+        var mesh = Object.Instantiate(smr.sharedMesh);
+        var ts = mesh.tangents;
+        var ns = mesh.normals;
+        for (int i = 0; i < ns.Length; i++)
+        {
+            var bi = Vector3.Cross(ns[i], ts[i]) * ts[i].w;
+            ts[i] = new Vector4(bi.x, bi.y, bi.z, 1f);
+        }
+        mesh.tangents = ts;
+        smr.sharedMesh = mesh;
+    }
+
+    public static Vector3[] GetVerts(this Mesh mesh, int[] idxs)
+    {
+        var vs = mesh.vertices;
+        var list = new List<Vector3>();
+        foreach (var idx in idxs)
+        {
+            list.Add(vs[idx]);
+        }
+        return list.ToArray();
+    }
     public static string ToString(this Mesh mesh)
     {
         return mesh.vertexCount.ToString() + "vertices, " +
@@ -91,7 +115,7 @@ public static class MeshTool
     public static Vector3[] ApplyScale(this MeshFilter mf, bool copy = true)
     {
         var m = mf.sharedMesh;
-        if(copy) m = Object.Instantiate(m);
+        if (copy) m = Object.Instantiate(m);
         var vs = m.vertices;
         for (int i = 0; i < vs.Length; i++)
         {

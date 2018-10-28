@@ -16,7 +16,7 @@ using System;
 #if UNITY_EDITOR
 using UnityEditor;
 [CustomEditor(typeof(CameraController))]
-public class CameraControllerEditor : E_ShowButtons<CameraController> { }
+public class E_CameraController : E_ShowButtons<CameraController> { }
 #endif
 public class CameraController : MonoSingleton<CameraController>
 {
@@ -43,13 +43,15 @@ public class CameraController : MonoSingleton<CameraController>
 
     public InputCallBack cb;
     public bool on = true;
-    public bool mouseInWin;
     //Show Instrustion Window
     int x = 5;
     int y = 5;
     [HideInInspector] public float timer = 0;
     public Vector3 diff;
     public bool rotateOn = true;
+    Transform pivotT { get { return pivotGO == null ? null : pivotGO.transform; } }
+    public Vector3 startEuler = new Vector3(0, 0, 0);
+    public int CB_Order = -1;
 
     [ShowButton]
     public void ResetRotation()
@@ -65,9 +67,6 @@ public class CameraController : MonoSingleton<CameraController>
         if (pt.parent == transform) pt.SetParent(transform.parent, true);
         transform.SetParent(pivotGO.transform);
     }
-    Transform pivotT { get { return pivotGO == null ? null : pivotGO.transform; } }
-    public Vector3 startEuler = new Vector3(55, 0, 0);
-    public int CB_Order = -1;
 
     public void SetEulerWithTx(Vector3 euler)
     {
@@ -94,11 +93,19 @@ public class CameraController : MonoSingleton<CameraController>
             cam.orthographicSize = orthoCamSize;
         }
     }
+    bool mouseInWin
+    {
+        get
+        {
+            return MathTool.Between(Input.mousePosition, Vector2.zero, 
+                new Vector2(Screen.width, Screen.height));
+        }
+    }
     void GetInput()
     {
         if (!gameObject.activeSelf || !enabled) return;
-        mouseInWin = MathTool.Between(Input.mousePosition, Vector2.zero, new Vector2(Screen.width, Screen.height));
-        if (on && mouseInWin)
+
+        if (on)//&& mouseInWin)
         {
             cb.order = CB_Order;
             mouseEvent();
@@ -124,8 +131,8 @@ public class CameraController : MonoSingleton<CameraController>
     void mouseEvent()
     {
         float delta = Events.Axis("Mouse ScrollWheel");
-        if (delta != 0.0f) mouseWheelEvent(delta * wheelSensitivity);
-
+        if (delta != 0.0f && mouseInWin) mouseWheelEvent(delta * wheelSensitivity);
+        
         if (Events.MouseDown1to3)
         {
             dragging = true;

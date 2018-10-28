@@ -4,7 +4,10 @@ using UnityEngine;
 using UnityEditor;
 using System.Reflection;
 using System;
-
+public class InspectorCallBack : Attribute
+{
+    public InspectorCallBack() { }
+}
 public class ShowButtonRow : Attribute
 {
     public ShowButtonRow() { }
@@ -43,7 +46,6 @@ public class EditorShowButtons<T> {}
 #else
 //using UnityEditor;
 [CustomEditor(typeof(UsageExample))]
-[CanEditMultipleObjects]
 public class UsageExampleEditor : E_ShowButtons<UsageExample>
 {
 
@@ -55,21 +57,20 @@ public class UsageExample { }
 [CanEditMultipleObjects]
 public class E_ShowButtons<T> : Editor
 {
-    public BindingFlags bindingFlags =
-        //BindingFlags.DeclaredOnly | // 排除继承
-        //BindingFlags.FlattenHierarchy |
-        BindingFlags.Instance |
-        BindingFlags.NonPublic |
-        BindingFlags.Public;
+    public BindingFlags bindingFlags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Instance;
     public T o;
     public T[] os;
-    bool ContainsMethod(IList<MethodInfo> methods, MethodInfo method)
+    public MethodInfo GetMethod<T1>(MethodInfo[] methods)
     {
-        foreach (var m in methods)
+        foreach (var method in methods)
         {
-            if (method.Name == m.Name) return true;
+            var sl = (T1)(object)Attribute.GetCustomAttribute(method, typeof(T1), false);
+            if (sl != null)
+            {
+                return method;
+            }
         }
-        return false;
+        return null;
     }
     public override void OnInspectorGUI()
     {
@@ -84,9 +85,19 @@ public class E_ShowButtons<T> : Editor
         EditorGUILayout.Separator();
 
         var t = typeof(T);
-        var fields = t.GetFields(); // bindingFlags);
-        //var methods = t.GetMethods().AndSet(t.GetMethods(bindingFlags), ContainsMethod);
+        var fields = t.GetFields(bindingFlags);
         var methods = t.GetMethods(bindingFlags);
+
+        ////CallBack
+        //foreach (var method in methods)
+        //{
+        //    var sl = GetMethod<InspectorCallBack>(methods);
+        //    if (sl != null)
+        //    {
+        //        sl.Invoke(o, null);
+        //    }
+        //}
+
         var stsRows = new Dictionary<int, List<Inline>>(); ;
         foreach (var field in fields)
         {

@@ -8,14 +8,10 @@ public partial class Curve2
 {
     public List<Key2> keys;
     public bool time1D = true; //limit Time Between Vectors In X Axis
-    [XmlIgnore] public int approxDec = 4; // 4位小数
+    [XmlIgnore] public float approxRange = 0.00001f;
     [XmlIgnore] public static float tangentSlopeCalDeltaX = 0.0000001f;
-    public Curve2(Vector2 a, Vector2 b) : this(a, b, true)
+    public Curve2(Vector2 a, Vector2 b)
     {
-    }
-    public Curve2(Vector2 a, Vector2 b, bool time1D)
-    {
-        this.time1D = time1D;
         keys = new List<Key2>();
         InsertKey(new Key2(a));
         InsertKey(new Key2(b));
@@ -31,7 +27,7 @@ public partial class Curve2
         if (!hasKey) return -1;
         for (int i = 0; i < keys.Count; i++)
         {
-            if (keys[i].time.Approx(time, approxDec)) { return i; }
+            if (keys[i].time == time) { return i; }
         }
         return -1;
     }
@@ -46,5 +42,36 @@ public partial class Curve2
         n.keys = nKeys;
         n.time1D = time1D;
         return n;
+    }
+    public bool IsMirror(Curve2 c)
+    {
+        if (c == null) return false;
+        if (Count != c.Count) return false;
+        for (int i = 0; i < Count; i++)
+        {
+            if (!keys[i].vector.IsMirrorX(c.keys[i].vector) ||
+                !keys[i].inTangent.IsMirrorX(c.keys[i].inTangent) ||
+                !keys[i].outTangent.IsMirrorX(c.keys[i].outTangent) ||
+                keys[i].inMode != c.keys[i].inMode ||
+                keys[i].outMode != c.keys[i].outMode)
+                return false;
+        }
+        return true;
+    }
+    public override bool Equals(object obj)
+    {
+        if (obj == null) return false;
+        var c = (Curve2)obj;
+        if (Count != c.Count) return false;
+        for (int i = 0; i < Count; i++)
+        {
+            if (!keys[i].vector.Approx(c.keys[i].vector) ||
+                !keys[i].inTangent.Approx(c.keys[i].inTangent) ||
+                !keys[i].outTangent.Approx(c.keys[i].outTangent) ||
+                keys[i].inMode != c.keys[i].inMode ||
+                keys[i].outMode != c.keys[i].outMode)
+                return false;
+        }
+        return true;
     }
 }

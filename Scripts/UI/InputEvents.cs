@@ -18,7 +18,7 @@ public class InputEvents : MonoSingleton<InputEvents>
     public LayerMask mask;
     public float skinThickness;
     public bool skin;
-    private void Awake()
+    public void Start()
     {
         UI.I.AddInputCB("InputEvents", GetInput, 1);
     }

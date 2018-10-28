@@ -13,7 +13,7 @@ public partial class Curve3Edit
 
     Transform keysContainer;
     string keysContainerName = "CurveKeys_ToClick";
-    public float keyClickSize = 0.5f;
+    public float keyClickSize = 0.05f;
 
     void Start()
     {

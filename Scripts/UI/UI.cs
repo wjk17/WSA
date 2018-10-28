@@ -83,7 +83,7 @@ public class UI : MonoSingleton<UI>
     {
         return inputCallBacks.Add_R(new InputCallBack(name, updateFunc, order));
     }
-    void Awake()
+    public override void Init()
     {
         I.inputCallBacks = new List<InputCallBack>();
     }

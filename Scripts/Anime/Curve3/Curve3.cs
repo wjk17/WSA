@@ -4,6 +4,55 @@ using UnityEngine;
 
 public partial class Curve3
 {
+    public void Rotate(Quaternion rot)
+    {
+        foreach (var key in keys)
+        {
+            key.Rotate(rot);
+        }
+    }
+    public void SetCurve(Curve3 curve)
+    {
+        if (curve.Count > Count)
+        {
+            Clear();
+            foreach (var key in curve)
+            {
+                Add(key.Clone());
+            }
+        }
+        else
+        {
+            int i = 0;
+            foreach (var key in curve.keys)
+            {
+                keys[i++].SetKey(key);
+            }
+        }
+    }
+    public void AddVector(Vector3 v)
+    {
+        foreach (var key in keys)
+        {
+            key.AddVector(v);
+        }
+    }
+    public void SetRootPos(Vector3 v)
+    {
+        if (keys.Count == 0) return;
+        var os = v - keys[0].vector;
+        foreach (var key in keys)
+        {
+            key.AddVector(os);
+        }
+    }
+    public void Scale(Vector3 scale)
+    {
+        foreach (var key in keys)
+        {
+            key.Scale(scale);
+        }
+    }
     Vector3 Evaluate(Key3 a, Key3 b, float t)
     {
         var points = new Vector3[4];

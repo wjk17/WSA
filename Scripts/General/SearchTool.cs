@@ -43,6 +43,26 @@ public static partial class TransformTool
             c.SetParent(t.transform, true);
         }
     }
+    public static List<T> GetComs<T>(this Transform trans, List<string> names) where T : Component
+    {
+        var ts = trans.GetChildsL1();
+        var list = new List<T>();
+        foreach (var t in ts)
+        {
+            if (names.Contains(t.name)) { list.Add(t.GetComponent<T>()); names.Remove(t.name); }
+        }
+        return list;
+    }
+    public static List<Transform> GetTransforms(this Transform T, List<string> names)
+    {
+        var ts = T.GetChildsL1();
+        var list = new List<Transform>();
+        foreach (var t in ts)
+        {
+            if (names.Contains(t.name)) { list.Add(t); names.Remove(t.name); }
+        }
+        return list;
+    }
     public static List<Transform> GetTransforms<T>(this T t) where T : Component
     {
         var ts = new List<Transform>();
@@ -64,6 +84,31 @@ public static partial class TransformTool
         t.GetComponentsInChildren(true, ts);
         ts.RemoveAt(0);
         return ts;
+    }
+    //public static List<T> GetChildrensL1<T>(this T t) where T : Component
+    //{
+    //    return null;
+    //}
+    public static List<Transform> GetChildsL1(this Transform t)
+    {
+        return t.GetChilds(1);
+        //var list = new List<Transform>();
+        //for (int i = 0; i < t.childCount; i++)
+        //{
+        //    list.Add(t.GetChild(i));
+        //}
+        //return list;
+    }
+    public static List<Transform> GetChilds(this Transform t, int level, int curr = 0)//层级
+    {
+        var list = new List<Transform>();
+        if (++curr > level) return list;
+        for (int i = 0; i < t.childCount; i++)
+        {
+            if (curr == level) list.Add(t.GetChild(i));
+            else list.AddRange(GetChilds(t.GetChild(i), level, curr));
+        }
+        return list;
     }
     public static Transform Find(this List<Transform> ts, string name)
     {

@@ -4,6 +4,19 @@ using UnityEngine;
 using StrCom = System.StringComparison;
 public static class StringTool
 {
+    public static bool Empty(this string str)
+    {
+        return str == null || str.Length == 0;
+    }
+    public static bool NotEmpty(this string str)
+    {
+        return str != null && str.Length > 0;
+    }
+    public static string emptyString = string.Empty;
+    public static string NotNull(this string str)
+    {
+        return str != null ? str : "";// emptyString;
+    }
     public static List<string> Combine(this string[] strs, params string[] strs2)
     {
         var list = new List<string>();

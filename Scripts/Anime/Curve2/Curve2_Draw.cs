@@ -16,19 +16,19 @@ public partial class Curve2
     public static Color colorTangents;
     public static Color colorBorder;
     public static int accuracy = 100;
-    internal void Draw(Matrix4x4 m, bool showTangents, Vector2 borderSize)
+    internal void Draw(Matrix4x4 m, bool showTangents)
     {
-        DrawBorder(m, borderSize);
-        DrawLines(m, showTangents, borderSize);
+        DrawBorder(m);
+        DrawLines(m, showTangents);
         DrawPoints(m, showTangents);
     }
 
-    private void DrawBorder(Matrix4x4 m, Vector2 borderSize)
+    private void DrawBorder(Matrix4x4 m)
     {
-        var lt = new Vector2(0, 1) * borderSize;
+        var lt = new Vector2(0, 1);
         var lb = Vector2.zero;
-        var rb = new Vector2(1, 0) * borderSize;
-        var rt = Vector2.one * borderSize;
+        var rb = new Vector2(1, 0);
+        var rt = Vector2.one;
         drawLine(lt, rt, colorBorder, m);
         drawLine(lt, lb, colorBorder, m);
         drawLine(rt, rb, colorBorder, m);
@@ -44,11 +44,11 @@ public partial class Curve2
             if (showTangents && key.outMode == KeyMode.Bezier) drawTangent(key.outTangent, colorTangents, m);
         }
     }
-    public void DrawLines(Matrix4x4 m, bool showTangents, Vector2 borderSize)
+    public void DrawLines(Matrix4x4 m, bool showTangents)
     {
         if (keys == null || Count == 0) return;
 
-        var factor = borderSize.x / (accuracy - 1);
+        var factor = 1f / (accuracy - 1);
         var prev = new Vector2(0f, keys[0].value);
         float t;
         Vector2 curr;

@@ -15,6 +15,7 @@ public partial class Curve3Edit : MonoSingleton<Curve3Edit>
     public bool EditCurve
     {
         set { editCurve = value; editCurve_Changed(value); }
+        get { return editCurve; }
     }
     void editCurve_Changed(bool value)
     {
@@ -25,15 +26,20 @@ public partial class Curve3Edit : MonoSingleton<Curve3Edit>
         }
         else Init();
     }
-    public bool useSelector;
+    public bool useSelector = true;
     public Key3 keySelected;
     public int idxSelected;
+    public int idx;
     private void LateUpdate()
     {
-        if (keySelected != null)
+        if (editCurve && keySelected != null)
         {
             var k = keySelected;
             var i = idxSelected;
+
+            var rl = HairGen.I.hairCurr.curveData.relaHairs;
+            var setP = HairGen.I.SetToPivot;
+            if (setP && rl.NotEmpty() && idx == 0 && i == 0) return; // 第0个锚点由HairGen控制
             if (i == 0) k.SetVector(GizmosAxis.I.transform.position);
             else if (i == 1) k.inTangent = GizmosAxis.I.transform.position;
             else if (i == 2) k.outTangent = GizmosAxis.I.transform.position;
@@ -44,7 +50,7 @@ public partial class Curve3Edit : MonoSingleton<Curve3Edit>
         if (useSelector)
         {
             if (Selector.current == null) { editCurve = false; return; }
-            //curve = Selector.current.GetComponent<Hair>().curveData.curve;
+            curve = Selector.current.GetComponent<Hair>().curveData.curve;
         }
         else
         {
@@ -61,20 +67,19 @@ public partial class Curve3Edit : MonoSingleton<Curve3Edit>
         int i = 0;
         foreach (var key in curve)
         {
-            var go = NewGO("Key " + i.ToString(), key, 0);
+            var go = NewGO("Key " + i.ToString(), key, 0, i++);
 
             if (key.inMode == KeyMode.Bezier)
             {
-                go = NewGO("Key " + i.ToString() + " Out", key, 1);
+                go = NewGO("Key " + i.ToString() + " Out", key, 1, i);
             }
             if (key.outMode == KeyMode.Bezier)
             {
-                go = NewGO("Key " + i.ToString() + " Out", key, 2);
+                go = NewGO("Key " + i.ToString() + " Out", key, 2, i);
             }
-            i++;
         }
     }
-    GameObject NewGO(string name, Key3 k, int i)
+    GameObject NewGO(string name, Key3 k, int i, int idx)
     {
         var go = new GameObject(name);
         var t = go.transform;
@@ -84,7 +89,7 @@ public partial class Curve3Edit : MonoSingleton<Curve3Edit>
 
         var ce = go.AddComponent<ColliderEvents>();
         ce.boxSize = keyClickSize;
-        ce.onRaycastHit = () => { ClickKey(k, i); };
+        ce.onRaycastHit = () => { ClickKey(k, i, idx); };
         if (i == 0)
             ce.onUpdate = () => { ce.transform.position = k.vector; };
         else if (i == 1)
@@ -93,8 +98,9 @@ public partial class Curve3Edit : MonoSingleton<Curve3Edit>
             ce.onUpdate = () => { ce.transform.position = k.outTangent; };
         return go;
     }
-    void ClickKey(Key3 k, int i)
+    void ClickKey(Key3 k, int i, int idx)
     {
+        this.idx = idx;
         keySelected = k;
         idxSelected = i;
         if (i == 0) GizmosAxis.I.transform.position = k.vector;

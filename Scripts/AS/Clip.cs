@@ -65,35 +65,10 @@ public class Clip
         if (IndexOf(ast) != -1) throw null;
         curves.Add(new CurveObj(ast));
     }
-
-    //public bool HasKey(CurveObj curve, int frameIndex)
-    //{
-    //    if (curve == null) return false;
-    //    foreach (var c in curve.rots)
-    //    {
-    //        if (c.IndexOf(frameIndex) > -1) return true;
-    //    }
-    //    foreach (var c in curve.poss)
-    //    {
-    //        if (c.IndexOf(frameIndex) > -1) return true;
-    //    }
-    //    return false;
-    //}
-    //public void AddEulerPosWithLerp(CurveObj curve, int frameIndex, Vector3 euler, Vector3 pos)
-    //{
-    //    if (curve.timeCurve.keys.Count < 2) curve.timeCurve.InsertKey(frameIndex, 0);// UITimeLine.FrameValue);
-    //    else curve.timeCurve.InsertKey(frameIndex, curve.timeCurve.Evaluate(UITimeLine.FrameIndex));
-    //    curve.rot.x.Add(new Key2(frameIndex, euler.x));
-    //    curve.rot.y.Add(new Key2(frameIndex, euler.y));
-    //    curve.rot.z.Add(new Key2(frameIndex, euler.z));
-    //    curve.poss[0].InsertKey(frameIndex, pos.x);
-    //    curve.poss[1].InsertKey(frameIndex, pos.y);
-    //    curve.poss[2].InsertKey(frameIndex, pos.z);
-    //}
     public void AddEulerPosAllCurve(int frameIdx)
     {
         var c = 0;
-        foreach (var curve in UIClip.I.clip.curves)
+        foreach (var curve in curves)
         {
             var ast = curve.ast;
             if (ast == null) continue;
@@ -102,22 +77,10 @@ public class Clip
         }
         Debug.Log("插入到 " + c.ToString() + " 条曲线");
     }
-    //public void AddEulerPosOrigin(CurveObj curve, int frameIndex, Vector3 euler, Vector3 pos)
-    //{
-    //    curve.timeCurve.InsertKeyOrigin(frameIndex, 0);
-    //    //if (curve.timeCurve.keys.Count < 2) curve.timeCurve.InsertKeyOrigin(frameIndex, 0);// UITimeLine.FrameValue);
-    //    //else curve.timeCurve.InsertKeyOrigin(frameIndex, curve.timeCurve.Evaluate(UITimeLine.FrameIndex));
-    //    curve.rot[0].InsertKeyOrigin(frameIndex, euler.x);
-    //    curve.rot[1].InsertKeyOrigin(frameIndex, euler.y);
-    //    curve.rot[2].InsertKeyOrigin(frameIndex, euler.z);
-    //    curve.poss[0].InsertKeyOrigin(frameIndex, pos.x);
-    //    curve.poss[1].InsertKeyOrigin(frameIndex, pos.y);
-    //    curve.poss[2].InsertKeyOrigin(frameIndex, pos.z);
-    //}
     public void RemoveEulerPosAllCurve(float frameIdx)
     {
         var c = 0;
-        foreach (var oc in UIClip.I.clip.curves)
+        foreach (var oc in curves)
         {
             c += oc.RemoveAtTime(frameIdx);
         }

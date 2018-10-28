@@ -7,7 +7,6 @@ public partial class GizmosAxis : MonoSingleton<GizmosAxis>
 {
     private void Start()
     {
-        //GetInstance();
         originSize = cam.orthographicSize;
         originScale = transform.localScale;
         this.AddInputCB(GetInput, CB_Order);
@@ -54,11 +53,18 @@ public partial class GizmosAxis : MonoSingleton<GizmosAxis>
         var axis = (Axis)axisIndex;
         Transform plane1, plane2;
         Vector3 axisV;
+        Vector3 axisLocal;
         switch (axis)
         {
-            case Axis.x: plane1 = planes[1]; plane2 = planes[2]; axisV = transform.right; break;
-            case Axis.y: plane1 = planes[2]; plane2 = planes[0]; axisV = transform.up; break;
-            case Axis.z: plane1 = planes[0]; plane2 = planes[1]; axisV = transform.forward; break;
+            case Axis.x: plane1 = planes[1]; plane2 = planes[2];
+                axisLocal = Vector3.right; axisV = transform.right; break;
+
+            case Axis.y: plane1 = planes[2]; plane2 = planes[0];
+                axisLocal = Vector3.up; axisV = transform.up; break;
+
+            case Axis.z: plane1 = planes[0]; plane2 = planes[1];
+                axisLocal = Vector3.forward; axisV = transform.forward; break;
+
             default: throw new Exception("Wrong Axis Index");
         }
         /// 投射射线前，先在屏幕空间里投影到轴上
@@ -85,7 +91,7 @@ public partial class GizmosAxis : MonoSingleton<GizmosAxis>
             if (hit.transform == plane1 || hit.transform == plane2)
             {
                 var lp = transform.InverseTransformPoint(hit.point);
-                var proj = Vector3.Project(lp, axisV);
+                var proj = Vector3.Project(lp, axisLocal);
                 var wp = transform.TransformPoint(proj);
                 return wp;
             }
@@ -129,7 +135,7 @@ public partial class GizmosAxis : MonoSingleton<GizmosAxis>
             //Debug.Log(hit.transform.name);
             if (hit.transform == planes[0] || hit.transform == planes[1]
                 || hit.transform == planes[2]) continue;
-            hovering = true;
+            dragging = true;
             var n = hit.transform.name;
             switch (n)
             {
@@ -146,17 +152,15 @@ public partial class GizmosAxis : MonoSingleton<GizmosAxis>
             SetMats(handles[axisIndex], selected);
             return;
         }
-        hovering = false;
-    }    
+    }
     void CheckClick()
     {
-        if (Events.Mouse0 == false)
+        if (dragging && Events.Mouse0 == false)
         {
             dragging = false;
         }
-        if (hovering && Events.MouseDown0)
+        if (dragging && Events.MouseDown0)
         {
-            dragging = true;
             downPosAxisWorld = transform.position;
             downPosWorld = GetProjPos();
         }

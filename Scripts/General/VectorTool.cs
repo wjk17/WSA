@@ -5,7 +5,19 @@ using UnityEngine;
 
 public static class VectorTool
 {
-
+    public static Vector3 Lerp(this Vector3[] vs, float t)
+    {
+        return Vector3.Lerp(vs[0], vs[1], t);
+    }
+    public static Vector3[] Mul3x4(this Vector3[] vs, Matrix4x4 m)
+    {
+        var list = new List<Vector3>();
+        foreach (var v in vs)
+        {
+            list.Add(m.MultiplyPoint3x4(v));
+        }
+        return list.ToArray();
+    }
     public static float Repeat(float t, float length)
     {
         if (length == 0) return 0f;
@@ -15,6 +27,10 @@ public static class VectorTool
     public static float MapRange(this float value, float min1, float max1, float min2, float max2)
     {
         return (value - min1) / (max1 - min1) * (max2 - min2) + min2;
+    }
+    public static bool IsEven(this int n)
+    {
+        return !Convert.ToBoolean(n & 1);
     }
     public static bool IsOdd(this int n)
     {
@@ -105,7 +121,26 @@ public static class VectorTool
         else result = V;
         return result;
     }
-    public static Vector3 Divide(Vector3 a, Vector3 b)
+    public static Vector2 Lerp2(this Vector2 a, Vector2 b, Vector2 t)
+    {
+        var n = new Vector2(
+                Mathf.Lerp(a.x, b.x, t.x),
+                Mathf.Lerp(a.y, b.y, t.y));
+        return n;
+    }
+    public static Vector2 Divide(this Vector2 a, Vector2 b)
+    {
+        Vector2 n;
+        n.x = a.x / b.x;
+        n.y = a.y / b.y;
+        return n;
+    }
+    public static void Divide(ref Vector2 a, Vector2 b)
+    {
+        a.x = a.x / b.x;
+        a.y = a.y / b.y;
+    }
+    public static Vector3 Divide(this Vector3 a, Vector3 b)
     {
         Vector3 n;
         n.x = a.x / b.x;
@@ -119,20 +154,7 @@ public static class VectorTool
         a.y = a.y / b.y;
         a.z = a.z / b.z;
     }
-
-    public static Vector2 Divide(Vector2 a, Vector2 b)
-    {
-        Vector2 n;
-        n.x = a.x / b.x;
-        n.y = a.y / b.y;
-        return n;
-    }
-    public static void Divide(ref Vector2 a, Vector2 b)
-    {
-        a.x = a.x / b.x;
-        a.y = a.y / b.y;
-    }
-    public static Vector3 Abs(Vector3 a)
+    public static Vector3 Abs(this Vector3 a)
     {
         return new Vector3(Mathf.Abs(a.x), Mathf.Abs(a.y), Mathf.Abs(a.z));
     }
@@ -149,6 +171,14 @@ public static class VectorTool
     public static Vector2 SetY(this Vector2 vec, float f)
     {
         return new Vector2(vec.x, f);
+    }
+    public static Vector3 SetXZ(this Vector3 vec, Vector3 f)
+    {
+        return new Vector3(f.x, vec.y, f.z);
+    }
+    public static Vector3 SetXZ(this Vector3 vec, Vector2 f)
+    {
+        return new Vector3(f.x, vec.y, f.y);
     }
     public static Vector3 SetXY(this Vector3 vec, Vector2 f)
     {

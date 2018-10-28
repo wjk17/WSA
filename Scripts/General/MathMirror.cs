@@ -63,6 +63,14 @@ public static class MathMirror
         vect.x += mirrorAxis;
         return vect;
     }
+    public static bool IsMirrorX(this Vector3 a, Vector3 b)
+    {
+        return a.x.Approx(-b.x) && a.y.Approx(b.y) && a.z.Approx(b.z);
+    }
+    public static bool IsMirrorX(this Vector2 a, Vector2 b)
+    {
+        return a.x.Approx(-b.x) && a.y.Approx(b.y);
+    }
     public static Vector2 MirrorX(this Vector2 vect)
     {
         return new Vector2(-vect.x, vect.y);
