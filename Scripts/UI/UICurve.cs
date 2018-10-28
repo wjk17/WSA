@@ -5,35 +5,7 @@ using UnityEngine;
 /// TODO 做单选Toggle
 /// </summary>
 public partial class UICurve : MonoSingleton<UICurve>
-{    
-    public Hair hairSel { get { return Selector.current == null ? null : Selector.current.GetComponent<Hair>(); } }
-    [ShowToggle]
-    bool editCrsSecFront;
-    void editCrsSecFront_Changed(bool value)
-    {
-        if (hairSel != null && value) { TurnOffToggles(); curve = hairSel.genData.curveCrsSecFront; }
-        else curve = null;
-    }
-    [ShowToggle]
-    bool editThickness;
-    void editThickness_Changed(bool value)
-    {
-        if (hairSel != null && value) { TurnOffToggles(); curve = hairSel.genData.curveThickness; }
-        else curve = null;
-    }
-    [ShowToggle]
-    bool editWidth;
-    void editWidth_Changed(bool value)
-    {
-        if (hairSel != null && value) { TurnOffToggles(); curve = hairSel.genData.curveWidth; }
-        else curve = null;
-    }
-    void TurnOffToggles()
-    {
-        editWidth = false; editWidth_Changed(false);
-        editThickness = false; editThickness_Changed(false);
-        editCrsSecFront = false; editCrsSecFront_Changed(false);
-    }
+{        
     public new void Start()
     {
         //curve.InsertKey(new Key2(0.5f, 0.5f));
