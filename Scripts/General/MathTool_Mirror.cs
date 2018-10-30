@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class MathMirror
+public static partial class MathTool
 {
     // Mirror X
     public static void FlipLocalRotation(this Transform tran)
@@ -37,13 +37,13 @@ public static class MathMirror
     {
         return new Vector2(v.x, v.y + R);
     }
-    public static Vector2 ReverseX(this Vector2 v)
+    public static Vector2 ReverseX(this Vector2 a)
     {
-        return v * new Vector2(-1, 1);
+        return new Vector2(-a.x, a.y);
     }
-    public static Vector2 ReverseY(this Vector2 v)
+    public static Vector2 ReverseY(this Vector2 a)
     {
-        return v * new Vector2(1, -1);
+        return new Vector2(a.x, -a.y);
     }
 
     // bounds Mirror

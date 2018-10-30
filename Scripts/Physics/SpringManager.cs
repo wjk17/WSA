@@ -90,10 +90,10 @@ namespace UnityChan
         public void UpdateParameters()
         {
             //dynamicRatio = HairGen.I.springMgr.dynamicRatio;
-            dragForce = HairGen.I.springMgr.dragForce;
-            dragCurve = HairGen.I.springMgr.dragCurve;
-            stiffnessForce = HairGen.I.springMgr.stiffnessForce;
-            stiffnessCurve = HairGen.I.springMgr.stiffnessCurve; // wjk
+            //dragForce = HairGen.I.springMgr.dragForce;
+            //dragCurve = HairGen.I.springMgr.dragCurve;
+            //stiffnessForce = HairGen.I.springMgr.stiffnessForce;
+            //stiffnessCurve = HairGen.I.springMgr.stiffnessCurve; // wjk
 
             UpdateParameter("stiffnessForce", stiffnessForce, stiffnessCurve);
             UpdateParameter("dragForce", dragForce, dragCurve);

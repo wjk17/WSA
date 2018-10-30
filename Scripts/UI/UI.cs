@@ -66,6 +66,17 @@ public static class UITool
         pos += -rt.pivot.SubY_L(1) * rt.rect.size;
         return new Rt(pos, rt.rect.size);
     }
+    public static Vector2 ToLT(this Vector2 pos) // input screen pos
+    {
+        pos.y = UI.scaler.referenceResolution.y - pos.y;
+        return pos;
+    }
+    public static Vector2 ToRefLT(this Vector2 pos) // input screen pos
+    {
+        pos *= UI.facterToReference;
+        pos.y = UI.scaler.referenceResolution.y - pos.y;
+        return pos;
+    }
 }
 public class UI : MonoSingleton<UI>
 {
@@ -156,13 +167,6 @@ public class UI : MonoSingleton<UI>
             return scaler.referenceResolution.x / Screen.width;
         }
     }
-
-    public static Vector2 ToRefLT(Vector2 pos) // input screen pos
-    {
-        pos *= facterToReference;
-        pos.y = scaler.referenceResolution.y - pos.y;
-        return pos;
-    }
     internal static Vector2 mousePosRef // LT
     {
         get
@@ -209,7 +213,12 @@ public class UI : MonoSingleton<UI>
     public static Vector2 AbsRefPos2(RectTransform rt)
     {
         var rtParent = rt.parent as RectTransform;
-        Vector2 posParent = MathTool.ReverseY(rtParent.anchoredPosition);
+        Vector2 posParent = Vector2.zero;
+        if (rtParent != null)
+        {
+            posParent = AbsRefPos2(rtParent);
+            //posParent = rtParent.anchoredPosition.ReverseY();
+        }
         Vector2 pos = posParent;
         Vector2 anchorPos;
         var amin = rt.anchorMin;
@@ -227,11 +236,11 @@ public class UI : MonoSingleton<UI>
         else if (amin == new Vector2(0, 0) && amax == new Vector2(1, 0))
         {
             pos.y += rtParent.rect.height;
-            pos += MathTool.ReverseY(rt.anchoredPosition);
+            pos += rt.anchoredPosition.ReverseY();
         }
         else if (amin == new Vector2(0, 0) && amax == new Vector2(0, 1))
         {
-            anchorPos = MathTool.ReverseY(rt.anchoredPosition);
+            anchorPos = rt.anchoredPosition.ReverseY();
             pos += anchorPos;
         }
         else
@@ -380,12 +389,17 @@ public static class Events
                 MouseDown2 || MouseUp2;
         }
     }
-    internal static float Axis(string v)
+    public static string def_AxisMouseWheel = "Mouse ScrollWheel";
+    public static float AxisMouseWheel
+    {
+        get { return Axis(def_AxisMouseWheel); }
+    }
+    public static float Axis(string v)
     {
         if (used) return 0;
         return Input.GetAxis(v);
     }
-    internal static int KeyAplhaDown()
+    public static int KeyAplhaDown()
     {
         int i = 0;
         if (Input.GetKeyDown(KeyCode.Alpha1)) return i; i++;

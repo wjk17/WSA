@@ -5,6 +5,10 @@ using UnityEngine;
 
 public static class VectorTool
 {
+    public static Vector2Int ToInt(this Vector2 v)
+    {
+        return new Vector2Int(Mathf.RoundToInt(v.x), Mathf.RoundToInt(v.y));
+    }
     public static Vector3 Lerp(this Vector3[] vs, float t)
     {
         return Vector3.Lerp(vs[0], vs[1], t);

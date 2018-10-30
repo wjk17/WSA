@@ -7,7 +7,7 @@ using UnityEngine;
 public partial class Curve2
 {
     public List<Key2> keys;
-    public bool time1D = true; //limit Time Between Vectors In X Axis
+    public bool time1D; //limit Time Between Vectors In X Axis
     [XmlIgnore] public float approxRange = 0.00001f;
     [XmlIgnore] public static float tangentSlopeCalDeltaX = 0.0000001f;
     public Curve2(Vector2 a, Vector2 b)

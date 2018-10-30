@@ -5,63 +5,39 @@ using UnityEngine;
 /// TODO 做单选Toggle
 /// </summary>
 public partial class UICurve : MonoSingleton<UICurve>
-{    
-    public Hair hairSel { get { return Selector.current == null ? null : Selector.current.GetComponent<Hair>(); } }
-    [ShowToggle]
-    bool editCrsSecFront;
-    void editCrsSecFront_Changed(bool value)
+{
+    public Vector2 SIZE = Vector2.one;
+    public void Start()
     {
-        if (hairSel != null && value) { TurnOffToggles(); curve = hairSel.genData.curveCrsSecFront; }
-        else curve = null;
+        if (curve == null || curve.Count == 0)
+            curve = new Curve2(Vector2.zero, Vector2.one * 0.5f + Vector2.up * 0.2f);
+        //curve = new Curve2();
+        UI.I.AddInputCB(name, GetInput, -2);
+        OnResize();
+        gridLinesCount.x = gridLinesCount.y * (rtSize.x / rtSize.y) * gridLinesXdivideY;
     }
-    [ShowToggle]
-    bool editThickness;
-    void editThickness_Changed(bool value)
+    void OnResize()
     {
-        if (hairSel != null && value) { TurnOffToggles(); curve = hairSel.genData.curveThickness; }
-        else curve = null;
-    }
-    [ShowToggle]
-    bool editWidth;
-    void editWidth_Changed(bool value)
-    {
-        if (hairSel != null && value) { TurnOffToggles(); curve = hairSel.genData.curveWidth; }
-        else curve = null;
-    }
-    void TurnOffToggles()
-    {
-        editWidth = false; editWidth_Changed(false);
-        editThickness = false; editThickness_Changed(false);
-        editCrsSecFront = false; editCrsSecFront_Changed(false);
-    }
-    public new void Start()
-    {
-        //curve.InsertKey(new Key2(0.5f, 0.5f));
-        if (curve == null || curve.Count == 0) curve = new Curve2(Vector2.zero, Vector2.one * 0.5f + Vector2.up * 0.2f); ;
-        curve.time1D = false;
-
-        rtSize = rt.sizeDelta;
-        rtPos = rt.anchoredPosition;
-        rtPos.y = -rtPos.y;
-        rtPos.y = UI.scaler.referenceResolution.y - rtPos.y;
         var pos = rtPos / UI.scaler.referenceResolution;
         var scl = rtSize / UI.scaler.referenceResolution;
         matrixViewToRect = Matrix4x4.TRS(pos, Quaternion.identity, scl);
         pos = rtPos;
         scl = rtSize;
-        matrixRectNorToScreenRef = Matrix4x4.TRS(pos, Quaternion.identity, scl);
-        matrixScreenRefToRectNor = Matrix4x4.Scale(Vector2.one / scl) * Matrix4x4.Translate(-pos);
-        //matrixScreenRefToRectNor = matrixRectNorToScreenRef.inverse; 直接取逆矩阵顺序会错误，应该先位移再缩放
-
-        UI.I.inputCallBacks.Add(new InputCallBack(name, GetInput, -2));
+        // 将 规格化坐标（曲线空间） 转为屏幕坐标（Ref）
+        var s = Vector2.one / SIZE / scl;
+        matrixRectNorToScreenRef = Matrix4x4.TRS(pos, Quaternion.identity, s);
+        // ↑ 的逆矩阵
+        matrixScreenRefToRectNor = Matrix4x4.Scale(SIZE / scl) * Matrix4x4.Translate(-pos);
     }
     void GetInput()
     {
         if (!gameObject.activeSelf || !enabled) return;
+        this.CheckResize(OnResize);
+
         if (Vector2.Distance(Input.mousePosition, prevPos) > moveError) { selIdx = 0; move = true; }
-        mousePosRf = Input.mousePosition * UI.facterToReference;
+
+        mousePosRf = UI.mousePosRef_LB;
         mousePosRectN = matrixScreenRefToRectNor.MultiplyPoint(mousePosRf);
-        CameraController.I.on = !MathTool.Between(mousePosRectN, Vector2.zero, Vector2.one);
 
         pts = new List<Vector2>();
         var ks = new List<Key2>();
@@ -93,7 +69,7 @@ public partial class UICurve : MonoSingleton<UICurve>
             bool click = false; ;
             for (int i = 0; i < pts.Count; i++)
             {
-                var rect = new Rt(pts[i], Vector2.one * sizeClick);
+                var rect = new Rt(pts[i], Vector2.one * sizeClick, Vectors.half);
                 if (rect.Contains(mousePosRf))
                 {
                     dragging = true;
@@ -153,7 +129,7 @@ public partial class UICurve : MonoSingleton<UICurve>
             dragging = false;
             if (Events.KeyDown(KeyCode.R))
             {
-                if(keySel !=null)
+                if (keySel != null)
                 {
                     keySel.inMode = KeyMode.Bezier;
                     keySel.inTangent = mousePosRectN;
@@ -199,12 +175,14 @@ public partial class UICurve : MonoSingleton<UICurve>
                 }
             }
         }
-        if (dragging) Events.Use();
+        if (dragging) Events.Use(); // 一旦Use连Key和Mouse方法都检测不到的
         prevPos = Input.mousePosition;
         if (mirror)
         {
             curveMirror = curve.Clone();
             curveMirror.Mirror(mirrorError, curve);
         }
+        var onWin = mousePosRectN.Between(Vector2.zero, SIZE);
+        if (onWin && Events.Mouse1to3) Events.Use();
     }
 }

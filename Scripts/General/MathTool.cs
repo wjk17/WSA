@@ -163,18 +163,6 @@ public static partial class MathTool
                 return Vector3.zero;
         }
     }
-    internal static Vector2 ReverseX(Vector2 a)
-    {
-        return new Vector2(a.x * -1, a.y);
-    }
-    internal static Vector2 ReverseY(Vector2 a)
-    {
-        return new Vector2(a.x, a.y * -1);
-    }
-    internal static Vector2 Divide(Vector2 a, Vector2 b)
-    {
-        return new Vector2(a.x / b.x, a.y / b.y);
-    }
     internal static bool Between<T>(this T v, T min, T max)
     {
         int V = (int)(object)v;
@@ -185,6 +173,16 @@ public static partial class MathTool
     internal static bool Between(this Vector2 v, Vector2 min, Vector2 max)
     {
         return (v.x >= min.x && v.y >= min.y) && (v.x <= max.x && v.y <= max.y);
+    }
+    /// <summary>
+    /// between b & 0
+    /// </summary>
+    internal static bool Between(this int index, int b)
+    {
+        int min, max;
+        if (b > 0) { min = 0; max = b; }
+        else { max = 0; min = b; }
+        return (index >= min) && (index <= max);
     }
     internal static bool Between(this int index, int min, int max)
     {

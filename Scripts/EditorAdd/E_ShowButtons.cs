@@ -44,16 +44,16 @@ public class ShowToggle : Attribute
 #if !UNITY_EDITOR
 public class EditorShowButtons<T> {}
 #else
-//using UnityEditor;
-[CustomEditor(typeof(UsageExample))]
-public class UsageExampleEditor : E_ShowButtons<UsageExample>
-{
 
-}
-public class UsageExample { }
-/// <summary>
-/// Editor Show Buttons
-/// </summary>
+//
+//using UnityEditor;
+[CanEditMultipleObjects]
+[CustomEditor(typeof(__))]
+public class E_ : E_ShowButtons<__> { }
+//
+
+
+public class __ { }
 [CanEditMultipleObjects]
 public class E_ShowButtons<T> : Editor
 {

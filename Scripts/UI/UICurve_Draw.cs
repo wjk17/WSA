@@ -5,14 +5,21 @@ using UnityEngine;
 
 public partial class UICurve
 {
-    public Color clrVectorSel;
+    public Color clrVectorSel = Palette.magenta;
     public Color clrVectorUnSel = Color.grey;
 
-    public Color clrCtrlLinesSel;
+    public Color clrCtrlLinesSel = Palette.magenta;
     public Color clrCtrlLinesUnSel = Color.grey;
 
-    public Color clrTrack = Color.green;
+    public Color clrTrack = Palette.darkBlue;
     public Color clrSubSel = Color.red;
+
+    public bool drawSel = true;
+    public Vector2 gridLinesCount = new Vector2(1, 8);
+    public float gridLinesXdivideY = 0.85f;
+    public Color clrGridLines = Palette.L1;
+    public Color clrBorder = Color.grey;
+
     private void Awake()
     {
         Curve2.drawLine = DrawLine;
@@ -45,10 +52,6 @@ public partial class UICurve
             DrawLine(r, t, color, m);
         }
     }
-    public bool drawSel;
-    public Vector2 gridLinesCount = new Vector2(15, 10);
-    public Color clrGridLines = Color.grey;
-    public Color clrBorder = Color.grey;
     private void OnRenderObject()
     {
         Curve2.colorTrack = clrTrack;
@@ -72,6 +75,9 @@ public partial class UICurve
             b.x = a.x = i * factor;
             DrawLine(a, b, clrGridLines, matrixViewToRect);
         }
+        b.x = a.x = UITimeLine.I.frameIdx;
+        // timeline
+        DrawLine(a, b, UITimeLine.I.clrTimeLine, matrixViewToRect);
 
         if (curve == null || curve.Count == 0) return;
 
@@ -80,6 +86,10 @@ public partial class UICurve
             curveMirror.Draw(matrixViewToRect, showTangentsUnSel);
         else
             curve.Draw(matrixViewToRect, showTangentsUnSel);
+
+        var l = curve.Last().vector;
+        var e = new Vector2(SIZE.x, l.y);
+        DrawLine(l, e, clrTrack, matrixViewToRect);
 
         if (drawSel && k != null)
         {

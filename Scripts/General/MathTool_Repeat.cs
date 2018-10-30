@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static  class MathRepeat {
+public static partial class MathTool {
     public static int RepeatAbs(this int t, int length)
     {
         var mod = t % length;

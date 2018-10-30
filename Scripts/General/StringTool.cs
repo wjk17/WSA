@@ -1,9 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 using StrCom = System.StringComparison;
+
 public static class StringTool
 {
+    ////Hex字符不包含Ox的情况
+    //long intVal1 = long.Parse(hexStr, System.Globalization.NumberStyles.HexNumber);
+    ////Hex字符包含0x的情况
+    //long intVal2 = Convert.ToInt64("0x" + hexStr, 16);
+    public static int HexToInt(this string str)
+    {
+        return int.Parse(str, NumberStyles.HexNumber);
+    }
     public static bool Empty(this string str)
     {
         return str == null || str.Length == 0;

@@ -45,12 +45,16 @@ public class UI_OnMove
         prevPos = rt.anchoredPosition;
     }
 }
-
+/// <summary>
+/// mono类里this.CheckResize，需每帧调用，第一次调用会在列表里插入实例。
+/// 大小或位置改变时会触发 onResize 事件。
+/// </summary>
 public static class UI_OnResize_Tool
 {
     public static List<UI_OnResize> inss = new List<UI_OnResize>();
     public static void CheckResize(this MonoBehaviour mono, Action onResize)
     {
+        // 插入到静态列表
         var ins = Find(inss, mono);
         if (ins == null)
         {

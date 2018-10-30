@@ -37,9 +37,9 @@ public partial class Curve3Edit : MonoSingleton<Curve3Edit>
             var k = keySelected;
             var i = idxSelected;
 
-            var rl = HairGen.I.hairCurr.curveData.relaHairs;
-            var setP = HairGen.I.SetToPivot;
-            if (setP && rl.NotEmpty() && idx == 0 && i == 0) return; // 第0个锚点由HairGen控制
+            //var rl = HairGen.I.hairCurr.curveData.relaHairs;
+            //var setP = HairGen.I.SetToPivot;
+            //if (setP && rl.NotEmpty() && idx == 0 && i == 0) return; // 第0个锚点由HairGen控制
             if (i == 0) k.SetVector(GizmosAxis.I.transform.position);
             else if (i == 1) k.inTangent = GizmosAxis.I.transform.position;
             else if (i == 2) k.outTangent = GizmosAxis.I.transform.position;
@@ -50,7 +50,7 @@ public partial class Curve3Edit : MonoSingleton<Curve3Edit>
         if (useSelector)
         {
             if (Selector.current == null) { editCurve = false; return; }
-            curve = Selector.current.GetComponent<Hair>().curveData.curve;
+            //curve = Selector.current.GetComponent<Hair>().curveData.curve;
         }
         else
         {

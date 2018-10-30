@@ -52,8 +52,8 @@ public partial class Curve3Edit
             Curve3.accuracy = accuracy;
             if (useSelector)
             {
-                var hair = Selector.current.GetComponent<Hair>();
-                hair.curveData.curve.Draw();
+                //var hair = Selector.current.GetComponent<Hair>();
+                //hair.curveData.curve.Draw();
             }
             else curve.Draw();
 

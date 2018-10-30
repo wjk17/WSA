@@ -36,7 +36,10 @@ public struct Rt
     //    var lb = p - size * 0.5f;
     //    var rb = p + size * 0.5f;
     //}
-
+    public override string ToString()
+    {
+        return "pos: " + pos + ", " + "size: " + size + ".";
+    }
 
     static bool Approx(float a, float b)
     {

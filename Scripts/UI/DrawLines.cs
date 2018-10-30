@@ -85,6 +85,32 @@ public static class DrawLines
         GL.Vertex3(x4, y4, 0);
         GL.End();
     }
+    public static void DoDrawLines(Color color, IList<Vector2> vs, IList<int> indices)
+    {
+        if (vs == null || indices == null) return;
+
+        GL.LoadOrtho();
+
+        LineMaterial.SetPass(0);
+        GL.Begin(GL.LINES);
+        GL.Color(color);
+
+        int vertexCount = vs.Count;
+
+        for (int i = 0; i < indices.Count / 2; i++)
+        {
+            int i0 = indices[i * 2 + 0];
+            int i1 = indices[i * 2 + 1];
+
+            if (i0 < 0 || i0 >= vertexCount) continue;
+            if (i1 < 0 || i1 >= vertexCount) continue;
+
+            GL.Vertex(vs[i0]);
+            GL.Vertex(vs[i1]);
+        }
+
+        GL.End();
+    }
     public static void DoDrawLines(Color color, IList<Vector2> vs, IList<int> indices, Matrix4x4 m)
     {
         if (vs == null || indices == null) return;
