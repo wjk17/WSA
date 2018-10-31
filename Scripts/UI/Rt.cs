@@ -24,6 +24,10 @@ public struct Rt
     {
         this.anchor = anchor;
     }
+    public void MoveAnchor(Vector2 anchor)
+    {
+        pos += size * anchor;
+    }
     public bool Contains(Vector2 v)
     {
         var lt = pos - size * anchor;

@@ -468,6 +468,23 @@ public static partial class TransformTool
     {
         trans.transform.localPosition = new Vector3(trans.transform.localPosition.x, trans.transform.localPosition.y, f);
     }
+    // UI Pos
+    public static Vector2 UIPos(this Transform trans)
+    {
+        return (trans as RectTransform).anchoredPosition;
+    }
+    public static Vector2 UIPos(this Component com)
+    {
+        return (com.transform as RectTransform).anchoredPosition;
+    }
+    public static float UIPosX(this Transform trans)
+    {
+        return (trans as RectTransform).anchoredPosition.x;
+    }
+    public static float UIPosY(this Component com)
+    {
+        return (com.transform as RectTransform).anchoredPosition.y;
+    }
     public static void SetUIPos(this Transform trans, Vector2 v)
     {
         (trans as RectTransform).anchoredPosition = v;

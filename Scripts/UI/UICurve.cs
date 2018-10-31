@@ -23,6 +23,7 @@ public partial class UICurve : MonoSingleton<UICurve>
         matrixViewToRect = Matrix4x4.TRS(pos, Quaternion.identity, scl);
         pos = rtPos;
         scl = rtSize;
+
         // 将 规格化坐标（曲线空间） 转为屏幕坐标（Ref）
         var s = Vector2.one / SIZE / scl;
         matrixRectNorToScreenRef = Matrix4x4.TRS(pos, Quaternion.identity, s);
