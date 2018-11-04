@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -24,38 +25,17 @@ public partial class Curve3Edit : MonoSingleton<Curve3Edit>
             if (keysContainer != null) keysContainer.ClearChildren();
             return;
         }
-        else Init();
+        else EditCurve_OnEnable();
     }
-    public bool useSelector = true;
     public Key3 keySelected;
     public int idxSelected;
     public int idx;
-    private void LateUpdate()
+    /// <summary>
+    /// 使用 EditCurve 打开曲线编辑器之前要先给曲线字段赋值，否则不能打开。
+    /// </summary>
+    void EditCurve_OnEnable()
     {
-        if (editCurve && keySelected != null)
-        {
-            var k = keySelected;
-            var i = idxSelected;
-
-            //var rl = HairGen.I.hairCurr.curveData.relaHairs;
-            //var setP = HairGen.I.SetToPivot;
-            //if (setP && rl.NotEmpty() && idx == 0 && i == 0) return; // 第0个锚点由HairGen控制
-            if (i == 0) k.SetVector(GizmosAxis.I.transform.position);
-            else if (i == 1) k.inTangent = GizmosAxis.I.transform.position;
-            else if (i == 2) k.outTangent = GizmosAxis.I.transform.position;
-        }
-    }
-    void Init()
-    {
-        if (useSelector)
-        {
-            if (Selector.current == null) { editCurve = false; return; }
-            //curve = Selector.current.GetComponent<Hair>().curveData.curve;
-        }
-        else
-        {
-            if (curve == null || curve.Count == 0) { editCurve = false; return; }
-        }
+        if (curve.Empty()) { editCurve = false; Debug.Log("无曲线"); return; }
 
         keysContainer = DrawLayer.I.Search(keysContainerName);
         if (keysContainer == null)
@@ -77,6 +57,21 @@ public partial class Curve3Edit : MonoSingleton<Curve3Edit>
             {
                 go = NewGO("Key " + i.ToString() + " Out", key, 2, i);
             }
+        }
+    }
+    public Func<Key3, int, int, bool> updateCheck;
+    private void LateUpdate()
+    {
+        if (editCurve && keySelected != null)
+        {
+            var k = keySelected;
+            var i = idxSelected;
+
+            if (updateCheck != null && !updateCheck(k, i, idx)) return;
+
+            if (i == 0) k.SetVector(GizmosAxis.I.transform.position);
+            else if (i == 1) k.inTangent = GizmosAxis.I.transform.position;
+            else if (i == 2) k.outTangent = GizmosAxis.I.transform.position;
         }
     }
     GameObject NewGO(string name, Key3 k, int i, int idx)

@@ -52,7 +52,7 @@ public class UI_OnMove
 public static class UI_OnResize_Tool
 {
     public static List<UI_OnResize> inss = new List<UI_OnResize>();
-    public static void CheckResize(this MonoBehaviour mono, Action onResize)
+    public static bool CheckResize(this MonoBehaviour mono, Action onResize)
     {
         // 插入到静态列表
         var ins = Find(inss, mono);
@@ -61,7 +61,7 @@ public static class UI_OnResize_Tool
             ins = inss.Add_R(new UI_OnResize(mono.transform as RectTransform, onResize));
         }
         else ins.onResize = onResize;
-        ins.CheckAndSolve();
+        return ins.CheckAndSolve();
     }
     public static UI_OnResize Find(List<UI_OnResize> list, MonoBehaviour item)
     {
@@ -87,13 +87,14 @@ public class UI_OnResize
         prevPos = rt.anchoredPosition;
         prevSize = rt.sizeDelta;
     }
-    public void CheckAndSolve()
+    public bool CheckAndSolve()
     {
         if (rt.anchoredPosition != prevPos || rt.sizeDelta != prevSize)
         {
-            if (onResize != null) onResize();
+            if (onResize != null) { onResize(); return true; }
         }
         prevPos = rt.anchoredPosition;
         prevSize = rt.sizeDelta;
+        return false;
     }
 }

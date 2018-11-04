@@ -14,7 +14,7 @@ public partial class UICurve
         }
         get { return curve; }
     }
-    Curve2 curve;
+    [SerializeField] Curve2 curve;
     public List<Vector2> pts;
 
     public float sizeClick = 30; //小正方形可点击区域的边长    
@@ -24,17 +24,17 @@ public partial class UICurve
 
     public int selectInt;
 
-    Matrix4x4 matrixViewToRect;
-    Matrix4x4 matrixRectNorToScreenRef;
-    private Matrix4x4 matrixScreenRefToRectNor;
-    public Vector2 mousePosRf;
+    Matrix4x4 m_Curve_V;
+    Matrix4x4 m_Curve_Ref;
+    private Matrix4x4 m_Ref_Curve;
+    public Vector2 mousePosRef;
 
-    bool dragging;
-    Key2 keySel;
+    [SerializeField]bool dragging;
+    public Key2 keySel;
     List<Vector2> oss;
     Vector2 os;
 
-    public Vector2 mousePosRectN;
+    public Vector2 mousePosCurve;
     public Vector2 prevPos;
     public List<Key2> selKeys;
     public List<int> subIdxs;

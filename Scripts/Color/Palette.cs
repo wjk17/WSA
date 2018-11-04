@@ -7,6 +7,7 @@ public static class Palette
     public static Color magenta { get { return HtmlToColor("E0257B"); } }
     public static Color darkBlue { get { return HtmlToColor("2A4180"); } }
     public const float v10 = 10f / 255f;
+    public static readonly Color L10 = new Color(v10, v10, v10);
     public static readonly Color L1 = new Color(0.1f, 0.1f, 0.1f);
     public static Color HtmlToColor(string str)
     {

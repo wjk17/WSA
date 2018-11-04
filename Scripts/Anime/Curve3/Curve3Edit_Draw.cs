@@ -50,11 +50,7 @@ public partial class Curve3Edit
         if (editCurve)
         {
             Curve3.accuracy = accuracy;
-            if (useSelector)
-            {
-                //var hair = Selector.current.GetComponent<Hair>();
-                //hair.curveData.curve.Draw();
-            }
+            if (curve.Empty()) return;
             else curve.Draw();
 
             var k = keySelected;

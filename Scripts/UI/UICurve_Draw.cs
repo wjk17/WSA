@@ -15,9 +15,13 @@ public partial class UICurve
     public Color clrSubSel = Color.red;
 
     public bool drawSel = true;
-    public Vector2 gridLinesCount = new Vector2(1, 8);
+    public Vector2Int gridCount = new Vector2Int(16, 9);
+    public Vector2 lineSpaceFst;
+    public Vector2 lineSpaceSnd;
+
     public float gridLinesXdivideY = 0.85f;
-    public Color clrGridLines = Palette.L1;
+    public Color clrGridLinesFst = Palette.L10;
+    public Color clrGridLinesSnd = Palette.L1;
     public Color clrBorder = Color.grey;
 
     private void Awake()
@@ -52,44 +56,66 @@ public partial class UICurve
             DrawLine(r, t, color, m);
         }
     }
+    public AnimationCurve curve11;
+    public Vector2Int gridCountReal;
+    public int reactDiffCount;
+    public float minusSpace = 0.05f;//0.0001f
     private void OnRenderObject()
     {
         Curve2.colorTrack = clrTrack;
         Curve2.colorCtrlLines = clrCtrlLinesUnSel;
         Curve2.colorBorder = clrBorder;
 
+        // 修复锚点显示
+        // 使间隔平滑细分变细
+        if (Mathf.Abs(gridCountReal.x - (gridCount.x * 2 + 1)) > reactDiffCount)
+        {
+            //gridCount.x = gridCountReal.x;
+            lineSpaceFst = drawAreaSize / gridCount;
+        }
+        if (Mathf.Abs(gridCountReal.y - (gridCount.y * 2 + 1)) > reactDiffCount)
+        {
+            //gridCount.y = gridCountReal.y;
+            lineSpaceFst = drawAreaSize / gridCount;
+        }
+
+        lineSpaceFst = Vector2.Max(lineSpaceFst, Vector2.one * minusSpace);
+        lineSpaceSnd = lineSpaceFst * 0.5f;
+        gridCountReal = Vector2Int.zero;
         // grids
         var a = Vector2.zero;
-        var b = Vector2.right;
-        var factor = 1f / gridLinesCount.y;
-        for (int i = 0; i < gridLinesCount.y; i++)
+        var b = drawAreaSize;
+        for (float f = 0; f <= drawAreaSize.y; b.y = a.y = f += lineSpaceSnd.y)
         {
-            b.y = a.y = i * factor;
-            DrawLine(a, b, clrGridLines, matrixViewToRect);
+            DrawLine(a, b, gridCountReal.y++.IsEven() ? clrGridLinesFst : clrGridLinesSnd, m_Curve_V);
         }
         a = Vector2.zero;
-        b = Vector2.up;
-        factor = 1f / gridLinesCount.x;
-        for (int i = 0; i < gridLinesCount.x; i++)
+        b = drawAreaSize;
+        for (float f = 0; f <= drawAreaSize.x; b.x = a.x = f += lineSpaceSnd.x)
         {
-            b.x = a.x = i * factor;
-            DrawLine(a, b, clrGridLines, matrixViewToRect);
+            DrawLine(a, b, gridCountReal.x++.IsEven() ? clrGridLinesFst : clrGridLinesSnd, m_Curve_V);
         }
         b.x = a.x = UITimeLine.I.frameIdx;
         // timeline
-        DrawLine(a, b, UITimeLine.I.clrTimeLine, matrixViewToRect);
+        DrawLine(a, b, UITimeLine.I.clrTimeLine, m_Curve_V);
 
         if (curve == null || curve.Count == 0) return;
 
         Key2 k = keySel;
         if (mirror)
-            curveMirror.Draw(matrixViewToRect, showTangentsUnSel);
+        {
+            curveMirror.drawAreaSize = drawAreaSize;
+            curveMirror.Draw(m_Curve_V, showTangentsUnSel);
+        }
         else
-            curve.Draw(matrixViewToRect, showTangentsUnSel);
+        {
+            curve.drawAreaSize = drawAreaSize;
+            curve.Draw(m_Curve_V, showTangentsUnSel);
+        }
 
         var l = curve.Last().vector;
-        var e = new Vector2(SIZE.x, l.y);
-        DrawLine(l, e, clrTrack, matrixViewToRect);
+        var e = new Vector2(drawAreaSize.x, l.y);
+        DrawLine(l, e, clrTrack, m_Curve_V);
 
         if (drawSel && k != null)
         {
@@ -98,26 +124,26 @@ public partial class UICurve
 
             if (k.inMode == KeyMode.Bezier)
             {
-                DrawLine(k.vector, k.inTangent, i == 0 || i == 1 ? clrSubSel : clrCtrlLinesSel, matrixViewToRect);
+                DrawLine(k.vector, k.inTangent, i == 0 || i == 1 ? clrSubSel : clrCtrlLinesSel, m_Curve_V);
                 //DrawTangent(k.inTangent, Curve2.colorTangents, matrixViewToRect);
             }
             if (k.outMode == KeyMode.Bezier && !(mirror && k.time == 0.5f))
             {
-                DrawLine(k.vector, k.outTangent, i == 0 || i == 2 ? clrSubSel : clrCtrlLinesSel, matrixViewToRect);
+                DrawLine(k.vector, k.outTangent, i == 0 || i == 2 ? clrSubSel : clrCtrlLinesSel, m_Curve_V);
                 //DrawTangent(k.outTangent, Curve2.colorTangents, matrixViewToRect);
             }
 
             DrawRect(k.vector, Vector2.one * sizeDrawVector,
-                Curve2.colorVectors, matrixViewToRect, i == 0 ? clrSubSel : clrVectorSel, true);
+                Curve2.colorVectors, m_Curve_V, i == 0 ? clrSubSel : clrVectorSel, true);
             if (k.inMode == KeyMode.Bezier)
             {
                 DrawRhombus(k.inTangent, Vector2.one * sizeDrawTangent,
-                    Curve2.colorTangents, matrixViewToRect, i == 0 || i == 1 ? clrSubSel : clrCtrlLinesSel, true);
+                    Curve2.colorTangents, m_Curve_V, i == 0 || i == 1 ? clrSubSel : clrCtrlLinesSel, true);
             }
             if (k.outMode == KeyMode.Bezier && !(mirror && k.time == 0.5f))
             {
                 DrawRhombus(k.outTangent, Vector2.one * sizeDrawTangent,
-                    Curve2.colorTangents, matrixViewToRect, i == 0 || i == 2 ? clrSubSel : clrCtrlLinesSel, true);
+                    Curve2.colorTangents, m_Curve_V, i == 0 || i == 2 ? clrSubSel : clrCtrlLinesSel, true);
             }
         }
     }
@@ -146,6 +172,10 @@ public partial class UICurve
     void DrawVector(Vector2 p, Color color, Matrix4x4 m)
     {
         DrawRect(p, Vector2.one * sizeDrawVector, color, m, clrVectorUnSel, true);
+    }
+    void DrawLine(Vector2 a, Vector2 b, Color color) // 接口 
+    {
+        DrawLines.DoDrawLines(color, new Vector2[] { a, b }, new int[] { 0, 1 });
     }
     void DrawLine(Vector2 a, Vector2 b, Color color, Matrix4x4 m) // 接口 
     {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 
 public partial class Curve2
@@ -16,6 +17,8 @@ public partial class Curve2
     public static Color colorTangents;
     public static Color colorBorder;
     public static int accuracy = 100;
+    [XmlIgnore]//在界面显示的区域，暂时不保存。
+    public Vector2 drawAreaSize = Vector2.one;
     internal void Draw(Matrix4x4 m, bool showTangents)
     {
         DrawBorder(m);
@@ -25,10 +28,10 @@ public partial class Curve2
 
     private void DrawBorder(Matrix4x4 m)
     {
-        var lt = new Vector2(0, 1);
+        var lt = new Vector2(0, drawAreaSize.y);
         var lb = Vector2.zero;
-        var rb = new Vector2(1, 0);
-        var rt = Vector2.one;
+        var rb = new Vector2(drawAreaSize.x, 0);
+        var rt = drawAreaSize;
         drawLine(lt, rt, colorBorder, m);
         drawLine(lt, lb, colorBorder, m);
         drawLine(rt, rb, colorBorder, m);
