@@ -1,10 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-#if UNITY_EDITOR
+using Esa;
+#if UNITY_EDITOR 
 using UnityEditor;
-[CustomEditor(typeof(CopyRotation))]
-public class CopyRotationEditor : E_ShowButtons<CopyRotation> { }
 #endif
 [ExecuteInEditMode]
 public class CopyRotation : MonoBehaviour
@@ -42,7 +41,7 @@ public class CopyRotation : MonoBehaviour
     {
         if (fixedUpdate) DoUpdate();
     }
-    [ShowButton]
+    [Button]
     public void DoUpdate()
     {
         var rot = target.rotation * Quaternion.Inverse(originRotTarget);

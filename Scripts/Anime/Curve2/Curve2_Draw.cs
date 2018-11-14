@@ -17,8 +17,9 @@ public partial class Curve2
     public static Color colorTangents;
     public static Color colorBorder;
     public static int accuracy = 100;
-    [XmlIgnore]//在界面显示的区域，暂时不保存。
-    public Vector2 drawAreaSize = Vector2.one;
+    //在界面显示的区域，暂时不保存。
+    [XmlIgnore] public Vector2 drawAreaSize = Vector2.one;
+    [XmlIgnore] public Vector2 drawAreaOffset = Vector2.zero;
     internal void Draw(Matrix4x4 m, bool showTangents)
     {
         DrawBorder(m);
@@ -50,8 +51,8 @@ public partial class Curve2
     public void DrawLines(Matrix4x4 m, bool showTangents)
     {
         if (keys == null || Count == 0) return;
-
-        var factor = 1f / (accuracy - 1);
+        // 根据显示区域用Evaluate画出局部曲线
+        var factor = drawAreaSize.x / (accuracy - 1);
         var prev = new Vector2(0f, keys[0].value);
         float t;
         Vector2 curr;

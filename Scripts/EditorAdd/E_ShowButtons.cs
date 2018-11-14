@@ -4,57 +4,8 @@ using UnityEngine;
 using UnityEditor;
 using System.Reflection;
 using System;
-public class InspectorCallBack : Attribute
-{
-    public InspectorCallBack() { }
-}
-public class ShowButtonRow : Attribute
-{
-    public ShowButtonRow() { }
-    public ShowButtonRow(params string[] names) { this.names = names; }
-    public string[] names;
-}
-/// <summary>
-/// 
-/// </summary>
-public class ShowButton : Attribute
-{
-    public ShowButton() { }
-    public ShowButton(string name) { this.name = name; }
-    public string name;
-}
-/// <summary>
-/// TODO Inline功能，一行显示多个拥有标签的字段，而不是像ShowButtonRow的数组形式
-/// </summary>
-/// 
-public class Inline : Attribute
-{
-    public Inline() { }
-    public Inline(int idx) { this.idx = idx; }
-    public int idx = 0;
-    public FieldInfo field;
-}
-public class ShowToggle : Attribute
-{
-    public ShowToggle() { }
-    public ShowToggle(string name) { this.name = name; }
-    public string name;
-}
+using Esa;
 
-#if !UNITY_EDITOR
-public class EditorShowButtons<T> {}
-#else
-
-//
-//using UnityEditor;
-[CanEditMultipleObjects]
-[CustomEditor(typeof(__))]
-public class E_ : E_ShowButtons<__> { }
-//
-
-
-public class __ { }
-[CanEditMultipleObjects]
 public class E_ShowButtons<T> : Editor
 {
     public BindingFlags bindingFlags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Instance;
@@ -98,19 +49,19 @@ public class E_ShowButtons<T> : Editor
         //    }
         //}
 
-        var stsRows = new Dictionary<int, List<Inline>>(); ;
+        var stsRows = new Dictionary<int, List<InlineAttribute>>(); ;
         foreach (var field in fields)
         {
-            var st = (ShowToggle)Attribute.GetCustomAttribute(field, typeof(ShowToggle), false) as ShowToggle;
+            var st = (ToggleAttribute)Attribute.GetCustomAttribute(field, typeof(ToggleAttribute), false) as ToggleAttribute;
             if (st != null)
             {
-                var il = (Inline)Attribute.GetCustomAttribute(field, typeof(Inline), false) as Inline;
+                var il = (InlineAttribute)Attribute.GetCustomAttribute(field, typeof(InlineAttribute), false) as InlineAttribute;
                 if (il != null)
                 {
                     il.field = field;
                     if (!stsRows.ContainsKey(il.idx))
                     {
-                        stsRows.Add(il.idx, new List<Inline>());
+                        stsRows.Add(il.idx, new List<InlineAttribute>());
                     }
                     stsRows[il.idx].Add(il);
                 }
@@ -139,7 +90,7 @@ public class E_ShowButtons<T> : Editor
             foreach (var stil in row.Value)
             {
                 var field = stil.field;
-                var st = (ShowToggle)Attribute.GetCustomAttribute(field, typeof(ShowToggle), false) as ShowToggle;
+                var st = (ToggleAttribute)Attribute.GetCustomAttribute(field, typeof(ToggleAttribute), false) as ToggleAttribute;
                 var prev = (bool)field.GetValue(o);
                 var value = GUILayout.Toggle(prev, string.IsNullOrEmpty(st.name) ? field.Name : st.name, "Button");
                 field.SetValue(o, value);
@@ -159,10 +110,10 @@ public class E_ShowButtons<T> : Editor
         }
         foreach (var method in methods)
         {
-            var attri = Attribute.GetCustomAttribute(method, typeof(ShowButton), false) as ShowButton;
+            var attri = Attribute.GetCustomAttribute(method, typeof(ButtonAttribute), false) as ButtonAttribute;
             if (attri != null)
             {
-                var name = string.IsNullOrEmpty(attri.name) ? method.Name.BigCamel() : attri.name;
+                var name = string.IsNullOrEmpty(attri.Name) ? method.Name.BigCamel() : attri.Name;
                 if (GUILayout.Button(name))
                 {
                     foreach (var obj in os)
@@ -172,7 +123,7 @@ public class E_ShowButtons<T> : Editor
                 }
                 continue;
             }
-            var attriBR = Attribute.GetCustomAttribute(method, typeof(ShowButtonRow), false) as ShowButtonRow;
+            var attriBR = Attribute.GetCustomAttribute(method, typeof(ButtonRowAttribute), false) as ButtonRowAttribute;
             if (attriBR != null)
             {
                 EditorGUILayout.BeginHorizontal();
@@ -194,4 +145,3 @@ public class E_ShowButtons<T> : Editor
         }
     }
 }
-#endif

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public static class UI_Init
 {
     // 初始化UI控件
-    public static void Init(this Button button, UnityAction onClick, bool trigger = false)
+    public static void Init(this UnityEngine.UI.Button button, UnityAction onClick, bool trigger = false)
     {
         if (onClick != null) button.onClick.AddListener(onClick);
         if (trigger) onClick();

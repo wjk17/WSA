@@ -11,15 +11,10 @@
 //
 using UnityEngine;
 using System.Collections.Generic;
-
+using Esa;
 
 namespace UnityChan
 {
-#if UNITY_EDITOR
-    using UnityEditor;
-    [CustomEditor(typeof(SpringManager))]
-    public class E_SpringManager : E_ShowButtons<SpringManager> { }
-#endif
     public class SpringManager : MonoBehaviour
     {
         //Kobayashi
@@ -37,7 +32,7 @@ namespace UnityChan
         //{
         //    UpdateParameters();
         //}
-        [ShowButton]
+        [Button]
         public void GenSpringBones()
         {
             var ts = transform.GetTransforms().RemoveLast();
@@ -50,7 +45,7 @@ namespace UnityChan
                 sb.colliders = new SpringCollider[0];
             }
         }
-        [ShowButton]
+        [Button]
         public void StartSpring()
         {
             var mgrs = FindObjectsOfType<SpringManager>();

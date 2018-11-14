@@ -2,12 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-
-#if UNITY_EDITOR
-using UnityEditor;
-[CustomEditor(typeof(Selector))]
-public class E_Selector : E_ShowButtons<Selector> { }
-#endif
+using Esa;
 public class Selector : MonoSingleton<Selector>
 {
     [Header("ReadOnly")]
@@ -18,9 +13,9 @@ public class Selector : MonoSingleton<Selector>
     public Func<Transform, Transform> onClick;
     private void Start()
     {
-        UI.I.AddInputCB(name, GetInput, 0);
+        this.AddInputCB(GetInput, 0);
     }
-    [ShowButton]
+    [Button]
     public void UnSelectAll()
     {
         Select(null);

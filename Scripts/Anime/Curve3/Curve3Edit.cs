@@ -2,16 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-
-#if UNITY_EDITOR
-using UnityEditor;
-[CustomEditor(typeof(Curve3Edit))]
-[CanEditMultipleObjects]
-public class Curve3EditEditor : E_ShowButtons<Curve3Edit> { }
-#endif
+using Esa;
 public partial class Curve3Edit : MonoSingleton<Curve3Edit>
 {
-    [ShowToggle("编辑曲线")]
+    [Toggle("编辑曲线")]
     bool editCurve;
     public bool EditCurve
     {

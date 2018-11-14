@@ -13,11 +13,7 @@
 using UnityEngine;
 using System.Collections;
 using System;
-#if UNITY_EDITOR
-using UnityEditor;
-[CustomEditor(typeof(CameraController))]
-public class E_CameraController : E_ShowButtons<CameraController> { }
-#endif
+using Esa;
 public class CameraController : MonoSingleton<CameraController>
 {
     [SerializeField]
@@ -53,7 +49,7 @@ public class CameraController : MonoSingleton<CameraController>
     public Vector3 startEuler = new Vector3(0, 0, 0);
     public int CB_Order = -1;
 
-    [ShowButton]
+    [Button]
     public void ResetRotation()
     {
         pivotGO.transform.rotation = originRotation;
@@ -83,7 +79,7 @@ public class CameraController : MonoSingleton<CameraController>
         //        orthoCamSize = GetComponent<Camera>().orthographicSize = orthoCamSizeMOM.y;
         //#endif
         SyncCamSize();
-        cb = UI.I.AddInputCB(name, GetInput, CB_Order);
+        cb = this.AddInputCB( GetInput, CB_Order);
     }
     public void SyncCamSize()
     {

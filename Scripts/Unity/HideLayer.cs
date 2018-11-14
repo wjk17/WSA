@@ -1,15 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-#if UNITY_EDITOR
-using UnityEditor;
-[CustomEditor(typeof(HideLayer))]
-public class HideLayerEditor : E_ShowButtons<HideLayer> { }
-#endif
+using Esa;
 public class HideLayer : MonoBehaviour
 {
     public List<HideOnAwake> list;  
-    [ShowButton]
+    [Button]
     void HaveALook()
     {
         list = TransformTool.GetComsScene<HideOnAwake>();

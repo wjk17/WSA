@@ -1,15 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-#if UNITY_EDITOR
-using UnityEditor;
-[CustomEditor(typeof(SetMaterialsByName))]
-public class SetMaterialsByNameEditor : E_ShowButtons<SetMaterialsByName> { }
-#endif
+using Esa;
 public class SetMaterialsByName : MonoBehaviour 
 {
     public List<Material> mats;
-    [ShowButton]
+    [Button]
     void setMaterialsByName()
     {
         foreach (var rdr in GetComponentsInChildren<Renderer>(true))

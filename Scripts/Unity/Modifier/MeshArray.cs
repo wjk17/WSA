@@ -1,11 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-#if UNITY_EDITOR
-using UnityEditor;
-[CustomEditor(typeof(MeshArray))]
-public class MeshArrayEditor : E_ShowButtons<MeshArray> { }
-#endif
+using Esa;
 [ExecuteInEditMode]
 public class MeshArray : MonoBehaviour
 {
@@ -36,7 +32,7 @@ public class MeshArray : MonoBehaviour
     {
         if (doOnAwake) UpdateMesh();
     }
-    [ShowButton]
+    [Button]
     void UpdateMesh()
     {
         if (meshOrigin == null) GetOrigin();

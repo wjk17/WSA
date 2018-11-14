@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Esa;
 public class MonoXmlSL<T> : MonoBehaviour
 {
     [Header("ReadOnly")]
@@ -17,12 +17,12 @@ public class MonoXmlSL<T> : MonoBehaviour
     public string folder = "folder/";
     public string fileName = "file.xml";
     public T data;
-    [ShowButton]
+    [Button]
     public void Save()
     {
         Serializer.XMLSerialize(data, path);
     }
-    [ShowButton]
+    [Button]
     public void Load()
     {
         data = Serializer.XMLDeSerialize<T>(path);

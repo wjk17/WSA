@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-#if UNITY_EDITOR
+using Esa;
+#if UNITY_EDITOR 
 using UnityEditor;
-[CustomEditor(typeof(CopyPosition))]
-public class CopyPositionEditor : E_ShowButtons<CopyPosition> { }
 #endif
+
 [ExecuteInEditMode]
 public class CopyPosition : MonoBehaviour
 {
@@ -43,7 +43,7 @@ public class CopyPosition : MonoBehaviour
     {
         if (fixedUpdate) DoUpdate();
     }
-    [ShowButton]
+    [Button]
     public void DoUpdate()
     {
         var posA = originPos;

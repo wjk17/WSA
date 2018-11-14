@@ -1,19 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-#if UNITY_EDITOR
-using UnityEditor;
-[CustomEditor(typeof(AddMeshColToChildren))]
-[CanEditMultipleObjects]
-public class AddMeshColToChildrenEditor : E_ShowButtons<AddMeshColToChildren>
-{
-
-}
-#endif
+using Esa;
 public class AddMeshColToChildren : MonoBehaviour
 {
     public bool doOnStart;
-    [ShowButton]
+    [Button]
     void AddMeshColliderToChildren()
     {
         var rdrs = GetComponentsInChildren<Renderer>();
@@ -48,7 +40,7 @@ public class AddMeshColToChildren : MonoBehaviour
             //mc.convex = true;
         }
     }
-    [ShowButton]
+    [Button]
     void ClearMeshColliders()
     {
         foreach (var mc in GetComponentsInChildren<MeshCollider>(true))

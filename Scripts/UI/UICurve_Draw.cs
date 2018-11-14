@@ -38,7 +38,10 @@ public partial class UICurve
     }
     void DrawRhombus(Vector2 p, Vector2 size, Color color, Matrix4x4 m, Color solidColor, bool solid = false)
     {
-        size /= rtSize; // to N
+        //简单裁剪
+        if (!p.Between(drawAreaOffset, drawAreaOffset + drawAreaSize)) return;
+
+        size = m_Ref_Curve.ScaleV2(size); // to CurveSpace
         var t = p + Vector2.up * size * 0.5f;
         var b = p - Vector2.up * size * 0.5f;
         var l = p + Vector2.right * size * 0.5f;
@@ -66,17 +69,17 @@ public partial class UICurve
         Curve2.colorCtrlLines = clrCtrlLinesUnSel;
         Curve2.colorBorder = clrBorder;
 
-        // 修复锚点显示
-        // 使间隔平滑细分变细
+        // TODO 使间隔平滑细分变细，定义整数调整（暂时用2倍和0.5f倍调整）
+        // TODO 使用前版UI裁剪，合并后版的DoDrawline。
+        // TODO GridLine 对应 Offset调整
+        // TODO Offset 绘制Curve
         if (Mathf.Abs(gridCountReal.x - (gridCount.x * 2 + 1)) > reactDiffCount)
         {
-            //gridCount.x = gridCountReal.x;
-            lineSpaceFst = drawAreaSize / gridCount;
+            lineSpaceFst.x *= gridCountReal.x > gridCount.x ? 2 : 0.5f;
         }
         if (Mathf.Abs(gridCountReal.y - (gridCount.y * 2 + 1)) > reactDiffCount)
         {
-            //gridCount.y = gridCountReal.y;
-            lineSpaceFst = drawAreaSize / gridCount;
+            lineSpaceFst.y *= gridCountReal.y > gridCount.y ? 2 : 0.5f;
         }
 
         lineSpaceFst = Vector2.Max(lineSpaceFst, Vector2.one * minusSpace);
@@ -84,25 +87,25 @@ public partial class UICurve
         gridCountReal = Vector2Int.zero;
         // grids
         var a = Vector2.zero;
-        var b = drawAreaSize;
+        var b = drawAreaSize.ToX0();
         for (float f = 0; f <= drawAreaSize.y; b.y = a.y = f += lineSpaceSnd.y)
         {
             DrawLine(a, b, gridCountReal.y++.IsEven() ? clrGridLinesFst : clrGridLinesSnd, m_Curve_V);
         }
         a = Vector2.zero;
-        b = drawAreaSize;
+        b = drawAreaSize.To0Y();
         for (float f = 0; f <= drawAreaSize.x; b.x = a.x = f += lineSpaceSnd.x)
         {
             DrawLine(a, b, gridCountReal.x++.IsEven() ? clrGridLinesFst : clrGridLinesSnd, m_Curve_V);
         }
-        b.x = a.x = UITimeLine.I.frameIdx;
         // timeline
+        b.x = a.x = UITimeLine.I.frameIdx;
         DrawLine(a, b, UITimeLine.I.clrTimeLine, m_Curve_V);
 
         if (curve == null || curve.Count == 0) return;
 
         Key2 k = keySel;
-        if (mirror)
+        if (mirror) // 使用默认方法画出曲线线段
         {
             curveMirror.drawAreaSize = drawAreaSize;
             curveMirror.Draw(m_Curve_V, showTangentsUnSel);
@@ -149,7 +152,10 @@ public partial class UICurve
     }
     void DrawRect(Vector2 p, Vector2 size, Color color, Matrix4x4 m, Color solidColor, bool solid = false)
     {
-        size /= rtSize; // to N
+        //简单裁剪
+        if (!p.Between(drawAreaOffset, drawAreaOffset + drawAreaSize)) return;
+
+        size = m_Ref_Curve.ScaleV2(size); // to CurveSpace
         var lt = p - size * 0.5f;
         lt.y += size.y; // 左上和左下坐标的转换
         var lb = p - size * 0.5f;
@@ -179,6 +185,9 @@ public partial class UICurve
     }
     void DrawLine(Vector2 a, Vector2 b, Color color, Matrix4x4 m) // 接口 
     {
+        var scl = Vector2.one;// / UI.scaler.referenceResolution;
+        //a -= drawAreaOffset * scl;
+        //b -= drawAreaOffset * scl;
         DrawLines.DoDrawLines(color, new Vector2[] { a, b }, new int[] { 0, 1 }, m);
     }
 }

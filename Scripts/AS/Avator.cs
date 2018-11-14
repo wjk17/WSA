@@ -1,13 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-#if UNITY_EDITOR
-using UnityEditor;
-[CustomEditor(typeof(Avator))]
-public class AvatorEditor : E_ShowButtons<Avator> { }
-#endif
-
+using Esa;
 [ExecuteInEditMode]
 public class Avator : MonoXmlSL<AvatorData>
 {
@@ -15,36 +9,14 @@ public class Avator : MonoXmlSL<AvatorData>
     {
         get
         {
-            try
-            {
-                return GetTransDOF(t);
-            }
-            catch
-            {
-#if UNITY_EDITOR
-                throw;
-#else
-                return null;
-#endif
-            }
+            return GetTransDOF(t);
         }
     }
     public TransDOF this[Bone bone]
     {
         get
         {
-            try
-            {
-                return GetTransDOF(bone);
-            }
-            catch
-            {
-#if UNITY_EDITOR
-                throw;
-#else
-                return null;
-#endif
-            }
+            return GetTransDOF(bone);
         }
     }
     public TransDOF this[DOF dof]
@@ -63,7 +35,7 @@ public class Avator : MonoXmlSL<AvatorData>
     public bool drawLine = true;
     public Color boneColor;
 
-    [ShowButton]
+    [Button]
     public void UpdateCoord()
     {
         int count = 0;
@@ -88,7 +60,7 @@ public class Avator : MonoXmlSL<AvatorData>
 
         Debug.Log("updateCoord " + td.transform.name);
     }
-    [ShowButton("ChildrenSwap Y & Z (exclude self)")]
+    [Button("ChildrenSwap Y & Z (exclude self)")]
     public void ChildrenSwapYAndZ()
     {
         var td = GetTransDOF(selectBone);
@@ -135,7 +107,7 @@ public class Avator : MonoXmlSL<AvatorData>
         }
         return null;
     }
-    [ShowButton]
+    [Button]
     public void ClearTrans()
     {
         foreach (var t in data.asts)
@@ -143,12 +115,12 @@ public class Avator : MonoXmlSL<AvatorData>
             t.transform = null;
         }
     }
-    [ShowButton]
+    [Button]
     void Match()
     {
         Match(true);
     }
-    [ShowButton("Match(not Init)")]
+    [Button("Match(not Init)")]
     void MatchNotInit()
     {
         Match(false);
@@ -194,7 +166,7 @@ public class Avator : MonoXmlSL<AvatorData>
 #endif
             data.UpdateTrans();
     }
-    [ShowButton]
+    [Button]
     public void SetOrigin()
     {
         foreach (var t in data.asts)

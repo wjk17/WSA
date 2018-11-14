@@ -1,14 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-#if UNITY_EDITOR
-using UnityEditor;
-[CustomEditor(typeof(MonoSingletonMgr))]
-public class MonoSingletonMgrEditor : E_ShowButtons<MonoSingletonMgr> { }
-#endif
+using Esa;
 public class MonoSingletonMgr : MonoBehaviour
 {
-    [ShowButton]
+    [Button]
     void Awake()
     {
         foreach (var obj in FindObjectsOfType<MonoSingletonBase>())

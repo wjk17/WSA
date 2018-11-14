@@ -13,7 +13,7 @@ public class BtnToggleActive : MonoBehaviour
         {
             target.SetActive(startActive);
         }
-        GetComponent<Button>().onClick.AddListener(OnClick);
+        GetComponent<UnityEngine.UI.Button>().onClick.AddListener(this.OnClick);
     }
     void OnClick()
     {

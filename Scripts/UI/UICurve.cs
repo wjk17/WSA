@@ -7,33 +7,36 @@ using UnityEngine;
 public partial class UICurve : MonoSingleton<UICurve>
 {
     public Vector2 drawAreaSize = Vector2.one;
+    public Vector2 drawAreaOffset = Vector2.zero;
     Vector2 _drawAreaSize;
+    Vector2 _drawAreaOffset;
     public void Start()
     {
-        if (curve.Empty())
-            curve = new Curve2(Vector2.zero, drawAreaSize * 0.5f + drawAreaSize * Vector2.up * 0.2f);
-        UI.I.AddInputCB(name, GetInput, -2);
+        curve = new Curve2(Vector2.zero, drawAreaSize * 0.5f + drawAreaSize * Vector2.up * 0.2f);
+        this.AddInputCB(GetInput, -2);
         OnResize();
     }
     void OnResize()
     {
-        _drawAreaSize = drawAreaSize;
-        var pos = rtPos / UI.scaler.referenceResolution;
+        _drawAreaSize = drawAreaSize; // Curve空间
+        _drawAreaOffset = drawAreaOffset; // Ref空间
+        var pos = (rtPos + drawAreaOffset) / UI.scaler.referenceResolution;
+        //var pos = rtPos / UI.scaler.referenceResolution;
         var scl = rtSize / UI.scaler.referenceResolution / drawAreaSize;
         m_Curve_V = Matrix4x4.TRS(pos, Quaternion.identity, scl);
         pos = rtPos;
 
         // 将 规格化坐标（曲线空间） 转为屏幕坐标（Ref）
-        var s = drawAreaSize / rtSize;
-        m_Curve_Ref = Matrix4x4.TRS(pos, Quaternion.identity, s);
+        scl = drawAreaSize / rtSize;
+        m_Curve_Ref = Matrix4x4.TRS(pos, Quaternion.identity, scl);
         // ↑ 的逆矩阵
-        m_Ref_Curve = Matrix4x4.Scale(s) * Matrix4x4.Translate(-pos);
+        m_Ref_Curve = Matrix4x4.Scale(scl) * Matrix4x4.Translate(-pos);
     }
     void GetInput()
     {
         if (!gameObject.activeSelf || !enabled) return;
         this.CheckResize(OnResize);
-        if (_drawAreaSize != drawAreaSize) OnResize();
+        if (_drawAreaSize != drawAreaSize || _drawAreaOffset != drawAreaOffset) OnResize();
 
         if (Vector2.Distance(Input.mousePosition, prevPos) > moveError) { selIdx = 0; move = true; }
 
@@ -120,6 +123,21 @@ public partial class UICurve : MonoSingleton<UICurve>
                     keySel.inTangent = -os + mousePosCurve;
                 else if (i == 2)
                     keySel.outTangent = -os + mousePosCurve;
+            }
+        }
+        else if (Events.MouseDown(MB.Middle))
+        {
+            if (mousePosCurve.Between(Vector2.zero, drawAreaSize))
+            {
+                dragging = true;
+                os = mousePosRef - drawAreaOffset;
+            }
+        }
+        else if (Events.Mouse(MB.Middle))
+        {
+            if (dragging)
+            {
+                drawAreaOffset = mousePosRef - os;
             }
         }
         else

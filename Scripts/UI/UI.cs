@@ -38,6 +38,8 @@ public class InputCallBack
     /// </summary>
     public InputCallBack(MonoBehaviour mono, Action getInput, int order = 0)
     {
+        this.mono = mono;
+        this.gameObject = mono.gameObject;
         this.RT = mono.transform as RectTransform;
         this.name = mono.name;
         this.getInput = getInput;
@@ -49,8 +51,10 @@ public class InputCallBack
         this.getInput = getInput;
         this.order = order;
     }
+    public GameObject gameObject;
     public RectTransform RT;
     public Rt rt;
+    public MonoBehaviour mono;
     public bool mouseOver;
     public string name;
     public Action getInput;
@@ -120,9 +124,14 @@ public class UI : MonoSingleton<UI>
         listCalled = new List<InputCallBack>();
         foreach (var call in inputCallBacks)
         {
-            if (call.getInput != null) call.getInput();
+            if (call.getInput != null)
+            {
+                if ((call.mono == null || call.mono.enabled) &&
+                    (call.gameObject == null || call.gameObject.activeInHierarchy))
+                    call.getInput();
+            }
             listCalled.Add(call);
-            if (call.RT != null)
+            if (call.RT != null) // 如果指定了RT，over时截断其他后续UI事件（used=true）
             {
                 call.rt = call.RT.GetRt();
                 call.mouseOver = call.rt.Contains(mousePosRef);

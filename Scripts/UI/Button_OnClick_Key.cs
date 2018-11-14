@@ -8,6 +8,6 @@ public class Button_OnClick_Key : MonoBehaviour
     void Update()
     {
         if (Events.KeyDown(keyCode))
-            GetComponent<Button>().onClick.Invoke();
+            GetComponent<UnityEngine.UI.Button>().onClick.Invoke();
     }
 }

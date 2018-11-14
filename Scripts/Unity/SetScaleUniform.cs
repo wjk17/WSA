@@ -1,16 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-#if UNITY_EDITOR
-using UnityEditor;
-[CustomEditor(typeof(SetScaleUniform))]
-[CanEditMultipleObjects]
-public class SetScaleUniformEditor : E_ShowButtons<SetScaleUniform>
-{
+using Esa;
 
-}
 [ExecuteInEditMode]
-#endif
 public class SetScaleUniform : MonoBehaviour
 {
     public float scaleUniform = 1f;
@@ -19,7 +12,7 @@ public class SetScaleUniform : MonoBehaviour
     {
         scaleUniform = transform.localScale.x;
     }
-    [ShowButton]
+    [Button]
     void SetScale()
     {
         transform.localScale = Vector3.one * scaleUniform;

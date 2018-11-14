@@ -2,11 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-#if UNITY_EDITOR
-using UnityEditor;
-[CustomEditor(typeof(DOFMgr))]
-public class DOFMgrEditor : E_ShowButtons<DOFMgr> { }
-#endif
+using Esa;
 public class DOFMgr : MonoXmlSL<DOFData>
 {
     public DOF this[Bone bone]

@@ -2,10 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-#if UNITY_EDITOR
+using Esa;
+#if UNITY_EDITOR 
 using UnityEditor;
-[CustomEditor(typeof(R_CopyPosition))]
-public class R_CopyPositionEditor : E_ShowButtons<R_CopyPosition> { }
 #endif
 [ExecuteInEditMode]
 public class R_CopyPosition : MonoBehaviour
@@ -49,7 +48,7 @@ public class R_CopyPosition : MonoBehaviour
     {
         if (fixedUpdate) UpdatePos();
     }
-    [ShowButton]
+    [Button]
     public void UpdatePos()
     {
         if (space == Space.World)

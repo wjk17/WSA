@@ -1,11 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-#if UNITY_EDITOR
-using UnityEditor;
-[CustomEditor(typeof(SetParent))]
-public class SetParentEditor : E_ShowButtons<SetParent> { }
-#endif
+using Esa;
 public class SetParent : MonoBehaviour
 {
     public Transform[] childs;
@@ -16,7 +12,7 @@ public class SetParent : MonoBehaviour
     {
         childs = new Transform[] { transform };
     }
-    [ShowButton("Clear")]
+    [Button("Clear")]
     void Clear()
     {
         var list = new List<Transform>();
@@ -26,7 +22,7 @@ public class SetParent : MonoBehaviour
         }
         childs = list.ToArray();
     }
-    [ShowButton("SetParent")]
+    [Button("SetParent")]
     void Awake()
     {
         if (!doOnAwake) return;

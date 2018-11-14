@@ -20,7 +20,7 @@ public class InputEvents : MonoSingleton<InputEvents>
     public bool skin;
     public void Start()
     {
-        UI.I.AddInputCB("InputEvents", GetInput, 1);
+        this.AddInputCB(GetInput, 1);
     }
     private void GetInput()
     {

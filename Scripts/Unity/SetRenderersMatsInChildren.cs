@@ -1,19 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-#if UNITY_EDITOR
-using UnityEditor;
-[CustomEditor(typeof(SetRenderersMatsInChildren))]
-[CanEditMultipleObjects]
-public class SetRenderersMatsInChildrenEditor : E_ShowButtons<SetRenderersMatsInChildren>
-{
-
-}
-#endif
+using Esa;
 public class SetRenderersMatsInChildren : MonoBehaviour
 {
     public Material matToReplace;
-    [ShowButton]
+    [Button]
     void SetMatsInChildren()
     {
         MatsTool.SetMatsInChildren(transform, matToReplace);
@@ -22,7 +14,7 @@ public class SetRenderersMatsInChildren : MonoBehaviour
 
 public static class MatsTool
 {
-    [ShowButton]
+    [Button]
     public static void SetMatsInChildren(this Transform t, Material matToReplace)
     {
         foreach (var rdr in t.GetComponentsInChildren<Renderer>(true))

@@ -265,11 +265,11 @@ public static class VectorTool
     {
         return new Vector3(0, v2.x, v2.y);
     }
-    public static Vector2 to0Y(this Vector2 v2)
+    public static Vector2 To0Y(this Vector2 v2)
     {
         return new Vector2(0, v2.y);
     }
-    public static Vector2 toX0(this Vector2 v2)
+    public static Vector2 ToX0(this Vector2 v2)
     {
         return new Vector2(v2.x, 0);
     }

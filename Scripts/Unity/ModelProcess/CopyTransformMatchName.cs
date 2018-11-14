@@ -1,11 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-#if UNITY_EDITOR
-using UnityEditor;
-[CustomEditor(typeof(CopyTransformMatchName))]
-public class CopyTransformMatchNameEditor : E_ShowButtons<CopyTransformMatchName> { }
-#endif
+using Esa;
 public class CopyTransformMatchName : MonoBehaviour
 {
     public Transform from;
@@ -27,7 +23,7 @@ public class CopyTransformMatchName : MonoBehaviour
         if (from == null || to == null) return;
         GetPairs();
     }
-    [ShowButton]
+    [Button]
     public void GetPairs()
     {
         pairs = new Dictionary<Transform, Transform>();
@@ -49,7 +45,7 @@ public class CopyTransformMatchName : MonoBehaviour
             }
         }
     }
-    [ShowButton]
+    [Button]
     public void SetMesh()
     {
         List<string> fromNames = new List<string>();
@@ -75,7 +71,7 @@ public class CopyTransformMatchName : MonoBehaviour
             }
         }
     }
-    [ShowButton]
+    [Button]
     public void SetLocalTrans3()
     {
         List<string> fromNames = new List<string>();
