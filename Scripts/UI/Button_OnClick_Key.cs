@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class Button_OnClick_Key : MonoBehaviour
+namespace Esa.UI
 {
-    public KeyCode keyCode;
-    void Update()
+    public class Button_OnClick_Key : MonoBehaviour
     {
-        if (Events.KeyDown(keyCode))
-            GetComponent<UnityEngine.UI.Button>().onClick.Invoke();
+        public KeyCode keyCode;
+        void Update()
+        {
+            if (Events.KeyDown(keyCode))
+                GetComponent<Button>().onClick.Invoke();
+        }
     }
 }

@@ -1,11 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace Esa.UI
+namespace Esa.Behavior
 {
-    public class DrawLayer : Singleton<DrawLayer>
+    public class Action : Node
     {
-
         // Use this for initialization
         void Start()
         {

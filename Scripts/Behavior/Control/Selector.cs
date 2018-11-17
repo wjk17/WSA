@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace Esa.UI
+namespace Esa.BT
 {
-    public class DrawLayer : Singleton<DrawLayer>
+    public class Selector
     {
 
         // Use this for initialization

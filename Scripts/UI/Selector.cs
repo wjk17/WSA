@@ -2,49 +2,51 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using Esa;
-public class Selector : MonoSingleton<Selector>
+namespace Esa.UI
 {
-    [Header("ReadOnly")]
-    public Transform Current;
-    public static Transform current;
-    public static Transform prev;
-    public LayerMask mask;
-    public Func<Transform, Transform> onClick;
-    private void Start()
+    public class Selector : Singleton<Selector>
     {
-        this.AddInputCB(GetInput, 0);
-    }
-    [Button]
-    public void UnSelectAll()
-    {
-        Select(null);
-    }
-    void GetInput()
-    {
-        if (UICurve.I.gameObject.activeSelf) return;
-        if (!gameObject.activeSelf || !enabled) return;
-        if (Events.MouseUp(1))
+        [Header("ReadOnly")]
+        public Transform Current;
+        public static Transform current;
+        public static Transform prev;
+        public LayerMask mask;
+        public Func<Transform, Transform> onClick;
+        private void Start()
         {
-            Transform target;
-            var hit = this.SVRaycast(Input.mousePosition, out target, mask.value);
-            if (hit)
-            {
-                Select(target);
-            }
+            this.AddInputCB(GetInput, 0);
         }
-        Current = current;
-    }
-    void Select(Transform target)
-    {
-        if (onClick != null && target != null) target = onClick(target);
-        prev = current;
-        current = target;
-        if (prev != current) OnSelectionChanged();
-    }
-    public Action onSelectionChanged;
-    private void OnSelectionChanged()
-    {
-        if (onSelectionChanged != null) onSelectionChanged();
+        [Button]
+        public void UnSelectAll()
+        {
+            Select(null);
+        }
+        void GetInput()
+        {
+            if (UICurve.I.gameObject.activeSelf) return;
+            if (!gameObject.activeSelf || !enabled) return;
+            if (Events.MouseUp(1))
+            {
+                Transform target;
+                var hit = this.SVRaycast(Input.mousePosition, out target, mask.value);
+                if (hit)
+                {
+                    Select(target);
+                }
+            }
+            Current = current;
+        }
+        void Select(Transform target)
+        {
+            if (onClick != null && target != null) target = onClick(target);
+            prev = current;
+            current = target;
+            if (prev != current) OnSelectionChanged();
+        }
+        public Action onSelectionChanged;
+        private void OnSelectionChanged()
+        {
+            if (onSelectionChanged != null) onSelectionChanged();
+        }
     }
 }
