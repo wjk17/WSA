@@ -33,7 +33,7 @@ public static partial class MathTool
     {
         return Round(f1, factor) == Round(f2, factor);
     }
-    public static float Round(float f, float factor)//近
+    public static float Round(this float f, float factor)//近
     {
         f *= factor;
         f = Mathf.Round(f);
@@ -74,7 +74,7 @@ public static partial class MathTool
     /// <summary>
     /// 保留几位小数
     /// </summary>
-    public static float Keep(float f, int fracCount)
+    public static float Keep(this float f, int fracCount)
     {
         float factor = Mathf.Pow(10, fracCount);
         float factor2 = 1 / factor;

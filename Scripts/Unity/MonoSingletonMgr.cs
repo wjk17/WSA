@@ -1,15 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Esa;
-public class MonoSingletonMgr : MonoBehaviour
+namespace Esa
 {
-    [Button]
-    void Awake()
+    public class MonoSingletonMgr : MonoBehaviour
     {
-        foreach (var obj in FindObjectsOfType<MonoSingletonBase>())
+        [Button]
+        void Awake()
         {
-            obj.Init();
+            foreach (var obj in FindObjectsOfType<MonoSingletonBase>())
+            {
+                obj.Init();
+            }
         }
     }
 }
