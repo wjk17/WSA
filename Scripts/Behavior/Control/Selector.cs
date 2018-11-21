@@ -10,6 +10,9 @@ namespace Esa.BT
         public Selector() : base() { }
         public Selector(PreCondition preCond) : base(preCond) { }
         public Selector(PreCondition preCond, Execute execute) : base(preCond, execute) { }
+        public Selector(PreCondition preCond, Enter enter, Execute execute) :
+            base(preCond, enter, execute)
+        { }
         public int ExecuteIfTrue()
         {
             if (PreCondition()) return Execute();

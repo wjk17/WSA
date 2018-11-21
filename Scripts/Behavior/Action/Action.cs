@@ -9,7 +9,14 @@ namespace Esa.BT
     [Serializable]
     public class Action : Node
     {
-        public PreCondition preCond;
+        public static PreCondition TrueCondition
+        {
+            get { return trueCondition; }
+        }
+        static PreCondition trueCondition = () => true;
+        static PreCondition falseCondition = () => false;
+
+        public PreCondition preCond = trueCondition;
         public Enter enter;
         [Header("状态")]
         public bool _preCond;
@@ -17,6 +24,15 @@ namespace Esa.BT
         public Action(PreCondition preCond)
         {
             this.preCond = preCond;
+        }
+        public Action(Execute execute)
+        {
+            this.execute = execute;
+        }
+        public Action(Enter enter, Execute execute)
+        {
+            this.enter = enter;
+            this.execute = execute;
         }
         public Action(PreCondition preCond, Execute execute)
         {

@@ -137,7 +137,7 @@ namespace Esa.Pathing
             return null;
         }
         [Button]
-        void Start()
+        void Go()
         {
             InitMap();
             InitGraph();

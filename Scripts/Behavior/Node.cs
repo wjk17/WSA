@@ -20,6 +20,11 @@ namespace Esa.BT
         {
             childs.Add(child);
         }
+        public void Add(PreCondition preCond, Action child)
+        {
+            child.preCond = preCond;
+            childs.Add(child);
+        }
         public virtual int Execute()
         {
             return execute != null ? execute() : 1;
