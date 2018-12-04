@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
@@ -52,6 +53,12 @@ public static class StringTool
         //else if ((ea && !eb) || na < nb) { return -1; }
         return a.CompareTo(b);
     }
+
+    public static string PadRightTo(this string str, int len)
+    {
+        return str.Empty() || str.Length >= len ? str : str.PadRight(len - str.Length);
+    }
+
     /// <summary>
     /// cut string 
     /// </summary>

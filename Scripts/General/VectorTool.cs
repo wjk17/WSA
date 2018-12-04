@@ -5,6 +5,12 @@ using UnityEngine;
 
 public static class VectorTool
 {
+    public static Vector2Int Clamp(this Vector2Int v, Vector2Int min, Vector2Int max)
+    {
+        v.x = Mathf.Clamp(v.x, min.x, max.x);
+        v.y = Mathf.Clamp(v.y, min.y, max.y);
+        return v;
+    }
     public static Vector2Int ToInt(this Vector2 v)
     {
         return new Vector2Int(Mathf.RoundToInt(v.x), Mathf.RoundToInt(v.y));
@@ -158,6 +164,29 @@ public static class VectorTool
         a.y = a.y / b.y;
         a.z = a.z / b.z;
     }
+    /// <summary>
+    /// 曼哈顿距离
+    /// </summary>
+    public static int Manhattan(this Vector2Int a, int x,int y)
+    {
+        return Mathf.Abs(a.y - y) + Mathf.Abs(a.x - x);
+    }
+    public static int Manhattan(this Vector2Int a, Vector2Int b)
+    {
+        return Mathf.Abs(a.y - b.y) + Mathf.Abs(a.x - b.x);
+    }
+    public static float Manhattan(this Vector2 a, float x, float y)
+    {
+        return Mathf.Abs(a.y - y) + Mathf.Abs(a.x - x);
+    }
+    public static float Manhattan(this Vector2 a, Vector2 b)
+    {
+        return Mathf.Abs(a.y - b.y) + Mathf.Abs(a.x - b.x);
+    }
+    public static Vector2 Abs(this Vector2 a)
+    {
+        return new Vector2(Mathf.Abs(a.x), Mathf.Abs(a.y));
+    }
     public static Vector3 Abs(this Vector3 a)
     {
         return new Vector3(Mathf.Abs(a.x), Mathf.Abs(a.y), Mathf.Abs(a.z));
@@ -272,5 +301,10 @@ public static class VectorTool
     public static Vector2 ToX0(this Vector2 v2)
     {
         return new Vector2(v2.x, 0);
+    }
+
+    internal static Vector2Int Clamp(object v)
+    {
+        throw new NotImplementedException();
     }
 }

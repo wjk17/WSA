@@ -5,7 +5,11 @@ using UnityEditor;
 
 namespace Esa.UI
 {
+<<<<<<< HEAD
     public class InputEvents : MonoSingleton<InputEvents>
+=======
+    public class InputEvents : Singleton<InputEvents>
+>>>>>>> 36ecf3a9dfc01741cc93e9b0c92d2ca525d75f9d
     {
         public delegate void SVMouseEvt2D(Vector2 pos);
         public delegate void SVMouseEvtRaycast(Vector3 pos, bool hit);
@@ -112,6 +116,7 @@ namespace Esa.UI
         public bool SVRaycast(out RaycastHit hit, int layerMask)
         {
             return SVRaycast(Input.mousePosition, out hit, layerMask);
+<<<<<<< HEAD
         }
         public bool SVRaycast(Vector3 mousePos, out RaycastHit hit, int layerMask)
         {
@@ -130,6 +135,26 @@ namespace Esa.UI
         {
             Camera cam = Camera.main;
             Ray ray = cam.ScreenPointToRay(mousePos);
+=======
+        }
+        public bool SVRaycast(Vector3 mousePos, out RaycastHit hit, int layerMask)
+        {
+            Camera cam = Camera.main;
+            Ray ray = cam.ScreenPointToRay(mousePos);
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public bool SVRaycast(Vector3 mousePos, out Vector3 hitPoint)
+        {
+            Camera cam = Camera.main;
+            Ray ray = cam.ScreenPointToRay(mousePos);
+>>>>>>> 36ecf3a9dfc01741cc93e9b0c92d2ca525d75f9d
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, mask.value))
             {
@@ -146,4 +171,8 @@ namespace Esa.UI
             }
         }
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 36ecf3a9dfc01741cc93e9b0c92d2ca525d75f9d
 }

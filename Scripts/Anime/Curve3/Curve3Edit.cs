@@ -4,7 +4,11 @@ using UnityEngine;
 using System;
 namespace Esa.UI
 {
+<<<<<<< HEAD
     public partial class Curve3Edit : MonoSingleton<Curve3Edit>
+=======
+    public partial class Curve3Edit : Singleton<Curve3Edit>
+>>>>>>> 36ecf3a9dfc01741cc93e9b0c92d2ca525d75f9d
     {
         [Toggle("编辑曲线")]
         bool editCurve;

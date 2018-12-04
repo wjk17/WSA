@@ -5,7 +5,11 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 public static partial class ListTool
 {
-    public static T GetByName<T>(this List<T> list, string name) where T: Object
+    public static int ClampIdx<T>(this List<T> list, int idx)
+    {
+        return Mathf.Clamp(idx, 0, list.Count - 1);
+    }
+    public static T GetByName<T>(this List<T> list, string name) where T : Object
     {
         foreach (var item in list)
         {
@@ -46,7 +50,7 @@ public static partial class ListTool
     {
         return list.Empty() ? null : new List<T>(list).ToArray();
     }
-    public static List<T> CloneMw<T>(this List<T> list)where T:ICloneable
+    public static List<T> CloneMw<T>(this List<T> list) where T : ICloneable
     {
         var n = new List<T>();
         foreach (var i in list)

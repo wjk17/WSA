@@ -53,4 +53,11 @@ public static partial class ListTool
         }
         return ns;
     }
+
+    public static void Swap<T>(this IList<T> list, int a, int b)
+    {
+        var t = list[a];
+        list[a] = list[b];
+        list[b] = t;
+    }
 }
