@@ -3,75 +3,77 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-
-public class Animatar : MonoBehaviour
+namespace Esa
 {
-    public static Clip current
+    public class Animatar : MonoBehaviour
     {
-        get
+        public static Clip current
         {
-            return _current;
-        }
-        set { _current = value; }
-    }
-    private static Clip _current;
-    public bool play;
-    public string path;
-
-    public List<Clip> clips;
-    public string folder = "Chars/Feiqizi/Clips/";
-
-    public float playTime;
-    public float timeMulty;
-    // Use this for initialization
-    void Start()
-    {
-        playTime = 0;
-        LoadClipsInPath();
-    }
-    public void SetClip(string clipName)
-    {
-        foreach (var clip in clips)
-        {
-            if (clip.clipName == clipName)
+            get
             {
-                current = clip;
+                return _current;
+            }
+            set { _current = value; }
+        }
+        private static Clip _current;
+        public bool play;
+        public string path;
+
+        public List<Clip> clips;
+        public string folder = "Char/Feiqizi/Clip/";
+
+        public float playTime;
+        public float timeMulty;
+        // Use this for initialization
+        void Start()
+        {
+            playTime = 0;
+            LoadClipsInPath();
+        }
+        public void SetClip(string clipName)
+        {
+            foreach (var clip in clips)
+            {
+                if (clip.clipName == clipName)
+                {
+                    current = clip;
+                }
             }
         }
-    }
-    private void LoadClipsInPath()
-    {
-        var dataPath = Application.dataPath;
-        var path = dataPath + "/" + folder;
-        DirectoryInfo dir = new DirectoryInfo(path);
-        FileInfo[] fis = dir.GetFiles("*.clip", SearchOption.TopDirectoryOnly);
-        clips = new List<Clip>();
-        foreach (var fi in fis)
+        private void LoadClipsInPath()
         {
-            var c = Serializer.XMLDeSerialize<Clip>(fi.FullName);
-            c.clipName = fi.Name.Substring(0, fi.Name.Length - fi.Extension.Length);
-
-            ClipTool.GetPairs(c.curves);
-            ClipTool.GetFrameRange(c);
-
-            clips.Add(c);
-        }
-    }
-    private void PlayEveryFrame()
-    {
-        if (play)
-        {
-            playTime += Time.deltaTime * timeMulty;
-            //if (playTime > clip.curves.max)
-            if (playTime > 120) playTime = 0;
-            foreach (var curve in current.curves)
+            var dataPath = Application.dataPath;
+            var path = dataPath + "/" + folder;
+            DirectoryInfo dir = new DirectoryInfo(path);
+            FileInfo[] fis = dir.GetFiles("*.clip", SearchOption.TopDirectoryOnly);
+            clips = new List<Clip>();
+            foreach (var fi in fis)
             {
-                if (curve.ast != null) curve.ast.euler = curve.Rot(playTime);
+                var c = Serializer.XMLDeSerialize<Clip>(fi.FullName);
+                c.clipName = fi.Name.Substring(0, fi.Name.Length - fi.Extension.Length);
+
+                ClipTool.GetPairs(c.curves);
+                ClipTool.GetFrameRange(c);
+
+                clips.Add(c);
             }
         }
-    }
-    void Update()
-    {
-        PlayEveryFrame();
+        private void PlayEveryFrame()
+        {
+            if (play)
+            {
+                playTime += Time.deltaTime * timeMulty;
+                //if (playTime > clip.curves.max)
+                if (playTime > 120) playTime = 0;
+                foreach (var curve in current.curves)
+                {
+                    if (curve.ast != null) curve.ast.euler = curve.Rot(playTime);
+                }
+            }
+        }
+        void Update()
+        {
+            PlayEveryFrame();
+        }
     }
 }

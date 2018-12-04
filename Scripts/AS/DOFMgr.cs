@@ -7,23 +7,16 @@ public class DOFMgr : MonoXmlSL<DOFData>
 {
     public DOF this[Bone bone]
     {
-        get
-        {
-            try
-            {
-                return GetDOF(bone);
-            }
-            catch
-            {
-#if UNITY_EDITOR
-                throw;
-#endif
-                return null;
-            }
-        }
+        get { return GetDOF(bone); }
     }
     public DOF GetDOF(Bone bone)
     {
         return data.GetDOF(bone);
+    }
+    private void Reset()
+    {
+        folder = "DOF/";
+        fileName = "Default.xml";
+        Load();
     }
 }

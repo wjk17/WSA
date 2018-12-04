@@ -2,99 +2,102 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-public static class UI_OnMove_Tool
+namespace Esa.UI
 {
-    public static List<UI_OnMove> inss = new List<UI_OnMove>();
-    public static void CheckMove(this MonoBehaviour mono, Action onMove)
+    public static class UI_OnMove_Tool
     {
-        var ins = Find(inss, mono);
-        if (ins == null)
+        public static List<UI_OnMove> inss = new List<UI_OnMove>();
+        public static void CheckMove(this MonoBehaviour mono, Action onMove)
         {
-            ins = inss.Add_R(new UI_OnMove(mono.transform as RectTransform, onMove));
+            var ins = Find(inss, mono);
+            if (ins == null)
+            {
+                ins = inss.Add_R(new UI_OnMove(mono.transform as RectTransform, onMove));
+            }
+            else ins.onResize = onMove;
+            ins.CheckAndSolve();
         }
-        else ins.onResize = onMove;
-        ins.CheckAndSolve();
-    }
-    public static UI_OnMove Find(List<UI_OnMove> list, MonoBehaviour item)
-    {
-        foreach (var t in list)
+        public static UI_OnMove Find(List<UI_OnMove> list, MonoBehaviour item)
         {
-            if (t.rt.transform == item.transform) return t;
+            foreach (var t in list)
+            {
+                if (t.rt.transform == item.transform) return t;
+            }
+            return null;
         }
-        return null;
     }
-}
-[Serializable]
-public class UI_OnMove
-{
-    public RectTransform rt;
-    public Vector2 prevPos;
-    public Action onResize;
-    public UI_OnMove(RectTransform rt, Action onPosChange)
+    [Serializable]
+    public class UI_OnMove
     {
-        this.onResize = onPosChange;
-        this.rt = rt;
-        prevPos = rt.anchoredPosition;
-    }
-    public void CheckAndSolve()
-    {
-        if (rt.anchoredPosition != prevPos)
+        public RectTransform rt;
+        public Vector2 prevPos;
+        public Action onResize;
+        public UI_OnMove(RectTransform rt, Action onPosChange)
         {
-            if (onResize != null) onResize();
+            this.onResize = onPosChange;
+            this.rt = rt;
+            prevPos = rt.anchoredPosition;
         }
-        prevPos = rt.anchoredPosition;
-    }
-}
-/// <summary>
-/// mono类里this.CheckResize，需每帧调用，第一次调用会在列表里插入实例。
-/// 大小或位置改变时会触发 onResize 事件。
-/// </summary>
-public static class UI_OnResize_Tool
-{
-    public static List<UI_OnResize> inss = new List<UI_OnResize>();
-    public static bool CheckResize(this MonoBehaviour mono, Action onResize)
-    {
-        // 插入到静态列表
-        var ins = Find(inss, mono);
-        if (ins == null)
+        public void CheckAndSolve()
         {
-            ins = inss.Add_R(new UI_OnResize(mono.transform as RectTransform, onResize));
+            if (rt.anchoredPosition != prevPos)
+            {
+                if (onResize != null) onResize();
+            }
+            prevPos = rt.anchoredPosition;
         }
-        else ins.onResize = onResize;
-        return ins.CheckAndSolve();
     }
-    public static UI_OnResize Find(List<UI_OnResize> list, MonoBehaviour item)
+    /// <summary>
+    /// mono类里this.CheckResize，需每帧调用，第一次调用会在列表里插入实例。
+    /// 大小或位置改变时会触发 onResize 事件。
+    /// </summary>
+    public static class UI_OnResize_Tool
     {
-        foreach (var t in list)
+        public static List<UI_OnResize> inss = new List<UI_OnResize>();
+        public static bool CheckResize(this MonoBehaviour mono, Action onResize)
         {
-            if (t.rt.transform == item.transform) return t;
+            // 插入到静态列表
+            var ins = Find(inss, mono);
+            if (ins == null)
+            {
+                ins = inss.Add_R(new UI_OnResize(mono.transform as RectTransform, onResize));
+            }
+            else ins.onResize = onResize;
+            return ins.CheckAndSolve();
         }
-        return null;
+        public static UI_OnResize Find(List<UI_OnResize> list, MonoBehaviour item)
+        {
+            foreach (var t in list)
+            {
+                if (t.rt.transform == item.transform) return t;
+            }
+            return null;
+        }
     }
-}
 
-[Serializable]
-public class UI_OnResize
-{
-    public RectTransform rt;
-    public Vector2 prevPos;
-    public Vector2 prevSize;
-    public Action onResize;
-    public UI_OnResize(RectTransform rt, Action onResize)
+    [Serializable]
+    public class UI_OnResize
     {
-        this.onResize = onResize;
-        this.rt = rt;
-        prevPos = rt.anchoredPosition;
-        prevSize = rt.sizeDelta;
-    }
-    public bool CheckAndSolve()
-    {
-        if (rt.anchoredPosition != prevPos || rt.sizeDelta != prevSize)
+        public RectTransform rt;
+        public Vector2 prevPos;
+        public Vector2 prevSize;
+        public Action onResize;
+        public UI_OnResize(RectTransform rt, Action onResize)
         {
-            if (onResize != null) { onResize(); return true; }
+            this.onResize = onResize;
+            this.rt = rt;
+            prevPos = rt.anchoredPosition;
+            prevSize = rt.sizeDelta;
         }
-        prevPos = rt.anchoredPosition;
-        prevSize = rt.sizeDelta;
-        return false;
+        public bool CheckAndSolve()
+        {
+            if (rt.anchoredPosition != prevPos || rt.sizeDelta != prevSize)
+            {
+                if (onResize != null) { onResize(); return true; }
+            }
+            prevPos = rt.anchoredPosition;
+            prevSize = rt.sizeDelta;
+            return false;
+        }
     }
 }
