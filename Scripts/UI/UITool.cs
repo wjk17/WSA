@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace Esa.UI
 {
-    public static class UITool
+    public static partial class UITool
     {
         public static Rt GetRt(this RectTransform rt)
         {

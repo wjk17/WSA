@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class GLHelper : MonoBehaviour
+public class GL_Test : MonoBehaviour
 {
     public static void DrawCircle(Vector3 pos, float radius, Color color, float accurracy = 0.01f)
     {

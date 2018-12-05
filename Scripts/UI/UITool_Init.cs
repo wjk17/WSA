@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 namespace Esa.UI
 {
-    public static class UI_Init
+    public static partial class UITool
     {
         // 初始化UI控件
         public static void Init(this UnityEngine.UI.Button button, UnityAction onClick, bool trigger = false)

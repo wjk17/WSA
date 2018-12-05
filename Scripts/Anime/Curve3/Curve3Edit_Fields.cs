@@ -18,7 +18,8 @@ namespace Esa.UI
 
         void Start()
         {
-            InputEvents.I.svMouseDown2D_R = SVMouseDown2D_R;
+            //InputEvents.I.svMouseDown2D_R = SVMouseDown2D_R;
+            // 取消InputEvents 待做
         }
 
         private void SVMouseDown2D_R(Vector2 pos2d)
@@ -26,7 +27,7 @@ namespace Esa.UI
             if (editCurve)
             {
                 RaycastHit hit;
-                if (InputEvents.I.SVRaycast(out hit, layerKey.value))
+                if (RaycastTool.SVRaycast(out hit, layerKey.value))
                 {
                     hit.transform.GetComponent<ColliderEvents>().OnRaycastHit();
                 }
