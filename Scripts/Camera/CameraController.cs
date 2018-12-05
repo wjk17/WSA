@@ -13,16 +13,9 @@
 using UnityEngine;
 using System.Collections;
 using System;
-<<<<<<< HEAD
-namespace Esa.UI
-{
-    public class CameraController : MonoSingleton<CameraController>
-=======
-using Esa;
 namespace Esa.UI
 {
     public class CameraController : Singleton<CameraController>
->>>>>>> 36ecf3a9dfc01741cc93e9b0c92d2ca525d75f9d
     {
         [SerializeField]
         private GameObject pivotGO = null;

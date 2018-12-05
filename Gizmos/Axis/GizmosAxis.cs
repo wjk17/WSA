@@ -4,11 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace Esa.UI
 {
-<<<<<<< HEAD
-    public partial class GizmosAxis : MonoSingleton<GizmosAxis>
-=======
     public partial class GizmosAxis : Singleton<GizmosAxis>
->>>>>>> 36ecf3a9dfc01741cc93e9b0c92d2ca525d75f9d
     {
         private void Start()
         {

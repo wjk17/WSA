@@ -1,79 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 namespace Esa.UI
-{
-    public class FrameIdx_Key
-    {
-        private float leftTimer;
-        private float rightTimer;
-        private float upTimer;
-        private float downTimer;
-        public float continuousKeyTime = 0.5f; // 上下左右键连发延迟
-        public float continuousKeyInterval = 0.01f; // 间隔（其实0.01通常约等于每帧触发）
-
-        public Curve2 curve;
-        public int GetInput(int frameIdx)
-        {
-            if (Events.Key(KeyCode.LeftArrow))
-            {
-                leftTimer += Time.deltaTime;
-            }
-            else { leftTimer = 0; }
-            if (Events.Key(KeyCode.RightArrow))
-            {
-                rightTimer += Time.deltaTime;
-            }
-            else { rightTimer = 0; }
-            if (Events.Key(KeyCode.UpArrow))
-            {
-                upTimer += Time.deltaTime;
-            }
-            else { upTimer = 0; }
-            if (Events.Key(KeyCode.DownArrow))
-            {
-                downTimer += Time.deltaTime;
-            }
-            else { downTimer = 0; }
-            if (leftTimer > continuousKeyTime || Events.KeyDown(KeyCode.LeftArrow))
-            {
-                leftTimer -= continuousKeyInterval;
-                frameIdx--;
-            }
-            else if (rightTimer > continuousKeyTime || Events.KeyDown(KeyCode.RightArrow))
-            {
-                rightTimer -= continuousKeyInterval;
-                frameIdx++;
-            }
-            else if (upTimer > continuousKeyTime * 1.5f || Events.KeyDown(KeyCode.UpArrow))
-            {
-                upTimer -= continuousKeyInterval * 1.5f;
-
-                var keys = curve.keys;
-                for (int i = keys.Count - 1; i >= 0; i--)
-                {
-                    if (keys[i].time < frameIdx)
-                    {
-                        frameIdx = Mathf.RoundToInt(keys[i].time);
-                        break;
-                    }
-                }
-            }
-            else if (downTimer > continuousKeyTime * 1.5f || Events.KeyDown(KeyCode.DownArrow))
-            {
-                downTimer -= continuousKeyInterval * 1.5f;
-                var keys = curve.keys;
-                for (int i = 0; i < keys.Count; i++)
-                {
-                    if (keys[i].time > frameIdx)
-                    {
-                        frameIdx = Mathf.RoundToInt(keys[i].time);
-                        break;
-                    }
-                }
-            }
-            return frameIdx;
-        }
-    }
+{    
     // UI控件
     public partial class UITimeLine : Singleton<UITimeLine>
     {
@@ -119,7 +47,16 @@ namespace Esa.UI
             Eul,
             Pos,
         }
-
+        List<Command> cmds;
+        private void OnGUI()
+        {
+            if (cmds.NotEmpty())
+            {
+                CommandHandler hdl = new IMUIHandler(transform as RectTransform);
+                hdl.commands = cmds;
+                hdl.Execute();
+            }
+        }
         public Vector2 c;
         public Vector2 SIZE = new Vector2(20, 15);
         Vector2Int SizeInt { get { return SIZE.ToInt(); } }
@@ -135,7 +72,7 @@ namespace Esa.UI
             var a = Vector2.zero;
             var b = Vector2.up * SIZE.y;
             var f = 1f / SIZE.x;
-            //cmds = new List<Command>();
+            cmds = new List<Command>();
             // grid
             for (int i = 0; i < SIZE.x; i++)
             {
@@ -149,9 +86,9 @@ namespace Esa.UI
                     a.x = i + f * 0.5f;
                     c = matrixRectToRef.MultiplyPoint(a);
                     c = rulerPos + c.ToLT();
-                    //var cmd = IMUI.Cmd(IMUICmdType.DrawText, i.ToString(), c, Vectors.half2d);// 画字 帧号标签
+                    var cmd = IMUI.Cmd(IMUICmdType.DrawText, i.ToString(), c, Vectors.half2d);// 画字 帧号标签
 
-                    //cmds.Add(cmd);
+                    cmds.Add(cmd);
                 }
             }
             // timeline
@@ -171,13 +108,8 @@ namespace Esa.UI
         }
         void Start()
         {
-            //this.AddInputCB(GetInput, -5);
+            this.AddInputCB(GetInput, -5);
             frameIdx_KeyHandler = new FrameIdx_Key();
-
-            //if (UIClip.I.clip.curves.Count > 0)
-            //{
-            //    frameIdx_KeyHandler.curve = UIClip.I.clip.curves[0].pos.x;
-            //}
             frameIdx = 0;
         }
         //    public Vector2 areaP;
@@ -224,103 +156,103 @@ namespace Esa.UI
         //            GLUI.DrawLine(p, p + Vector2.up * area.rect.height, lineWidth, Color.green);
         //        }
         //    }
-        //private void MouseDown(MB button)
-        //{
-        //    use = true;
-        //    MouseDrag(button);
-        //}
-        ////    public float lx;
-        //public RectTransform area { get { return null; } }
-        //private void MouseDrag(MB button)
-        //{
-        //    use = true;
+        private void MouseDown(MB button)
+        {
+            use = true;
+            MouseDrag(button);
+        }
+        //    public float lx;
+        public RectTransform area { get { return null; } }
+        private void MouseDrag(MB button)
+        {
+            use = true;
 
-        //    if (!ASUI.MouseOver(area)) return;
-        //    var deltaV = ASUI.mousePositionRef - oldPos;
-        //    //deltaV = deltaV.Divide(areaSize);
-        //    //deltaV = Vector2.Scale(deltaV, new Vector2(rulerLength, 0));
-        //    switch (button)
-        //    {
-        //        case MB.Left:
+            if (!ASUI.MouseOver(area)) return;
+            var deltaV = ASUI.mousePositionRef - oldPos;
+            //deltaV = deltaV.Divide(areaSize);
+            //deltaV = Vector2.Scale(deltaV, new Vector2(rulerLength, 0));
+            switch (button)
+            {
+                case MB.Left:
 
-        //            //lx = ASUI.mousePositionRef.x - area.anchoredPosition.x;
-        //            //lx = lx / area.rect.width;
-        //            //lx = Mathf.Clamp01(lx);
-        //            //frameIdx = (int)startPos.x + Mathf.RoundToInt(lx * rulerLength);
-        //            break;
+                    //lx = ASUI.mousePositionRef.x - area.anchoredPosition.x;
+                    //lx = lx / area.rect.width;
+                    //lx = Mathf.Clamp01(lx);
+                    //frameIdx = (int)startPos.x + Mathf.RoundToInt(lx * rulerLength);
+                    break;
 
-        //        case MB.Right:
+                case MB.Right:
 
-        //            break;
+                    break;
 
-        //        case MB.Middle:
+                case MB.Middle:
 
-        //            startPos -= deltaV;
-        //            break;
-        //        default: throw null;
-        //    }
-        //    oldPos = ASUI.mousePositionRef;
-        //}
-        //Vector2 oldPos;
-        //bool use, left, right, middle, shift, ctrl;
-        //public bool over;
-        //void GetInput()
-        //{
-        //    //        var shift = Events.Shift;
-        //    //        var ctrl = Events.Ctrl;
-        //    //        var alt = Events.Alt;
-        //    var use = false;
-        //    //        over = ASUI.MouseOver(area, ruler);
-        //    //        var simMidDown = Events.MouseDown(MB.Left) && alt;
-        //    //        if ((Events.MouseDown(MB.Middle) || simMidDown) && over) { oldPos = ASUI.mousePositionRef; MouseDown(MB.Middle); middle = true; }
-        //    //        if (Events.MouseDown(MB.Left) && over && !simMidDown) { oldPos = ASUI.mousePositionRef; MouseDown(MB.Left); left = true; }
-        //    //        var simMid = Events.Mouse(MB.Left) && alt;
-        //    //        if (!Events.Mouse(MB.Middle) && !simMid) middle = false;
-        //    //        if (!Events.Mouse(MB.Left) || simMid) left = false;
-        //    //        if (middle) MouseDrag(MB.Middle);
-        //    //        if (left) MouseDrag(MB.Left);
-        //    float delta = Events.AxisMouseWheel;
-        //    if (delta != 0 && ASUI.MouseOver(rt, ruler))
-        //    {
-        //        use = true;
-        //        SIZE.x -= delta * rulerScalerSensitivity;
-        //        SIZE.x = Mathf.Clamp(SIZE.x, 10, Mathf.Infinity);
-        //    }
-        //    frameIdx = frameIdx_KeyHandler.GetInput(frameIdx);
-        //    if (Events.KeyDown(KeyCode.I))
-        //    {
-        //        if (Events.Alt)
-        //            RemoveKey();
-        //        else InsertKey();
-        //    }
-        //    if (ASUI.MouseOver(rt) && Events.Mouse1to3) use = true;
-        //    if (use) Events.Use();
-        //}
-        //public void RemoveKey()
-        //{
-        //    RemoveKeyAt(frameIdx);
-        //}
-        //public void RemoveKeyAt(float time)
-        //{
-        //    switch (insertType)
-        //    {
-        //        case InsertKeyType.EulPos: UIClip.I.clip.RemoveEulerPosAllCurve(time); break;
-        //        case InsertKeyType.Eul: break;
-        //        case InsertKeyType.Pos: break;
-        //        default: throw null;
-        //    }
-        //    ClipTool.GetFrameRange(UIClip.I.clip);
-        //}
-        //public void InsertKey()
-        //{
-        //    switch (insertType)
-        //    {
-        //        case InsertKeyType.EulPos: UIClip.I.clip.AddEulerPosAllCurve(frameIdx); break;
-        //        case InsertKeyType.Eul: break;
-        //        case InsertKeyType.Pos: break;
-        //        default: throw null;
-        //    }
-        //    ClipTool.GetFrameRange(UIClip.I.clip);
-        //}
+                    startPos -= deltaV;
+                    break;
+                default: throw null;
+            }
+            oldPos = ASUI.mousePositionRef;
+        }
+        Vector2 oldPos;
+        bool use, left, right, middle, shift, ctrl;
+        public bool over;
+        void GetInput()
+        {
+            //        var shift = Events.Shift;
+            //        var ctrl = Events.Ctrl;
+            //        var alt = Events.Alt;
+            var use = false;
+            //        over = ASUI.MouseOver(area, ruler);
+            //        var simMidDown = Events.MouseDown(MB.Left) && alt;
+            //        if ((Events.MouseDown(MB.Middle) || simMidDown) && over) { oldPos = ASUI.mousePositionRef; MouseDown(MB.Middle); middle = true; }
+            //        if (Events.MouseDown(MB.Left) && over && !simMidDown) { oldPos = ASUI.mousePositionRef; MouseDown(MB.Left); left = true; }
+            //        var simMid = Events.Mouse(MB.Left) && alt;
+            //        if (!Events.Mouse(MB.Middle) && !simMid) middle = false;
+            //        if (!Events.Mouse(MB.Left) || simMid) left = false;
+            //        if (middle) MouseDrag(MB.Middle);
+            //        if (left) MouseDrag(MB.Left);
+            float delta = Events.AxisMouseWheel;
+            if (delta != 0 && ASUI.MouseOver(rt, ruler))
+            {
+                use = true;
+                SIZE.x -= delta * rulerScalerSensitivity;
+                SIZE.x = Mathf.Clamp(SIZE.x, 10, Mathf.Infinity);
+            }
+            frameIdx = frameIdx_KeyHandler.GetInput(frameIdx);
+            if (Events.KeyDown(KeyCode.I))
+            {
+                if (Events.Alt)
+                    RemoveKey();
+                else InsertKey();
+            }
+            if (ASUI.MouseOver(rt) && Events.Mouse1to3) use = true;
+            if (use) Events.Use();
+        }
+        public void RemoveKey()
+        {
+            RemoveKeyAt(frameIdx);
+        }
+        public void RemoveKeyAt(float time)
+        {
+            switch (insertType)
+            {
+                case InsertKeyType.EulPos: UIClip.I.clip.RemoveEulerPosAllCurve(time); break;
+                case InsertKeyType.Eul: break;
+                case InsertKeyType.Pos: break;
+                default: throw null;
+            }
+            ClipTool.GetFrameRange(UIClip.I.clip);
+        }
+        public void InsertKey()
+        {
+            switch (insertType)
+            {
+                case InsertKeyType.EulPos: UIClip.I.clip.AddEulerPosAllCurve(frameIdx); break;
+                case InsertKeyType.Eul: break;
+                case InsertKeyType.Pos: break;
+                default: throw null;
+            }
+            ClipTool.GetFrameRange(UIClip.I.clip);
+        }
     }
 }

@@ -1,6 +1,6 @@
 Gizmos:
 add layer names "Gizmos""
 
-MonoSingleton:
+Singleton:
 如果一个单例需要在场景开始时禁用，
 需要使用startActive字段和在Start()调用GetInstance。

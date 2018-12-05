@@ -4,11 +4,7 @@ using UnityEngine;
 using System;
 namespace Esa.UI
 {
-<<<<<<< HEAD
-    public class Selector : MonoSingleton<Selector>
-=======
     public class Selector : Singleton<Selector>
->>>>>>> 36ecf3a9dfc01741cc93e9b0c92d2ca525d75f9d
     {
         [Header("ReadOnly")]
         public Transform Current;

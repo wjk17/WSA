@@ -1,20 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-<<<<<<< HEAD
-=======
-//using Esa;
->>>>>>> 36ecf3a9dfc01741cc93e9b0c92d2ca525d75f9d
 namespace Esa.UI
 {
     /// <summary>
     /// TODO 做单选Toggle
     /// </summary>
-<<<<<<< HEAD
-    public partial class UICurve : MonoSingleton<UICurve>
-=======
     public partial class UICurve : Singleton<UICurve>
->>>>>>> 36ecf3a9dfc01741cc93e9b0c92d2ca525d75f9d
     {
         public Vector2 drawAreaSize = Vector2.one;
         public Vector2 drawAreaOffset = Vector2.zero;
