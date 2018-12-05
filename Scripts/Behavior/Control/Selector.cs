@@ -20,6 +20,7 @@ namespace Esa.BT
         }
         public override int Execute()
         {
+            agent.last = this;
             foreach (var child in childs)
             {
                 var action = child as Action;

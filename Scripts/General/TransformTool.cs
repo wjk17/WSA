@@ -370,6 +370,27 @@ public static partial class TransformTool
     {
         trans.position = new Vector3(f.x, f.y, trans.position.z);
     }
+    public static void SetPosX(this Transform trans, float f, bool world = true)
+    {
+        if (world)
+            trans.position = new Vector3(f, trans.position.y, trans.position.z);
+        else
+            trans.localPosition = new Vector3(f, trans.localPosition.y, trans.localPosition.z);
+    }
+    public static void SetPosY(this Transform trans, float f, bool world = true)
+    {
+        if (world)
+            trans.position = new Vector3(trans.position.x, f, trans.position.z);
+        else
+            trans.localPosition = new Vector3(trans.localPosition.x, f, trans.localPosition.z);
+    }
+    public static void SetPosZ(this Transform trans, float f, bool world = true)
+    {
+        if (world)
+            trans.position = new Vector3(trans.position.x, trans.position.y, f);
+        else
+            trans.localPosition = new Vector3(trans.localPosition.x, trans.localPosition.y, f);
+    }
     public static void SetPosX(this Transform trans, float f)
     {
         trans.position = new Vector3(f, trans.position.y, trans.position.z);

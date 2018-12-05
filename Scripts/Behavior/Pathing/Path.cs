@@ -9,6 +9,10 @@ namespace Esa.Pathing
         public List<Vector3> ps;
         public Vector3 nextPos;
         public int accuracy = 100;
+        public Path()
+        {
+            ps = new List<Vector3>();
+        }
         public bool InPath(Vector3 footPos)
         {
             var factor = 1f / accuracy;
@@ -32,6 +36,7 @@ namespace Esa.Pathing
 
         internal Vector3 GetNearstPoint(Vector3 footPos)
         {
+            if (ps.Empty()) return Vector3.zero;
             int min = 0;
             float minDist = float.PositiveInfinity;
             for (int i = 0; i < ps.Count; i++)

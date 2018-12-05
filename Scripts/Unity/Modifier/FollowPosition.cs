@@ -7,7 +7,7 @@ namespace Esa
     using UnityEditor;
 #endif
     [ExecuteInEditMode]
-    public class CopyPosition : MonoBehaviour
+    public class FollowPosition : MonoBehaviour
     {
         [Range(0, 1)]
         public float weight = 1f;
@@ -20,13 +20,17 @@ namespace Esa
         public Bool2 z;
         Vector3 originPos;
         public Transform target;
-
+        [Header("偏移值")]
         public bool world = false;
+        public Vector3 offset;
+        public bool getOffsetOnStart = true;
         public bool disableWhenSelect = true;
         void Start()
         {
             x.bool2Label = y.bool2Label = z.bool2Label = "翻转";
             originPos = world ? transform.position : transform.localPosition;
+            offset = world ? transform.position - target.position
+                : transform.localPosition - target.localPosition;
         }
         private void LateUpdate()
         {
@@ -50,7 +54,7 @@ namespace Esa
         public void DoUpdate()
         {
             var posA = originPos;
-            var posB = (world ? target.position : target.localPosition);
+            var posB = (world ? target.position : target.localPosition) + offset;
             float b;
             if (x.bool1)
             {

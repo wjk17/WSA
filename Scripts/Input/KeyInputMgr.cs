@@ -8,26 +8,39 @@ namespace Esa
     {
         private void Start()
         {
-            KeyInput.Init();
+            Keys.Init();
         }
     }
-    public static class KeyInput
+    public static class Keys
     {
         public static key[] keys;
-        public static bool left
-        {
-            get { return Key(1); }
-        }
-        public static bool right
-        {
-            get { return Key(3); }
-        }
-        public static int dir
+        public static bool Up { get { return Key(0); } }
+        public static bool Left { get { return Key(1); } }
+        public static bool Down { get { return Key(2); } }
+        public static bool Right { get { return Key(3); } }
+        public static bool Melee { get { return Key(4); } }
+        public static bool Jump { get { return Key(5); } }
+        public static bool UpPress { get { return KeyDown(0); } }
+        public static bool LeftPress { get { return KeyDown(1); } }
+        public static bool DownPress { get { return KeyDown(2); } }
+        public static bool RightPress { get { return KeyDown(3); } }
+        public static bool MeleePress { get { return KeyDown(4); } }
+        public static bool JumpPress { get { return KeyDown(5); } }
+        public static Vector2 DirX
         {
             get
             {
-                if (left && !right) return -1;
-                else if (!left && right) return 1;
+                if (Left && !Right) return Vector2.right * -1;
+                else if (!Left && Right) return Vector2.right;
+                else return Vector2.zero;
+            }
+        }
+        public static int dirX
+        {
+            get
+            {
+                if (Left && !Right) return -1;
+                else if (!Left && Right) return 1;
                 else return 0;
             }
         }

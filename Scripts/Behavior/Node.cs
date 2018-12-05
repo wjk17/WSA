@@ -16,6 +16,17 @@ namespace Esa.BT
         {
             this.execute = execute;
         }
+        public int IndexOf(Node node)
+        {
+            var idx = childs.IndexOf(node);
+            if (idx > -1) return idx;
+            foreach (var child in childs)
+            {
+                idx = IndexOf(node);
+                if (idx > -1) return idx;
+            }
+            return -1;
+        }
         public void Add(Node child)
         {
             childs.Add(child);
@@ -27,6 +38,7 @@ namespace Esa.BT
         }
         public virtual int Execute()
         {
+            agent.last = this;
             return execute != null ? execute() : 1;
         }
     }

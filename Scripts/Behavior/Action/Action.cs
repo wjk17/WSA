@@ -6,6 +6,7 @@ namespace Esa.BT
 {
     public delegate bool PreCondition();
     public delegate void Enter();
+    public delegate void Exit();
     [Serializable]
     public class Action : Node
     {
@@ -18,8 +19,10 @@ namespace Esa.BT
 
         public PreCondition preCond = trueCondition;
         public Enter enter;
+        public Exit exit;
         [Header("状态")]
         public bool _preCond;
+
         public Action() : base() { }
         public Action(PreCondition preCond)
         {
@@ -44,6 +47,13 @@ namespace Esa.BT
             this.preCond = preCond;
             this.enter = enter;
             this.execute = execute;
+        }
+        public Action(PreCondition preCond, Enter enter, Execute execute,Exit exit)
+        {
+            this.preCond = preCond;
+            this.enter = enter;
+            this.execute = execute;
+            this.exit = exit;
         }
         public virtual void Enter()
         {
