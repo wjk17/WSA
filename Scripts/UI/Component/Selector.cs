@@ -14,7 +14,7 @@ namespace Esa.UI
         public Func<Transform, Transform> onClick;
         private void Start()
         {
-            this.AddInputCB(GetInput, 0);
+            this.AddInput(GetInput, 0);
         }
         [Button]
         public void UnSelectAll()

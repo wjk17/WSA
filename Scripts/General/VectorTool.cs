@@ -5,6 +5,14 @@ using UnityEngine;
 
 public static class VectorTool
 {
+    public static Vector3Int RoundToInt(this Vector3 f)
+    {
+        return new Vector3Int(Mathf.RoundToInt(f.x), Mathf.RoundToInt(f.y), Mathf.RoundToInt(f.z));
+    }
+    public static Vector2Int RoundToInt(this Vector2 f)
+    {
+        return new Vector2Int(Mathf.RoundToInt(f.x), Mathf.RoundToInt(f.y));
+    }
     public static Vector2Int Clamp(this Vector2Int v, Vector2Int min, Vector2Int max)
     {
         v.x = Mathf.Clamp(v.x, min.x, max.x);
@@ -167,7 +175,7 @@ public static class VectorTool
     /// <summary>
     /// 曼哈顿距离
     /// </summary>
-    public static int Manhattan(this Vector2Int a, int x,int y)
+    public static int Manhattan(this Vector2Int a, int x, int y)
     {
         return Mathf.Abs(a.y - y) + Mathf.Abs(a.x - x);
     }

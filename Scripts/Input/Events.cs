@@ -68,16 +68,35 @@ namespace Esa
         {
             return !used && Input.GetKey(code);
         }
+        /// <summary>
+        /// Input.GetMouseButton
+        /// </summary>
         public static bool MouseDown(int button)
         {
             return !used && Input.GetMouseButtonDown(button);
+        }
+        public static bool MouseDown(MB button)
+        {
+            return !used && Input.GetMouseButtonDown((int)button);
         }
         public static bool MouseUp(int button)
         {
             return !used && Input.GetMouseButtonUp(button);
         }
+        public static bool MouseUp(MB button)
+        {
+            return !used && Input.GetMouseButtonUp((int)button);
+        }
+        public static bool Mouse(int button)
+        {
+            return !used && Input.GetMouseButton(button);
+        }
+        public static bool Mouse(MB button)
+        {
+            return !used && Input.GetMouseButton((int)button);
+        }
         /// <summary>
-        /// Input.GetMouseButton
+        /// mouseUp
         /// </summary>
         public static bool MouseUp0
         {
@@ -91,6 +110,9 @@ namespace Esa
         {
             get { return !used && Input.GetMouseButtonUp(2); }
         }
+        /// <summary>
+        /// MouseDown
+        /// </summary>
         public static bool MouseDown0
         {
             get { return !used && Input.GetMouseButtonDown(0); }
@@ -103,6 +125,9 @@ namespace Esa
         {
             get { return !used && Input.GetMouseButtonDown(2); }
         }
+        /// <summary>
+        /// MouseHold
+        /// </summary>
         public static bool Mouse0
         {
             get { return !used && Input.GetMouseButton(0); }
@@ -115,29 +140,20 @@ namespace Esa
         {
             get { return !used && Input.GetMouseButton(2); }
         }
-        public static bool Mouse(int button)
+        /// <summary>
+        /// Mouse 1to3
+        /// </summary>
+        public static bool MouseDown1to3
         {
-            return !used && Input.GetMouseButton(button);
+            get { return MouseDown0 || MouseDown1 || MouseDown2; }
         }
-        public static bool MouseDown(MB button)
+        public static bool MouseUp1to3
         {
-            return !used && Input.GetMouseButtonDown((int)button);
-        }
-        public static bool MouseUp(MB button)
-        {
-            return !used && Input.GetMouseButtonUp((int)button);
-        }
-        public static bool Mouse(MB button)
-        {
-            return !used && Input.GetMouseButton((int)button);
+            get { return MouseUp0 || MouseUp1 || MouseUp2; }
         }
         public static bool Mouse1to3
         {
             get { return Mouse0 || Mouse1 || Mouse2; }
-        }
-        public static bool MouseDown1to3
-        {
-            get { return MouseDown0 || MouseDown1 || MouseDown2; }
         }
         public static bool Click
         {

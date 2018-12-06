@@ -5,6 +5,15 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 public static partial class ListTool
 {
+    public static RectTransform[] ToRTs(this Transform[] ts)
+    {
+        var rts = new List<RectTransform>();
+        foreach (var t in ts)
+        {
+            rts.Add(t as RectTransform);
+        }
+        return rts.ToArray();
+    }
     public static int ClampIdx<T>(this List<T> list, int idx)
     {
         return Mathf.Clamp(idx, 0, list.Count - 1);

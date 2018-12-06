@@ -5,6 +5,11 @@ using System;
 using Object = UnityEngine.Object;
 public static class ComTool
 {
+    public static Vector2[] Rect(this RectTransform rt)
+    {
+        var v = Esa.UI.UI.AbsRefPos(rt);
+        return new Vector2[] { v, v + rt.rect.size };
+    }
     public static T NameOf<T>(this string name, IList<T> components) where T : Component
     {
         foreach (var com in components)

@@ -38,7 +38,7 @@ namespace Esa.UI
         private Quaternion originRotation;
         public bool dragging;
 
-        public InputCallBack cb;
+        public InputCall cb;
         public bool on = true;
         //Show Instrustion Window
         int x = 5;
@@ -80,7 +80,7 @@ namespace Esa.UI
             //        orthoCamSize = GetComponent<Camera>().orthographicSize = orthoCamSizeMOM.y;
             //#endif
             SyncCamSize();
-            cb = this.AddInputCB(GetInput, CB_Order);
+            cb = this.AddInput(GetInput, CB_Order);
         }
         public void SyncCamSize()
         {
