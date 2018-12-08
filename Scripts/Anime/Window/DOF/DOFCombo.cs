@@ -5,7 +5,7 @@ namespace Esa
 {
     public class DOFCombo : MonoBehaviour
     {
-        public Avator avatar;
+        public Avatar avatar;
         [Range(0, 1)]
         public float handCloseValue = 0;
         public bool rightHand = true;

@@ -49,7 +49,7 @@ namespace Esa.UI
         public Transform rightForearm;
         public Transform rightUpperarm;
         public Transform gun;
-        public Avator ava;
+        public Avatar ava;
 
         void Start()
         {

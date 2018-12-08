@@ -17,7 +17,7 @@ namespace Esa.UI
             var ins = Find(inss, mono);
             if (ins == null)
             {
-                ins = inss.Add_R(new OnResize(mono.transform as RectTransform, onResize));
+                ins = inss.Add_(new OnResize(mono.transform as RectTransform, onResize));
             }
             else ins.onResize = onResize;
             return ins.CheckAndSolve();

@@ -9,19 +9,19 @@ namespace Esa.UI
         // 自动使用mono对象的名字和rectTransform
         public static InputCall AddInput(this MonoBehaviour mono)
         {
-            return UI.I.inputs.Add_R(new InputCall(mono, null, 0));
+            return UI.I.inputs.Add_(new InputCall(mono, null, 0));
         }
         public static InputCall AddInput(this MonoBehaviour mono, int order)
         {
-            return UI.I.inputs.Add_R(new InputCall(mono, null, order));
+            return UI.I.inputs.Add_(new InputCall(mono, null, order));
         }
         // checkOver 是否检测鼠标是否悬停（mono使用null）
         public static InputCall AddInput(this MonoBehaviour mono, Action updateFunc, int order, bool checkOver = true)
         {
             if (checkOver)
-                return UI.I.inputs.Add_R(new InputCall(mono, updateFunc, order));
+                return UI.I.inputs.Add_(new InputCall(mono, updateFunc, order));
             else
-                return UI.I.inputs.Add_R(new InputCall(mono.name, updateFunc, order));
+                return UI.I.inputs.Add_(new InputCall(mono.name, updateFunc, order));
         }
     }
     [Serializable]
@@ -48,7 +48,7 @@ namespace Esa.UI
         }
         public GameObject gameObject;
         public RectTransform RT;
-        public Rt rt;
+        public Rect rt;
         public MonoBehaviour mono;
         public bool mouseOver;
         public string name;

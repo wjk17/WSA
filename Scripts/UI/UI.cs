@@ -6,6 +6,7 @@ namespace Esa.UI
 {
     public partial class UI : Singleton<UI>
     {
+        [Header("CallBack")]
         public List<InputCall> inputs;
         public List<InputCall> called;
         public override void Init()
@@ -34,8 +35,8 @@ namespace Esa.UI
                 called.Add(call);
                 if (call.RT != null) // 如果指定了RT，over时截断其他后续UI事件（used=true）
                 {
-                    call.rt = call.RT.GetRt();
-                    call.mouseOver = call.rt.Contains(mousePosRef);
+                    call.rt = new Rect(call.RT);
+                    call.mouseOver = call.rt.Contains(mousePosRef_LB);
                     if (call.RT.gameObject.activeInHierarchy && call.mouseOver) return;
                 }
                 if (Events.used) return;
@@ -88,66 +89,57 @@ namespace Esa.UI
                 return Input.mousePosition * facterToReference;
             }
         }
+        public static bool MouseOver(params MonoBehaviour[] monos)
+        {
+            return MouseOver(monos.ToRTs());
+        }
         public static bool MouseOver(params Transform[] rts)
         {
             return MouseOver(rts.ToRTs());
         }
         public static bool MouseOver(params RectTransform[] rts)
         {
-            var ip = Input.mousePosition;
-            ip *= facterToReference;
-            ip.y = scaler.referenceResolution.y - ip.y;
             foreach (var rt in rts)
             {
                 var rect = GetAbsRect(rt);
-                if (rect.Contains(ip)) return true;
+                if (rect.Contains(mousePosRef_LB)) return true;
             }
             return false;
         }
         public static Rect GetAbsRect(RectTransform rt)
         {
-            var rect = rt.rect;
-            rect.position = AbsRefPos(rt);
-            return rect;
+            return new Rect(rt);
+        }
+        static Vector2 AbsRefPos_Root(RectTransform rt)
+        {
+            var pos = rt.anchoredPosition;
+            pos += rt.anchorMin * scaler.referenceResolution;
+            pos += rt.rect.size * Vectors.half2d;
+            pos -= rt.pivot * rt.rect.size;
+            return pos;
+        }
+        public static Vector2 AbsRefPos(Transform t)
+        {
+            return AbsRefPos(t as RectTransform);
         }
         public static Vector2 AbsRefPos(RectTransform rt)
         {
+            var pos = Vector2.zero;
             var rtParent = rt.parent as RectTransform;
-            Vector2 posParent = Vector2.zero;
-            if (rtParent != null)
-            {
-                posParent = AbsRefPos(rtParent);
-                //posParent = rtParent.anchoredPosition.ReverseY();
-            }
-            Vector2 pos = posParent;
-            Vector2 anchorPos;
-            var amin = rt.anchorMin;
-            amin.y = 1 - amin.y;
-            var amax = rt.anchorMax;
-            amax.y = 1 - amax.y;
-            var omin = rt.offsetMin;
-            var omax = rt.offsetMax;
-
-            if (amin == amax) // 九宫格锚点模式
-            {
-                anchorPos = Vector2.Scale(amin, rtParent.rect.size);
-                pos += anchorPos + new Vector2(omin.x, -omax.y);
-            }
-            else if (amin == new Vector2(0, 0) && amax == new Vector2(1, 0))
-            {
-                pos.y += rtParent.rect.height;
-                pos += rt.anchoredPosition.ReverseY();
-            }
-            else if (amin == new Vector2(0, 0) && amax == new Vector2(0, 1))
-            {
-                anchorPos = rt.anchoredPosition.ReverseY();
-                pos += anchorPos;
-            }
+            if (rtParent == null || rtParent.GetComponent<Canvas>() != null)
+                return AbsRefPos_Root(rt);
             else
-            {
-                pos += new Vector2(omin.x, -omax.y);// rt.anchoredPosition;
-            }
-            //p.y = scaler.referenceResolution.y - p.y;
+                pos += AbsRefPos(rtParent);
+
+            ///
+
+            var anchoredPos = rt.anchoredPosition;
+            var amin = Vector2.Scale(rt.anchorMin - Vectors.half2d, rtParent.rect.size);
+            var amax = Vector2.Scale(rt.anchorMax - Vectors.half2d, rtParent.rect.size);
+
+            pos += amin + anchoredPos + rt.rect.size * Vectors.half2d;
+            pos -= rt.pivot * rt.rect.size;
+
             return pos;
         }
     }

@@ -69,7 +69,7 @@ namespace UnityChan
         {
             if (isGUI)
             {
-                Rect rect1 = new Rect(10, Screen.height - 40, 400, 30);
+                UnityEngine.Rect rect1 = new UnityEngine.Rect(10, Screen.height - 40, 400, 30);
                 isWindActive = GUI.Toggle(rect1, isWindActive, "Random Wind");
             }
         }

@@ -26,7 +26,6 @@ namespace Esa.UI
 
         public int selectInt;
 
-        Matrix4x4 m_Curve_V;
         Matrix4x4 m_Curve_Ref;
         private Matrix4x4 m_Ref_Curve;
         public Vector2 mousePosRef;
@@ -50,19 +49,10 @@ namespace Esa.UI
         public float mirrorError = 0.01f;
         public bool showTangentsUnSel;
 
-        public Vector2 _rtPos;
-        Vector2 rtPos
-        {
-            get
-            {
-                _rtPos = rt.anchoredPosition;
-                _rtPos.y = -_rtPos.y;
-                _rtPos.y = UI.scaler.referenceResolution.y - _rtPos.y;
-                return _rtPos;
-            }
-        }
+        Vector2 _rtPos;
+        Vector2 rtPos { get { return new Rect(rt).LB(); } }
         //rt.rect.size; 
-        Vector2 rtSize { get { return rt.sizeDelta; } } // 曲线视图区域大小
-        RectTransform rt { get { return (transform as RectTransform); } }
+        Vector2 rtSize { get { return rt.rect.size; } } // 曲线视图区域大小
+        public RectTransform rt { get { return (transform as RectTransform); } }
     }
 }

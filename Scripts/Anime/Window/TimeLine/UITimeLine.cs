@@ -15,67 +15,71 @@ namespace Esa.UI
         public float rulerScalerSensitivity = 20;
 
         public int indexNAccuracy = 3;
-   
+
         public Vector2 c;
         public Vector2 SIZE = new Vector2(20, 15);
         Vector2Int SizeInt { get { return SIZE.ToInt(); } }
-        private void OnRenderObject()
-        {
-            var pos = rtAreaPos / UI.scaler.referenceResolution;
-            var scl = rtAreaSize / UI.scaler.referenceResolution / SizeInt;
-            var matrixAreaToRect = Matrix4x4.TRS(pos, Quaternion.identity, scl);
 
-            var matrixRectToRef = Matrix4x4.TRS(rtPos, Quaternion.identity, rtSize / SizeInt);
-            var matrixRulerToRef = Matrix4x4.TRS(rtPos, Quaternion.identity, rtSize / SizeInt);
+        public float width = 3f;
+        public bool clip = false;
+        private void Update()
+        {
+            this.FrameStart();
+            this.Draw(Color.grey);
+            var pos = UI.AbsRefPos(rtArea) - rtArea.rect.size * Vectors.half2d;
+            var scl = rtAreaSize / SizeInt;
+
+            var m_AreaToRect = Matrix4x4.TRS(pos, Quaternion.identity, scl);
+
+            var m_RectToRef = Matrix4x4.TRS(rtPos, Quaternion.identity, rtSize / SizeInt);
+            var m_RulerToRef = Matrix4x4.TRS(rtPos, Quaternion.identity, rtSize / SizeInt);
 
             var a = Vector2.zero;
             var b = Vector2.up * SIZE.y;
             var f = 1f / SIZE.x;
-            cmds = new List<Command>();
+
             // grid
             for (int i = 0; i < SIZE.x; i++)
             {
                 if ((i % xSpaceLineInRuler) == 0)
                 {
-                    a.x = b.x = i;
-                    DrawLine(a, b, I.clrGrid, matrixAreaToRect);
+                    a.x = b.x = i; // 曲线空间坐标
+                    DrawLine(a, b, I.clrGrid, m_AreaToRect);
                 }
                 if ((i % xSpaceTextInRuler) == 0)
                 {
                     a.x = i + f * 0.5f;
-                    c = matrixRectToRef.MultiplyPoint(a);
+                    c = m_RectToRef.MultiplyPoint(a);
                     c = rulerPos + c.ToLT();
-                    var cmd = IMUI.Cmd(IMUICmdType.DrawText, i.ToString(), c, Vectors.half2d);// 画字 帧号标签
-
-                    cmds.Add(cmd);
+                    IMUI.DrawText(i.ToString(), c, Vectors.half2d);// 画字 帧号标签
                 }
             }
             // timeline
+            GLUI.BeginOrder(1);
             if (frameIdx.Between(SizeInt.x))
             {
                 b.x = a.x = frameIdx;
-                DrawLine(a, b, I.clrTimeLine, matrixAreaToRect);
+                DrawLine(a, b, I.clrTimeLine, m_AreaToRect, width);
             }
         }
-        void DrawLine(Vector2 a, Vector2 b, Color color) // 接口 
+        void DrawLine(Vector2 a, Vector2 b, Color color, Matrix4x4 m, float width = 1f)
         {
-            DrawLines.DoDrawLines(color, new Vector2[] { a, b }, new int[] { 0, 1 });
-        }
-        void DrawLine(Vector2 a, Vector2 b, Color color, Matrix4x4 m) // 接口 
-        {
-            DrawLines.DoDrawLines(color, new Vector2[] { a, b }, new int[] { 0, 1 }, m);
+            a = m.MultiplyPoint(a);
+            b = m.MultiplyPoint(b);
+            if (width == 1) GLUI.DrawLine(a, b, color, clip);
+            else GLUI.DrawLine(a, b, width, color, clip);
         }
         void Start()
         {
-            this.AddInput(GetInput, -5);
-            frameIdx_KeyHandler = new FrameIdx_Key();
+            this.AddInput(GetInput, -5, false);
+            frameIdx_KeyHandler = new FrameIdx_Key(UICurve.I.Curve);
             frameIdx = 0;
         }
         void GetInput()
         {
             var use = false;
             float delta = Events.AxisMouseWheel;
-            if (delta != 0 && UI.MouseOver(rt, ruler))
+            if (delta != 0 && UI.MouseOver(rt, ruler, UICurve.I.rt))
             {
                 use = true;
                 SIZE.x -= delta * rulerScalerSensitivity;
@@ -88,7 +92,6 @@ namespace Esa.UI
                     RemoveKey();
                 else InsertKey();
             }
-            if (UI.MouseOver(rt) && Events.Mouse1to3) use = true;
             if (use) Events.Use();
         }
         public void RemoveKey()

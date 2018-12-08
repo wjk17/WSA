@@ -47,8 +47,8 @@ namespace Esa
 
         [HideInInspector] [ToggleAttribute] public bool solveOn = false;
 
-        Avator avatar { get { if (_avatar == null) _avatar = UIDOFEditor.I.avatar; return _avatar; } }
-        Avator _avatar;
+        Avatar avatar { get { if (_avatar == null) _avatar = UIDOFEditor.I.avatar; return _avatar; } }
+        Avatar _avatar;
         List<Bone> joints;
 
         int distIdx = 0;

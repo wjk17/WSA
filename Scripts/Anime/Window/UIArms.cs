@@ -20,7 +20,7 @@ namespace Esa.UI
         public Transform leftUpperarm;
         public Transform rightUpperarm;
         public Transform gun;
-        public Avator ava;
+        public Avatar ava;
 
         public float weight = 0.35f;
         public bool lerp = true;

@@ -8,7 +8,7 @@ namespace Esa.UI
         /// <summary>
         /// 
         /// </summary>
-        RectTransform rt { get { return (transform as RectTransform); } }
+        public RectTransform rt { get { return (transform as RectTransform); } }
         Vector2 rtSize { get { return rt.sizeDelta; } } // 曲线视图区域大小
         Vector2 rtPos
         {
@@ -25,8 +25,8 @@ namespace Esa.UI
         /// <summary>
         /// 
         /// </summary>
-        RectTransform rtArea { get { return (transform.Search("Area") as RectTransform); } }
-        Vector2 rtAreaSize { get { return rtArea.sizeDelta; } } // ������ͼ������С
+        public RectTransform rtArea { get { return (transform.Search("Area") as RectTransform); } }
+        Vector2 rtAreaSize { get { return rtArea.rect.size; } }// rtArea.sizeDelta; } }
         Vector2 rtAreaPos
         {
             get

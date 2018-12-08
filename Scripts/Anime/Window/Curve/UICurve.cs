@@ -8,31 +8,34 @@ namespace Esa.UI
     /// </summary>
     public partial class UICurve : Singleton<UICurve>
     {
+        public Vector2Int drawAreaSize_I { get { return drawAreaSize.RoundToInt(); } }
         public Vector2 drawAreaSize = Vector2.one;
-        public Vector2 drawAreaOffset = Vector2.zero;
         Vector2 _drawAreaSize;
+        public Vector2Int drawAreaOffset_I { get { return drawAreaOffset.RoundToInt(); } }
+        public Vector2 drawAreaOffset = Vector2.zero;
         Vector2 _drawAreaOffset;
         public void Start()
         {
             curve = new Curve2(Vector2.zero, drawAreaSize * 0.5f + drawAreaSize * Vector2.up * 0.2f);
-            this.AddInput(GetInput, -2);
+            this.AddInput(GetInput, -2, false);
             OnResize();
         }
         void OnResize()
         {
             _drawAreaSize = drawAreaSize; // Curve空间
             _drawAreaOffset = drawAreaOffset; // Ref空间
-            var pos = (rtPos + drawAreaOffset) / UI.scaler.referenceResolution;
-            //var pos = rtPos / UI.scaler.referenceResolution;
-            var scl = rtSize / UI.scaler.referenceResolution / drawAreaSize;
-            m_Curve_V = Matrix4x4.TRS(pos, Quaternion.identity, scl);
-            pos = rtPos;
 
-            // 将 规格化坐标（曲线空间） 转为屏幕坐标（Ref）
-            scl = drawAreaSize / rtSize;
+            var pos = rtPos + drawAreaOffset;
+            var scl = rtSize / drawAreaSize;
+
+            // 将 规格化坐标（曲线空间） 转为画布坐标（Ref）
             m_Curve_Ref = Matrix4x4.TRS(pos, Quaternion.identity, scl);
             // ↑ 的逆矩阵
-            m_Ref_Curve = Matrix4x4.Scale(scl) * Matrix4x4.Translate(-pos);
+            m_Ref_Curve = Matrix4x4.Scale(Vector2.one / scl) * Matrix4x4.Translate(-pos);
+        }
+        private void LateUpdate()
+        {
+            drawAreaSize.x = UITimeLine.I.SIZE.x;
         }
         void GetInput()
         {
@@ -57,17 +60,25 @@ namespace Esa.UI
                 {
                     if (key.inMode == KeyMode.Bezier)
                     {
-                        pts.Add(key.inTangent);
+                        pts.Add(key.inTan);
                         ks.Add(key); idx.Add(1);
                     }
                     if (key.outMode == KeyMode.Bezier)
                     {
-                        pts.Add(key.outTangent);
+                        pts.Add(key.outTan);
                         ks.Add(key); idx.Add(2);
                     }
                 }
             }
-            if (Events.MouseDown(MB.Right))
+            if (Events.MouseDown0 && UI.MouseOver(rt, UITimeLine.I.rtArea))
+            {
+                dragging = true;
+            }
+            if (Events.Mouse0 && dragging)
+            {
+                UITimeLine.I.frameIdx_F = mousePosCurve.x;
+            }
+            else if (Events.MouseDown1)
             {
                 selKeys = new List<Key2>();
                 subIdxs = new List<int>();
@@ -75,7 +86,7 @@ namespace Esa.UI
                 bool click = false; ;
                 for (int i = 0; i < pts.Count; i++)
                 {
-                    var rect = new Rt(pts[i], sizeClickCurve, Vectors.half);
+                    var rect = new Rect(pts[i], sizeClickCurve);
                     if (rect.Contains(mousePosCurve))
                     {
                         dragging = true;
@@ -88,12 +99,12 @@ namespace Esa.UI
                         else if (idx[i] == 1)
                         {
                             subIdxs.Add(1); selKeys.Add(ks[i]);
-                            oss.Add(mousePosCurve - keySel.inTangent);
+                            oss.Add(mousePosCurve - keySel.inTan);
                         }
                         else if (idx[i] == 2)
                         {
                             subIdxs.Add(2); selKeys.Add(ks[i]);
-                            oss.Add(mousePosCurve - keySel.outTangent);
+                            oss.Add(mousePosCurve - keySel.outTan);
                         }
                         else throw new System.Exception();
                         if (!click && !move)
@@ -111,7 +122,7 @@ namespace Esa.UI
                     os = oss[id];
                 }
             }
-            else if (Events.Mouse(MB.Right))
+            else if (Events.Mouse1)
             {
                 if (dragging)
                 {
@@ -122,12 +133,12 @@ namespace Esa.UI
                         curve.Sort();
                     }
                     else if (i == 1)
-                        keySel.inTangent = -os + mousePosCurve;
+                        keySel.inTan = -os + mousePosCurve;
                     else if (i == 2)
-                        keySel.outTangent = -os + mousePosCurve;
+                        keySel.outTan = -os + mousePosCurve;
                 }
             }
-            else if (Events.MouseDown(MB.Middle))
+            else if (Events.MouseDown2)
             {
                 if (mousePosCurve.Between(Vector2.zero, drawAreaSize))
                 {
@@ -135,7 +146,7 @@ namespace Esa.UI
                     os = mousePosRef - drawAreaOffset;
                 }
             }
-            else if (Events.Mouse(MB.Middle))
+            else if (Events.Mouse2)
             {
                 if (dragging)
                 {
@@ -150,7 +161,7 @@ namespace Esa.UI
                     if (keySel != null)
                     {
                         keySel.inMode = KeyMode.Bezier;
-                        keySel.inTangent = mousePosCurve;
+                        keySel.inTan = mousePosCurve;
                     }
                 }
                 else if (Events.KeyDown(KeyCode.T))
@@ -158,7 +169,7 @@ namespace Esa.UI
                     if (keySel != null)
                     {
                         keySel.outMode = KeyMode.Bezier;
-                        keySel.outTangent = mousePosCurve;
+                        keySel.outTan = mousePosCurve;
                     }
                 }
                 else if (Events.KeyDown(KeyCode.I)) // 插入关键帧

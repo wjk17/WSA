@@ -5,6 +5,11 @@ namespace Esa.UI
 {
     public class FrameIdx_Key
     {
+        public Curve2 curve;
+        public FrameIdx_Key(Curve2 curve)
+        {
+            this.curve = curve;
+        }
         private float leftTimer;
         private float rightTimer;
         private float upTimer;
@@ -12,7 +17,6 @@ namespace Esa.UI
         public float continuousKeyTime = 0.5f; // 上下左右键连发延迟
         public float continuousKeyInterval = 0.01f; // 间隔（其实0.01通常约等于每帧触发）
 
-        public Curve2 curve;
         public int GetInput(int frameIdx)
         {
             if (Events.Key(KeyCode.LeftArrow))
@@ -52,9 +56,10 @@ namespace Esa.UI
                 var keys = curve.keys;
                 for (int i = keys.Count - 1; i >= 0; i--)
                 {
-                    if (keys[i].time < frameIdx)
+                    var iTime = Mathf.RoundToInt(keys[i].time);
+                    if (iTime < frameIdx)
                     {
-                        frameIdx = Mathf.RoundToInt(keys[i].time);
+                        frameIdx = iTime;
                         break;
                     }
                 }
@@ -65,9 +70,10 @@ namespace Esa.UI
                 var keys = curve.keys;
                 for (int i = 0; i < keys.Count; i++)
                 {
-                    if (keys[i].time > frameIdx)
+                    var iTime = Mathf.RoundToInt(keys[i].time);
+                    if (iTime > frameIdx)
                     {
-                        frameIdx = Mathf.RoundToInt(keys[i].time);
+                        frameIdx = iTime;                        
                         break;
                     }
                 }

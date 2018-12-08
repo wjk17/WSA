@@ -5,18 +5,44 @@ namespace Esa.UI
 {
     public static partial class UITool
     {
-        public static Rt GetRt(this RectTransform rt)
+        public static bool MouseOver(this MonoBehaviour mono)
         {
-            // anchor 和 pivot 都要上下翻转，转成左上角坐标
-            var pos = rt.anchorMin.SubY_L(1) * UI.scaler.referenceResolution;
-            pos += rt.anchoredPosition.ReverseY();
-            pos += -rt.pivot.SubY_L(1) * rt.rect.size;
-            return new Rt(pos, rt.rect.size);
+            return UI.MouseOver(mono.transform as RectTransform);
         }
-        public static Vector2 ToLT(this Vector2 pos) // input screen pos
+        public static void FrameStart(this MonoBehaviour mono)
+        {
+            UI.owner = mono.transform as RectTransform;
+            UI.ClearCmd();
+            GLUI.BeginOrtho();
+            GLUI.BeginOrder(0);
+        }
+        public static List<Vector2> ListReverseY(this IList<Vector2> vs) // input screen pos
+        {
+            for (int i = 0; i < vs.Count; i++)
+            {
+                vs[i] = vs[i].ReverseY();
+            }
+            return new List<Vector2>(vs);
+        }
+        public static Vector2 ToLB(this Vector2 pos) 
         {
             pos.y = UI.scaler.referenceResolution.y - pos.y;
             return pos;
+        }
+        public static Vector2 ToLT(this Vector2 pos)
+        {
+            pos.y = UI.scaler.referenceResolution.y - pos.y;
+            return pos;
+        }
+        public static Vector2 ToNDC(this Vector2 p) // input screen pos
+        {
+            return p /= UI.scaler.referenceResolution;
+        }
+        public static Vector2 ToNDCLT(this Vector2 p) // input screen pos
+        {
+            p /= UI.scaler.referenceResolution;
+            p.y = 1 - p.y;
+            return p;
         }
         public static Vector2 ToRefLT(this Vector2 pos) // input screen pos
         {

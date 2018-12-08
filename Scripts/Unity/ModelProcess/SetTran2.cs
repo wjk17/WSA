@@ -1,17 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class SetTran2 : MonoBehaviour
+namespace Esa
 {
-    public Transform from;
-    public Transform to;
-    //private void Reset()
-    //{
-    //    parent = transform;
-    //}    
-    void Start()
+    public class SetTran2 : MonoBehaviour
     {
-        to.SetTran2(from.Tran2());
+        public Transform from;
+        public Transform to;
+        //private void Reset()
+        //{
+        //    parent = transform;
+        //}    
+        void Start()
+        {
+            to.SetTran2(from.Tran2());
+        }
     }
 }

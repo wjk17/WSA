@@ -15,7 +15,7 @@ namespace Esa.UI
             Texture2D tex = new Texture2D(width, height, TextureFormat.RGB24, false);
 
             // Read screen contents into the texture
-            tex.ReadPixels(new Rect(0, 0, width, height), 0, 0);
+            tex.ReadPixels(new UnityEngine.Rect(0, 0, width, height), 0, 0);
             tex.Apply();
 
             // Encode texture into PNG

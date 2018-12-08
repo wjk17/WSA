@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,27 +19,35 @@ namespace Esa.UI
         [Header("Position")]
         public Vector2 anchoredPosition;
         public Vector2 sizeDelta;
+        public Vector2 absPosition;
+        public Vector2 absPositionParent;
 
         [Header("Rect")]
         public Vector2 rectSize;
-        public Rt rect;
+        public Vector2 rectPos;
+        public Rect rect;
 
         [Header("Mouse")]
         public bool mouseOver;
 
         private RectTransform rt;
+        bool modify;
+        public float rectSideLength = 10f;
         private void Reset()
         {
-            rt = transform as RectTransform;
+            Start();
         }
         void Start()
         {
             rt = transform as RectTransform;
         }
-        bool modify;
         void Update()
         {
-            if (!updateInEditor) return;
+            if (!Application.isPlaying && !updateInEditor) return;
+
+            this.FrameStart();
+            this.Draw();
+
             if (modify)
             {
                 rt.anchorMin = anchorMin;
@@ -56,8 +65,15 @@ namespace Esa.UI
                 sizeDelta = rt.sizeDelta;
 
                 rectSize = rt.rect.size;
-                rect = rt.GetRt();
-                mouseOver = rect.Contains(UI.mousePosRef);
+                rectPos = rt.rect.position;
+
+                rect = new Rect(rt);
+                absPosition = rect.pos;
+                absPositionParent = UI.AbsRefPos(rt.parent);
+
+                UITool.DrawSquare(absPositionParent, rectSideLength, Color.blue);
+
+                mouseOver = rect.Contains(UI.mousePosRef_LB);
             }
         }
     }

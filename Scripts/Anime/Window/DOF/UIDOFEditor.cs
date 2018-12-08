@@ -20,15 +20,15 @@ namespace Esa.UI
             }
         }
         DOFMgr _dofSet;
-        public Avator avatar
+        public Avatar avatar
         {
             get
             {
                 if (_avatar == null)
-                    _avatar = FindObjectOfType<Avator>(); return _avatar;
+                    _avatar = FindObjectOfType<Avatar>(); return _avatar;
             }
         }
-        Avator _avatar;
+        Avatar _avatar;
 
         public Transform target;
         public Transform end;

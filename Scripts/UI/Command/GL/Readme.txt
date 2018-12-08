@@ -1,0 +1,2 @@
+OnRenderObject对所有摄像机有效，包括SceneView
+OnPostRender 可以针对某个摄像机

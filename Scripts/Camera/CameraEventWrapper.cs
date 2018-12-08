@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+[ExecuteInEditMode]
 public class CameraEventWrapper : MonoBehaviour
 {
     public Action onRenderObject;
@@ -8,13 +9,17 @@ public class CameraEventWrapper : MonoBehaviour
     public Action<RenderTexture, RenderTexture> onRenderImage;
     public Action onPreRender;
     public Action onPreCull;
+    public bool debug;
+    public bool updateInEditor = true;
     public void OnRenderObject()
     {
-        if (onRenderObject != null) onRenderObject();
+        if (!Application.isPlaying && !updateInEditor) return;
+        if (onRenderObject != null) { if (debug) print("OnRenderObject"); onRenderObject(); }
     }
     void OnPostRender()
     {
-        if (onPostRender != null) onPostRender();
+        if (!Application.isPlaying && !updateInEditor) return;
+        if (onPostRender != null) { if (debug) print("OnPostRender"); onPostRender(); }
     }
     //private void OnWillRenderObject()
     //{
