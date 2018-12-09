@@ -18,10 +18,7 @@ namespace Esa.UI
         // checkOver 是否检测鼠标是否悬停（mono使用null）
         public static InputCall AddInput(this MonoBehaviour mono, Action updateFunc, int order, bool checkOver = true)
         {
-            if (checkOver)
-                return UI.I.inputs.Add_(new InputCall(mono, updateFunc, order));
-            else
-                return UI.I.inputs.Add_(new InputCall(mono.name, updateFunc, order));
+            return UI.I.inputs.Add_(new InputCall(mono, updateFunc, order, checkOver));
         }
     }
     [Serializable]
@@ -40,17 +37,32 @@ namespace Esa.UI
             this.getInput = getInput;
             this.order = order;
         }
+        public InputCall(MonoBehaviour mono, Action getInput, int order = 0, bool checkOver = true)
+        {
+            this.mono = mono;
+            this.gameObject = mono.gameObject;
+            this.RT = mono.transform as RectTransform;
+            this.name = mono.name;
+            this.getInput = getInput;
+            this.order = order;
+            this.checkOver = checkOver;
+        }
         public InputCall(string name, Action getInput, int order = 0)
         {
             this.name = name;
             this.getInput = getInput;
             this.order = order;
         }
+        // for inspector
+        public bool enabled;
+
+        public bool on = true;
         public GameObject gameObject;
         public RectTransform RT;
         public Rect rt;
         public MonoBehaviour mono;
         public bool mouseOver;
+        public bool checkOver;
         public string name;
         public Action getInput;
         public int order;

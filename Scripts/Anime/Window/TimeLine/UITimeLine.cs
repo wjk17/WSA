@@ -72,7 +72,7 @@ namespace Esa.UI
         void Start()
         {
             this.AddInput(GetInput, -5, false);
-            frameIdx_KeyHandler = new FrameIdx_Key(UICurve.I.Curve);
+            frameIdx_KeyHandler = new FrameIdx_Key(UICurve.Curve);
             frameIdx = 0;
         }
         void GetInput()

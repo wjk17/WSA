@@ -77,7 +77,7 @@ namespace Esa
                 curve.AddEulerPos(frameIdx, ast.euler, ast.pos);
                 c++;
             }
-            Debug.Log("插入到 " + c.ToString() + " 条曲线");
+            Debug.Log("插入 " + c.ToString() + " 条曲线");
         }
         public void RemoveEulerPosAllCurve(float frameIdx)
         {

@@ -85,6 +85,7 @@ namespace Esa
         }
         public Vector2 Evaluate2D(float t)
         {
+            if (Count == 0) return new Vector2(t, 0f);
             var i = 1;
             for (; i < Count; i++)
             {

@@ -29,9 +29,13 @@ namespace Esa.UI
         {
             Mirror(true);
         }
+        /// <summary>
+        /// 镜像翻转
+        /// </summary>
+        /// <param name="force"></param>
         public void Mirror(bool force = false)
         {
-            if (I.toggleMirrorPv.isOn || force)//镜像翻转
+            if (I.toggleMirrorPv.isOn || force)
             {
                 var handledList = new List<CurveObj>();
                 foreach (var curve in UIClip.I.clip.curves)

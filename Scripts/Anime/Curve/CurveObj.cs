@@ -18,6 +18,10 @@ namespace Esa
         public Curve2 y;
         public Curve2 z;
     }
+    public enum Curve
+    {
+        PosX, PosY, PosZ, RotX, RotY, RotZ
+    }
     [Serializable]
     public class CurveObj
     {
@@ -32,7 +36,10 @@ namespace Esa
         public CurveXYZ pos;
         public CurveXYZ rot;
         [XmlIgnore] public Curve2[] curves { get { return new Curve2[] { pos.x, pos.y, pos.z, rot.x, rot.y, rot.z }; } }
-
+        public Curve2 Curve(Curve c)
+        {
+            return curves[(int)c];
+        }
         public Vector3 Pos(float time)
         {
             return new Vector3(pos.x.Evaluate1D(time), pos.y.Evaluate1D(time), pos.z.Evaluate1D(time));

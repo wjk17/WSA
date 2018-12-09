@@ -190,12 +190,18 @@ namespace Esa.UI
             var boneInt = (Bone)index;
             dof = dofSet[boneInt];
             ast = avatar[boneInt];
+
+            //UpdateCurve
+            var curve = UIClip.I.clip.GetCurve(ast);
+            UICurve.Curve = curve.Curve(Curve.PosX);
+
             UpdateDOF();
             if (onDropdownChanged != null) onDropdownChanged();
         }
         void UpdateDOF()
         {
             if (ast == null || dof == null) return;
+            if (debug) print("UpdateDOF: " + ast.name);
             f.ignoreChanged = true;
             f.sliderTwist.value = ast.euler.y;
             f.sliderSwingX.value = ast.euler.x;

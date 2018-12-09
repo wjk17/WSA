@@ -25,7 +25,7 @@ namespace Esa
                 {
                     if (curve.Count > 0)
                     {
-                        frameEnd = max(frameEnd, Mathf.RoundToInt(curve.Last().time));
+                        frameEnd = max(frameEnd, curve.Last().idx);
                     }
                 }
             }

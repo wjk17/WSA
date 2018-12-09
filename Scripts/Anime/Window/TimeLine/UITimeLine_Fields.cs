@@ -26,7 +26,7 @@ namespace Esa.UI
         }
         Vector2 startPos;
         public Vector2Int endPosInt
-        {            
+        {
             get { return endPos.RoundToInt(); }
         }
         Vector2 endPos;
@@ -41,7 +41,13 @@ namespace Esa.UI
         public int frameIdx
         {
             get { return Mathf.RoundToInt(frameIdx_F); }
-            set { frameIdx_F = value; }
+            set
+            {
+                if (frameIdx != value)
+                {
+                    frameIdx_F = value;
+                }
+            }
         }
         float _frameIdx_F;
         public Action<int> onFrameIdxChanged;
@@ -50,10 +56,11 @@ namespace Esa.UI
             get { return _frameIdx_F; }
             set
             {
+                bool changed = !_frameIdx_F.Approx(value, 3);
                 _frameIdx_F = value;
                 txtFrameIdx.text = "帧：" + frameIdx.ToString();
                 txtFrameIdxN.text = "n：" + frameIdxN.ToString("0.00");
-                if (onFrameIdxChanged != null) onFrameIdxChanged(frameIdx);
+                if (changed && onFrameIdxChanged != null) onFrameIdxChanged(frameIdx);                
             }
         }
         public float frameIdxN

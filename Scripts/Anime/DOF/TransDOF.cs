@@ -23,6 +23,7 @@ namespace Esa
             this.dof = dof;
         }
         [XmlIgnore] public Transform transform;
+        [XmlIgnore] public string name { get { return transform.name; } }
         [XmlIgnore] public Vector3 euler;
 
         public DOF dof;

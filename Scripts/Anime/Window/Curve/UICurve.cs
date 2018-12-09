@@ -172,12 +172,12 @@ namespace Esa.UI
                         keySel.outTan = mousePosCurve;
                     }
                 }
-                else if (Events.KeyDown(KeyCode.I)) // 插入关键帧
-                {
-                    var k = new Key2();
-                    k.vector = mousePosCurve;
-                    curve.InsertKey(k);
-                }
+                //else if (Events.KeyDown(KeyCode.I)) // 插入关键帧
+                //{
+                //    var k = new Key2();
+                //    k.vector = mousePosCurve;
+                //    curve.InsertKey(k);
+                //}
                 else if (Events.KeyDown(KeyCode.X))
                 {
                     if (keySel != null)

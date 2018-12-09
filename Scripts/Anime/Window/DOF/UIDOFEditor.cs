@@ -33,6 +33,7 @@ namespace Esa.UI
         public Transform target;
         public Transform end;
         public int iter;
+
         public TransDOF ast;
         public TransDOF astIK;
 
@@ -54,9 +55,8 @@ namespace Esa.UI
         [HideInInspector]
         public UIDOFEditor_Fields f;
 
-        public int drawOrder = -1;
         public int CB_Order = 1;
-
+        public bool debug = false;
         void Start()
         {
             this.AddInput(GetInput, CB_Order, false);
@@ -96,25 +96,26 @@ namespace Esa.UI
         {
 
         }
-        private void NewClip()
+        void NewClip()
         {
             UIClip.I.New(f.inputFileName.text);
             f.labelFileName.text = f.inputFileName.text;
             UIClipList.I.GetClipNamesInPath();
-            Debug.Log("新建 " + f.labelFileName.text);
+            print("新建 " + f.labelFileName.text);
         }
         void LoadClip()
         {
             UIClip.I.Load(f.inputFileName.text);
             f.labelFileName.text = f.inputFileName.text;
             UIClip.I.UpdateAllCurve();
-            Debug.Log("读取 " + f.labelFileName.text);
+            UICurve.Curve = UIClip.I.clip.GetCurve(ast).Curve(Curve.PosX);
+            print("读取 " + f.labelFileName.text);
         }
         void SaveClip()
         {
             UIClip.I.Save(f.inputFileName.text);
             UIClipList.I.GetClipNamesInPath();
-            Debug.Log("保存 " + f.inputFileName.text);
+            print("保存 " + f.inputFileName.text);
         }
         void SaveAvatarSetting()
         {
@@ -125,9 +126,8 @@ namespace Esa.UI
         }
         void GetInput()
         {
-            var hover = UI.MouseOver(UICurve.I.transform)
-                || UI.MouseOver(UICamera.I.rectView);
-
+            var hover = UI.MouseOver(UICurve.I, UICamera.I);
+            // Frame
             if (hover && Input.GetKeyDown(KeyCode.C))
             {
                 CopyFrame();
@@ -136,7 +136,7 @@ namespace Esa.UI
             {
                 PasteFrame();
             }
-
+            // IK
             if (f.toggleIK.isOn || f.toggleIKSingle.isOn)
             {
                 IKSolve(joints.ToArray());

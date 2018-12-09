@@ -19,6 +19,7 @@ namespace Esa.UI
             else if (a.order < b.order) { return -1; }
             return a.name.CompareTo(b.name);
         }
+        public bool seeCalledList = true;
         public void Update()
         {
             Events.used = false;
@@ -26,18 +27,24 @@ namespace Esa.UI
             called = new List<InputCall>();
             foreach (var call in inputs)
             {
+                if (!call.on) continue;
                 if (call.getInput != null)
                 {
-                    if ((call.mono == null || call.mono.enabled) &&
-                        (call.gameObject == null || call.gameObject.activeInHierarchy))
+                    call.enabled = call.mono == null ||
+                        (call.mono.enabled && call.gameObject.activeInHierarchy);
+
+                    if (call.enabled)
+                    {
                         call.getInput();
+                        if (seeCalledList) called.Add(call);
+                    }
                 }
-                called.Add(call);
-                if (call.RT != null) // 如果指定了RT，over时截断其他后续UI事件（used=true）
+                // 如果指定了checkOver，mouseOver 时截断其他后续UI事件（used=true）
+                if (call.checkOver && call.RT != null)
                 {
                     call.rt = new Rect(call.RT);
                     call.mouseOver = call.rt.Contains(mousePosRef_LB);
-                    if (call.RT.gameObject.activeInHierarchy && call.mouseOver) return;
+                    if (call.mouseOver) return;
                 }
                 if (Events.used) return;
             }

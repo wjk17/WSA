@@ -6,15 +6,15 @@ namespace Esa.UI
 {
     public partial class UICurve
     {
-        public Curve2 Curve
+        public static Curve2 Curve
         {
             set
             {
-                keySel = null;
-                curve = value;
-                gameObject.SetActive(value != null);
+                I.keySel = null;
+                I.curve = value;
+                I.gameObject.SetActive(value != null);
             }
-            get { return curve; }
+            get { return I.curve; }
         }
         Curve2 curve;
         public List<Vector2> pts;

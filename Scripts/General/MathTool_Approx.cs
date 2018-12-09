@@ -36,6 +36,9 @@ namespace Esa
         {
             return Approx(f1, f2, 2);
         }
+        /// <summary>
+        /// 精确到 dec 位小数的对比
+        /// </summary>        
         public static bool Approx(this float f1, float f2, int dec)
         {
             float factor = Mathf.Pow(10, dec);
