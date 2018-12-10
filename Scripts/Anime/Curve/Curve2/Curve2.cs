@@ -11,6 +11,9 @@ namespace Esa
         /// <param name="key"></param>
         public void InsertKey(Key2 key) // 插入帧并且立即排序
         {
+            var k = IdxOf(key.idx);
+            if (k != null) { k.value = key.value; return; }
+
             Add(key);
             Sort();
             var i = IndexOf(key);

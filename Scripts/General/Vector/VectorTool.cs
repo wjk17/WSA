@@ -304,6 +304,10 @@ namespace Esa
         {
             return new Vector3(0, v2.x, v2.y);
         }
+        public static Vector2Int Y(this Vector2Int v2)
+        {
+            return new Vector2Int(0, v2.y);
+        }
         public static Vector2 Y(this Vector2 v2)
         {
             return new Vector2(0, v2.y);
@@ -312,7 +316,10 @@ namespace Esa
         {
             return new Vector2(0, v2.y);
         }
-
+        public static Vector2Int X(this Vector2Int v2)
+        {
+            return new Vector2Int(v2.x, 0);
+        }
         public static Vector2 X(this Vector2 v2)
         {
             return new Vector2(v2.x, 0);

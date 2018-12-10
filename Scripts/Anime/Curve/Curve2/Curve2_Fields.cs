@@ -24,6 +24,15 @@ namespace Esa
         {
             get { return keys != null && keys.Count > 0; }
         }
+        public Key2 IdxOf(int idx)
+        {
+            if (!hasKey) return null;
+            for (int i = 0; i < keys.Count; i++)
+            {
+                if (keys[i].idx == idx) { return keys[i]; }
+            }
+            return null;
+        }
         public int TimeOf(float time)
         {
             if (!hasKey) return -1;

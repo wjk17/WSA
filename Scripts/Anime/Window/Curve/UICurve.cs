@@ -14,9 +14,24 @@ namespace Esa.UI
         public Vector2Int drawAreaOffset_I { get { return drawAreaOffset.RoundToInt(); } }
         public Vector2 drawAreaOffset = Vector2.zero;
         Vector2 _drawAreaOffset;
+
+        public UnityEngine.UI.Text curveSelTypeText
+        {
+            get { return transform.Search("CurveType").GetComponentInChildren<UnityEngine.UI.Text>(); }
+        }
+        public CurveType CurveSelType
+        {
+            set
+            {
+                _curveSelType = value;
+                curveSelTypeText.text = System.Enum.GetName(typeof(CurveType), _curveSelType);
+            }
+        }
+
+        CurveType _curveSelType = CurveType.RotX;
         public void Start()
         {
-            curve = new Curve2(Vector2.zero, drawAreaSize * 0.5f + drawAreaSize * Vector2.up * 0.2f);
+            curve = null;
             this.AddInput(GetInput, -2, false);
             OnResize();
         }
@@ -41,7 +56,6 @@ namespace Esa.UI
         {
             if (!gameObject.activeSelf || !enabled) return;
             this.CheckResize(OnResize);
-            if (_drawAreaSize != drawAreaSize || _drawAreaOffset != drawAreaOffset) OnResize();
 
             if (Vector2.Distance(Input.mousePosition, prevPos) > moveError) { selIdx = 0; move = true; }
 
@@ -52,21 +66,24 @@ namespace Esa.UI
             pts = new List<Vector2>(); // 可以点击的位置
             var ks = new List<Key2>();
             var idx = new List<int>();
-            foreach (var key in curve)
+            if (curveSel != null)
             {
-                pts.Add(key.vector);
-                ks.Add(key); idx.Add(0);
-                if (keySel == key) // 如果选中的点有切点，这时才显示出来让用户点击
+                foreach (var key in curveSel)
                 {
-                    if (key.inMode == KeyMode.Bezier)
+                    pts.Add(key.vector);
+                    ks.Add(key); idx.Add(0);
+                    if (keySel == key) // 如果选中的点有切点，这时才显示出来让用户点击
                     {
-                        pts.Add(key.inTan);
-                        ks.Add(key); idx.Add(1);
-                    }
-                    if (key.outMode == KeyMode.Bezier)
-                    {
-                        pts.Add(key.outTan);
-                        ks.Add(key); idx.Add(2);
+                        if (key.inMode == KeyMode.Bezier)
+                        {
+                            pts.Add(key.inTan);
+                            ks.Add(key); idx.Add(1);
+                        }
+                        if (key.outMode == KeyMode.Bezier)
+                        {
+                            pts.Add(key.outTan);
+                            ks.Add(key); idx.Add(2);
+                        }
                     }
                 }
             }
@@ -91,6 +108,13 @@ namespace Esa.UI
                     {
                         dragging = true;
                         keySel = ks[i];
+                        keySels = new List<Key2>();
+                        foreach (var c in curve.curves)
+                        {
+                            var k = c.IdxOf(keySel.idx);
+                            if (k != null && k != keySel) keySels.Add(k);
+                        }
+
                         if (idx[i] == 0)
                         {
                             subIdxs.Add(0); selKeys.Add(ks[i]);
@@ -129,8 +153,17 @@ namespace Esa.UI
                     var i = subIdxs[id];
                     if (i == 0)
                     {
-                        keySel.SetVector(-os + mousePosCurve);
-                        curve.Sort();
+                        var v = -os + mousePosCurve;
+                        var offset = v - keySel.vector;
+                        keySel.Vector += offset;
+                        foreach (var key in keySels)
+                        {
+                            key.Vector = key.Vector.SetX(keySel.Vector.x);
+                        }
+                        foreach (var curve in curve.curves)
+                        {
+                            curve.Sort();
+                        }
                     }
                     else if (i == 1)
                         keySel.inTan = -os + mousePosCurve;
@@ -140,7 +173,7 @@ namespace Esa.UI
             }
             else if (Events.MouseDown2)
             {
-                if (mousePosCurve.Between(Vector2.zero, drawAreaSize))
+                if (this.MouseOver())
                 {
                     dragging = true;
                     os = mousePosRef - drawAreaOffset;
@@ -185,9 +218,9 @@ namespace Esa.UI
                         var i = subIdxs[id];
                         if (i == 0)
                         {
-                            curve.Remove(keySel);
+                            curveSel.Remove(keySel);
                             keySel = null;
-                            curve.Sort();
+                            curveSel.Sort();
                         }
                         else if (i == 1)
                         {
@@ -204,15 +237,16 @@ namespace Esa.UI
                     }
                 }
             }
+            if (_drawAreaSize != drawAreaSize || _drawAreaOffset != drawAreaOffset) OnResize();
+
             if (dragging) Events.Use(); // 一旦Use连Key和Mouse方法都检测不到的
             prevPos = Input.mousePosition;
             if (mirror)
             {
-                curveMirror = curve.Clone();
-                curveMirror.Mirror(mirrorError, curve);
+                curveMirror = curveSel.Clone();
+                curveMirror.Mirror(mirrorError, curveSel);
             }
-            var onWin = mousePosCurve.Between(Vector2.zero, drawAreaSize);
-            if (onWin && Events.Mouse1to3) Events.Use();
+            if (this.MouseOver() && Events.Mouse1to3) Events.Use();
         }
     }
 }

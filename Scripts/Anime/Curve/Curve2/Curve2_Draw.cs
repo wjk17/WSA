@@ -23,21 +23,21 @@ namespace Esa
         [XmlIgnore] public Vector2 drawAreaOffset = Vector2.zero;
         internal void Draw(Matrix4x4 m, bool showTangents)
         {
-            //grid 0, border 1, lines 2, points 3, timeline 4
+            //grid 0, border 1, axis 2, lines 3, points 4, timeline 5
             UI.GLUI.BeginOrder(1);
             DrawBorder(m);
-            UI.GLUI.BeginOrder(2);
-            DrawLines(m, showTangents);
             UI.GLUI.BeginOrder(3);
+            DrawLines(m, showTangents);
+            UI.GLUI.BeginOrder(4);
             DrawPoints(m, showTangents);
         }
 
         private void DrawBorder(Matrix4x4 m)
         {
-            var lt = new Vector2(0, drawAreaSize.y);
-            var lb = Vector2.zero;
-            var rb = new Vector2(drawAreaSize.x, 0);
-            var rt = drawAreaSize;
+            var lt = drawAreaOffset + drawAreaSize.Y();
+            var lb = drawAreaOffset;
+            var rb = drawAreaOffset + drawAreaSize.X();
+            var rt = drawAreaOffset + drawAreaSize;
             drawLine(lt, rt, colorBorder, m);
             drawLine(lt, lb, colorBorder, m);
             drawLine(rt, rb, colorBorder, m);
@@ -63,14 +63,14 @@ namespace Esa
             Vector2 curr;
             for (int i = 1; i < accuracy; i++)
             {
-                t = i * factor;
+                t = drawAreaOffset.x + i * factor;
                 if (time1D)
                 {
-                    curr = new Vector2(t, Evaluate1D(i * factor));
+                    curr = new Vector2(t, Evaluate1D(t));
                 }
                 else
                 {
-                    curr = Evaluate2D(i * factor);
+                    curr = Evaluate2D(t);
                 }
                 drawLine(prev, curr, colorTrack, m);
                 prev = curr;

@@ -18,7 +18,7 @@ namespace Esa
         public Curve2 y;
         public Curve2 z;
     }
-    public enum Curve
+    public enum CurveType
     {
         PosX, PosY, PosZ, RotX, RotY, RotZ
     }
@@ -36,7 +36,7 @@ namespace Esa
         public CurveXYZ pos;
         public CurveXYZ rot;
         [XmlIgnore] public Curve2[] curves { get { return new Curve2[] { pos.x, pos.y, pos.z, rot.x, rot.y, rot.z }; } }
-        public Curve2 Curve(Curve c)
+        public Curve2 Curve(CurveType c)
         {
             return curves[(int)c];
         }

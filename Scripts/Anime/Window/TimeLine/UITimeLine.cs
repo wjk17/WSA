@@ -8,6 +8,7 @@ namespace Esa.UI
     {
         public float fps = 60;
         public Color clrTimeLine = Color.green;
+        public Color clrAxis = Color.black;
         public Color clrGrid = Palette.L1;
 
         public int xSpaceTextInRuler; // 标尺每隔多少帧有一个帧数数字
@@ -72,7 +73,7 @@ namespace Esa.UI
         void Start()
         {
             this.AddInput(GetInput, -5, false);
-            frameIdx_KeyHandler = new FrameIdx_Key(UICurve.Curve);
+            frameIdx_KeyHandler = new FrameIdx_Key(UICurve.I.curveSel);
             frameIdx = 0;
         }
         void GetInput()

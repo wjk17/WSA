@@ -6,7 +6,7 @@ namespace Esa.UI
 {
     public partial class UICurve
     {
-        public static Curve2 Curve
+        public static CurveObj Curve
         {
             set
             {
@@ -16,7 +16,14 @@ namespace Esa.UI
             }
             get { return I.curve; }
         }
-        Curve2 curve;
+        CurveObj curve;
+        public Curve2 curveSel
+        {
+            get
+            {
+                return curve == null ? null : curve.Curve(_curveSelType);
+            }
+        }
         public List<Vector2> pts;
 
         public float sizeClick = 30; //小正方形可点击区域的边长    
@@ -32,6 +39,7 @@ namespace Esa.UI
 
         [SerializeField] bool dragging;
         public Key2 keySel;
+        public List<Key2> keySels;
         List<Vector2> oss;
         [SerializeField] Vector2 os;
 

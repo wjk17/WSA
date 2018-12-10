@@ -88,6 +88,11 @@ namespace Esa
             get { return outTan - vector.f; }
             set { outTan = vector += value; }
         }
+        public Vector2 Vector
+        {
+            get { return vector.f; }
+            set { SetVector(value); }
+        }
         public void SetVector(Vector2 v)
         {
             var os = v - vector;

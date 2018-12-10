@@ -25,7 +25,10 @@ namespace Esa.UI
             if (f.ignoreChanged) return;
             if (ast != null) { ast.euler.y = v; UIPlayer.I.Mirror(); }
             f.ignoreChanged = true;
+
             f.inputTwist.text = v.ToString();
+            UICurve.I.CurveSelType = CurveType.RotY;
+
             f.ignoreChanged = false;
         }
         private void OnSwingXSliderChanged(float v)
@@ -33,7 +36,10 @@ namespace Esa.UI
             if (f.ignoreChanged) return;
             if (ast != null) { ast.euler.x = v; UIPlayer.I.Mirror(); }
             f.ignoreChanged = true;
+
             f.inputSwingX.text = v.ToString();
+            UICurve.I.CurveSelType = CurveType.RotX;
+
             f.ignoreChanged = false;
         }
         private void OnSwingZSliderChanged(float v)
@@ -41,7 +47,10 @@ namespace Esa.UI
             if (f.ignoreChanged) return;
             if (ast != null) { ast.euler.z = v; UIPlayer.I.Mirror(); }
             f.ignoreChanged = true;
+
             f.inputSwingZ.text = v.ToString();
+            UICurve.I.CurveSelType = CurveType.RotZ;
+
             f.ignoreChanged = false;
         }
         private void OnTwistInputChanged(string input)
@@ -192,8 +201,7 @@ namespace Esa.UI
             ast = avatar[boneInt];
 
             //UpdateCurve
-            var curve = UIClip.I.clip.GetCurve(ast);
-            UICurve.Curve = curve.Curve(Curve.PosX);
+            UICurve.Curve = UIClip.I.clip.GetCurve(ast);
 
             UpdateDOF();
             if (onDropdownChanged != null) onDropdownChanged();
