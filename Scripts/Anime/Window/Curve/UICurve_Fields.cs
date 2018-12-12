@@ -11,17 +11,17 @@ namespace Esa.UI
             set
             {
                 I.keySel = null;
-                I.curve = value;
+                I.curveObj = value;
                 I.gameObject.SetActive(value != null);
             }
-            get { return I.curve; }
+            get { return I.curveObj; }
         }
-        CurveObj curve;
+        CurveObj curveObj;
         public Curve2 curveSel
         {
             get
             {
-                return curve == null ? null : curve.Curve(_curveSelType);
+                return curveObj == null ? null : curveObj.Curve(_curveSelType);
             }
         }
         public List<Vector2> pts;

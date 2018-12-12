@@ -9,7 +9,7 @@ namespace Esa.UI
         /// 
         /// </summary>
         public RectTransform rt { get { return (transform as RectTransform); } }
-        Vector2 rtSize { get { return rt.sizeDelta; } } // 曲线视图区域大小
+        Vector2 rtSize { get { return rt.rect.size; } } // 曲线视图区域大小
         Vector2 rtPos
         {
             get
@@ -43,7 +43,7 @@ namespace Esa.UI
         /// ruler
         /// </summary>
         RectTransform ruler { get { return (transform.Search("Ruler X") as RectTransform); } }
-        Vector2 rulerSize { get { return ruler.sizeDelta; } }
+        Vector2 rulerSize { get { return ruler.rect.size; } }
         Vector2 rulerPos
         {
             get

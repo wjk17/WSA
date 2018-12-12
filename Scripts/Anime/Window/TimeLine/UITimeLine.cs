@@ -17,8 +17,11 @@ namespace Esa.UI
 
         public int indexNAccuracy = 3;
 
-        public Vector2 c;
-        public Vector2 SIZE = new Vector2(20, 15);
+        public Vector2 START = Vector2.zero;
+        public Vector2 SIZE = new Vector2(20, 1);
+        public float gridFactorText;
+        public float gridFactorLine;
+        public int maxError = 3;
         Vector2Int SizeInt { get { return SIZE.ToInt(); } }
 
         public float width = 3f;
@@ -27,41 +30,57 @@ namespace Esa.UI
         {
             this.FrameStart();
             this.Draw(Color.grey);
-            var pos = UI.AbsRefPos(rtArea) - rtArea.rect.size * Vectors.half2d;
+            var pos = UI.AbsRefPos(rtArea) - rtArea.rect.size * 0.5f;
             var scl = rtAreaSize / SizeInt;
 
-            var m_AreaToRect = Matrix4x4.TRS(pos, Quaternion.identity, scl);
-
-            var m_RectToRef = Matrix4x4.TRS(rtPos, Quaternion.identity, rtSize / SizeInt);
-            var m_RulerToRef = Matrix4x4.TRS(rtPos, Quaternion.identity, rtSize / SizeInt);
+            var os = Matrix4x4.Translate(START);
+            var m_CurveToRef = Matrix4x4.TRS(pos, Quaternion.identity, scl) * os;
+            var m_RulerToRef = Matrix4x4.TRS(UI.AbsRefPos(ruler) - rulerSize.X() * 0.5f
+                , Quaternion.identity, rtSize / SizeInt) * os;
 
             var a = Vector2.zero;
             var b = Vector2.up * SIZE.y;
             var f = 1f / SIZE.x;
 
+            xSpaceTextInRuler = Mathf.RoundToInt(SIZE.x * gridFactorText);
+            var fitted = (xSpaceTextInRuler / 5) * 5;
+            if (Mathf.Abs(xSpaceTextInRuler - fitted) > maxError)
+                fitted = (xSpaceTextInRuler / 2) * 2;
+
+            xSpaceTextInRuler = Mathf.Max(2, fitted);
+
+
+            xSpaceLineInRuler = Mathf.RoundToInt(SIZE.x * gridFactorLine);
+            fitted = (xSpaceLineInRuler / 5) * 5;
+            if (Mathf.Abs(xSpaceLineInRuler - fitted) > maxError)
+                fitted = (xSpaceLineInRuler / 2) * 2;
+
+            xSpaceLineInRuler = Mathf.Max(2, xSpaceLineInRuler);
+
             // grid
-            for (int i = 0; i < SIZE.x; i++)
+            for (int i = Mathf.RoundToInt(-START.x); i < -START.x + SIZE.x; i++)
             {
                 if ((i % xSpaceLineInRuler) == 0)
                 {
                     a.x = b.x = i; // 曲线空间坐标
-                    DrawLine(a, b, I.clrGrid, m_AreaToRect);
+                    DrawLine(a, b, I.clrGrid, m_CurveToRef);
                 }
                 if ((i % xSpaceTextInRuler) == 0)
                 {
                     a.x = i + f * 0.5f;
-                    c = m_RectToRef.MultiplyPoint(a);
+                    Vector2 c = m_RulerToRef.MultiplyPoint(a);
                     c = rulerPos + c.ToLT();
                     IMUI.DrawText(i.ToString(), c, Vectors.half2d);// 画字 帧号标签
                 }
             }
             // timeline
-            GLUI.BeginOrder(1);
-            if (frameIdx.Between(SizeInt.x))
-            {
-                b.x = a.x = frameIdx;
-                DrawLine(a, b, I.clrTimeLine, m_AreaToRect, width);
-            }
+            GLUI.BeginOrder(5);
+            b.x = a.x = frameIdx;
+            DrawLine(a, b, I.clrTimeLine, m_CurveToRef, width);
+            // axis
+            GLUI.BeginOrder(2);
+            b.x = a.x = 0;
+            DrawLine(a, b, I.clrAxis, m_CurveToRef, width);
         }
         void DrawLine(Vector2 a, Vector2 b, Color color, Matrix4x4 m, float width = 1f)
         {
@@ -114,9 +133,16 @@ namespace Esa.UI
         {
             switch (insertType)
             {
-                case InsertKeyType.EulPos: UIClip.I.clip.AddEulerPosAllCurve(frameIdx); break;
-                case InsertKeyType.Eul: break;
-                case InsertKeyType.Pos: break;
+                case InsertKeyType.EulPos:
+                    UIClip.I.clip.AddEulerPosAllCurve(frameIdx);
+                    break;
+                case InsertKeyType.Eul:
+                    UIClip.I.clip.AddEulerAllCurve(frameIdx);
+                    UIClip.I.clip.AddPosCurve(frameIdx, Bone.hips, Bone.root);
+                    break;
+                case InsertKeyType.Pos:
+                    UIClip.I.clip.AddPosAllCurve(frameIdx);
+                    break;
                 default: throw null;
             }
             ClipTool.GetFrameRange(UIClip.I.clip);

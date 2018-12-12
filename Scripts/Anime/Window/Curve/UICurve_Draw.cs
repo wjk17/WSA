@@ -84,13 +84,13 @@ namespace Esa.UI
             b.x = drawAreaEnd.x;
             DrawLine(a, b, UITimeLine.I.clrAxis, m_Curve_Ref);
 
-            if (curve == null) return;
+            if (curveObj == null) return;
             var cc = 0;
             // Curve
-            foreach (var curve in curve.curves)
+            foreach (var curve in curveObj.curves)
             {
                 Curve2.colorTrack = clrTracks[cc++];
-                if (curve == null || curve.Count == 0) return;
+                if (curve == null || curve.Count == 0) continue;
                 if (mirror) // 使用默认方法画出曲线线段
                 {
                     curveMirror.drawAreaSize = drawAreaSize;

@@ -7,6 +7,14 @@ namespace Esa
 {
     public static partial class ListTool
     {
+        public static bool Contains<T>(this T[] array, T t)
+        {
+            foreach (var item in array)
+            {
+                if (t.Equals(item)) return true;
+            }
+            return false;
+        }
         public static RectTransform[] ToRTs(this MonoBehaviour[] monos)
         {
             var rts = new List<RectTransform>();

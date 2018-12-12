@@ -101,7 +101,7 @@ namespace Esa.UI
         {
             foreach (var curve in UIClip.I.clip.curves)
             {
-                UIClip.I.clip.AddEulerPosAllCurve(UITimeLine.I.frameIdx);
+                UIClip.I.clip.AddPosAllCurve(UITimeLine.I.frameIdx);
             }
         }
         void OnToggleControl(bool on)

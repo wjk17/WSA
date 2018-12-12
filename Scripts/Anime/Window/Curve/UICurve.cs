@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 namespace Esa.UI
@@ -27,14 +28,22 @@ namespace Esa.UI
                 curveSelTypeText.text = System.Enum.GetName(typeof(CurveType), _curveSelType);
             }
         }
-
+        
         CurveType _curveSelType = CurveType.RotX;
         public void Start()
         {
-            curve = null;
+            var row = GetComponentInChildren<Button_Row>();
+            row.onClick = OnClick;
+            curveObj = null;
             this.AddInput(GetInput, -2, false);
             OnResize();
         }
+
+        private void OnClick(int i)
+        {
+            CurveSelType = (CurveType)i;
+        }
+
         void OnResize()
         {
             _drawAreaSize = drawAreaSize; // Curve空间
@@ -109,7 +118,7 @@ namespace Esa.UI
                         dragging = true;
                         keySel = ks[i];
                         keySels = new List<Key2>();
-                        foreach (var c in curve.curves)
+                        foreach (var c in curveObj.curves)
                         {
                             var k = c.IdxOf(keySel.idx);
                             if (k != null && k != keySel) keySels.Add(k);
@@ -130,7 +139,7 @@ namespace Esa.UI
                             subIdxs.Add(2); selKeys.Add(ks[i]);
                             oss.Add(mousePosCurve - keySel.outTan);
                         }
-                        else throw new System.Exception();
+                        else throw new Exception();
                         if (!click && !move)
                         {
                             click = true;
@@ -160,7 +169,7 @@ namespace Esa.UI
                         {
                             key.Vector = key.Vector.SetX(keySel.Vector.x);
                         }
-                        foreach (var curve in curve.curves)
+                        foreach (var curve in curveObj.curves)
                         {
                             curve.Sort();
                         }
@@ -184,6 +193,7 @@ namespace Esa.UI
                 if (dragging)
                 {
                     drawAreaOffset = mousePosRef - os;
+                    UITimeLine.I.START.x = m_Ref_Curve.ScaleV2(drawAreaOffset).x;
                 }
             }
             else

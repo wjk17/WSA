@@ -32,7 +32,7 @@ namespace Esa.UI
         }
         private void ItemClick()
         {
-            Debug.Log(currentClipName);
+            Debug.Log("打开文件" + currentClipName);
             UIDOFEditor.I.f.inputFileName.text = currentClipName;// names[index];
             UIDOFEditor.I.f.buttonLoadClip.onClick.Invoke();
         }
@@ -61,7 +61,7 @@ namespace Esa.UI
                 btn.transform.SetLocalPosY(i * ((itemPrefab.transform as RectTransform).sizeDelta.y + ySpace));
                 buttons.Add(btn);
                 btn.GetComponentInChildren<Text>().text = clipName;
-                btn.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(delegate { currentClipName = clipName; ItemClick(); });
+                btn.GetComponent<Button>().onClick.AddListener(delegate { currentClipName = clipName; ItemClick(); });
                 i++;
             }
         }

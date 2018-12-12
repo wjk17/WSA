@@ -101,6 +101,7 @@ namespace Esa.UI
             UIClip.I.New(f.inputFileName.text);
             f.labelFileName.text = f.inputFileName.text;
             UIClipList.I.GetClipNamesInPath();
+            UIClip.I.UpdateAllCurve();
             print("新建 " + f.labelFileName.text);
         }
         void LoadClip()
@@ -109,7 +110,9 @@ namespace Esa.UI
             f.labelFileName.text = f.inputFileName.text;
             UIClip.I.UpdateAllCurve();
             UICurve.Curve = UIClip.I.clip.GetCurve(ast);
+
             print("读取 " + f.labelFileName.text);
+            print("读取曲线 " + UICurve.Curve.name);
         }
         void SaveClip()
         {
