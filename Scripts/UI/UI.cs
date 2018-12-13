@@ -6,10 +6,15 @@ namespace Esa.UI
 {
     public partial class UI : Singleton<UI>
     {
+        public void StartCoro(System.Collections.IEnumerator ie)
+        {
+            StartCoroutine(ie);
+        }
+
         [Header("CallBack")]
         public List<InputCall> inputs;
         public List<InputCall> called;
-        public override void Init()
+        public override void _Start()
         {
             I.inputs = new List<InputCall>();
         }
@@ -124,6 +129,10 @@ namespace Esa.UI
             pos += rt.rect.size * Vectors.half2d;
             pos -= rt.pivot * rt.rect.size;
             return pos;
+        }
+        public static Vector2 AbsRefPos(MonoBehaviour mono)
+        {
+            return AbsRefPos(mono.transform as RectTransform);
         }
         public static Vector2 AbsRefPos(Transform t)
         {

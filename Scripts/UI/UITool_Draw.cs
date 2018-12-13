@@ -22,6 +22,11 @@ namespace Esa.UI
         {
             Draw(rt.ToPointsCWLT(), color);
         }
+        public static void DrawSquare(Vector2 pos, float size, Color color, bool solid)
+        {
+            if (solid) GLUI.DrawQuads(ToPointsRect(pos, size), color);
+            else DrawSquare(pos, size, color);
+        }
         public static void DrawSquare(Vector2 pos, float size, Color color)
         {
             Draw(ToPointsRect(pos, size), color);

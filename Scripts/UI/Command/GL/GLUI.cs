@@ -97,6 +97,10 @@ namespace Esa.UI
         {
             UI.AddCommand(Cmd(commandOrder, GLCmdType.DrawLineOrtho, p1, p2, width, color, clip));
         }
+        public static void DrawQuads(IList<Vector2> p, Color color)
+        {
+            UI.AddCommand(Cmd(commandOrder, GLCmdType.DrawQuadOrtho, p[0], p[1], p[2], p[3], color));
+        }
         public static void DrawQuads(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, Color color)
         {
             UI.AddCommand(Cmd(commandOrder, GLCmdType.DrawQuadOrtho, p1, p2, p3, p4, color));

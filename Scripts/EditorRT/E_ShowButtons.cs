@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 using System.Reflection;
 using System;
 using Esa;
-
+#if UNITY_EDITOR
+using UnityEditor;
 public class E_ShowButtons<T> : Editor
 {
     public BindingFlags bindingFlags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Instance;
@@ -145,3 +145,4 @@ public class E_ShowButtons<T> : Editor
         }
     }
 }
+#endif
