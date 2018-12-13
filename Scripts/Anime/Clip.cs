@@ -73,7 +73,8 @@ namespace Esa
             foreach (var curve in curves)
             {
                 var ast = curve.ast;
-                if (ast == null || !bones.Contains(ast.dof.bone)) continue;
+                if (ast == null || ast.transform == null
+                    || !bones.Contains(ast.dof.bone)) continue;
                 curve.AddEulerCurve(frameIdx, ast.euler);
                 c++;
             }
@@ -85,7 +86,7 @@ namespace Esa
             foreach (var curve in curves)
             {
                 var ast = curve.ast;
-                if (ast == null) continue;
+                if (ast == null || ast.transform == null) continue;
                 curve.AddEulerCurve(frameIdx, ast.euler);
                 c++;
             }
@@ -97,7 +98,7 @@ namespace Esa
             foreach (var curve in curves)
             {
                 var ast = curve.ast;
-                if (ast == null) continue;
+                if (ast == null || ast.transform == null) continue;
                 curve.AddEulerCurve(frameIdx, ast.euler);
                 c++;
             }
@@ -109,7 +110,7 @@ namespace Esa
             foreach (var curve in curves)
             {
                 var ast = curve.ast;
-                if (ast == null) continue;
+                if (ast == null || ast.transform == null) continue;
                 curve.AddEulerPos(frameIdx, ast.euler, ast.pos);
                 c++;
             }
