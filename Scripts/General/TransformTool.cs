@@ -205,8 +205,10 @@ public static partial class TransformTool
             if (com != null) return com;
         }
         return null;
-    }
-    // 跟 FindObjectsOfType<T> 的区别是在于可以包括隐藏的对象，性能未做比较
+    }    
+    /// <summary>
+    /// 跟 FindObjectsOfType<T> 的区别是在于可以包括隐藏的对象，性能未做比较
+    /// </summary>
     public static List<T> GetComsScene<T>(bool includeInActive = true) where T : Component
     {
         GameObject[] GO = SceneManager.GetActiveScene().GetRootGameObjects();

@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
+using System;
 namespace Esa
 {
+    [Serializable]
     public class Colar
     {
         public float h;

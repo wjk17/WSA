@@ -5,12 +5,14 @@ namespace Esa
 {
     public class MonoSingletonMgr : MonoBehaviour
     {
-        List<MonoSingletonBase> objs;
+        public static List<MonoSingletonBase> objs;
+        public static void Init()
+        {
+            objs = TransformTool.GetComsScene<MonoSingletonBase>();
+        }
         [Button]
         void Awake()
         {
-            //foreach (var obj in FindObjectsOfType<MonoSingletonBase>())
-            objs = TransformTool.GetComsScene<MonoSingletonBase>();
             foreach (var obj in objs)
             {
                 obj._Awake();

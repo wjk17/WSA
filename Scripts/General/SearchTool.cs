@@ -70,10 +70,14 @@ public static partial class TransformTool
         ts.RemoveAt(0);
         return ts;
     }
+    public static T GetComChild<T>(this Component t) where T : Component
+    {
+        return t.GetComponentInChildren<T>(true);
+    }
     /// <summary>
-    /// without it self
+    /// without it self, include inactive
     /// </summary>
-    public static List<T> GetComsInChilds<T>(this Component t) where T : Component
+    public static List<T> GetComChildren<T>(this Component t) where T : Component
     {
         var ts = new List<T>();
         t.GetComponentsInChildren(true, ts);
@@ -81,7 +85,10 @@ public static partial class TransformTool
         if (ts != null && c != null) ts.Remove(c);
         return ts;
     }
-    public static List<T> GetChildrens<T>(this T t) where T : Component
+    /// <summary>
+    /// without it self
+    /// </summary>
+    public static List<T> GetChildrens<T>(this Component t) where T : Component
     {
         var ts = new List<T>();
         t.GetComponentsInChildren(true, ts);

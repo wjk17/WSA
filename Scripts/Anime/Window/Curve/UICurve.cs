@@ -63,7 +63,7 @@ namespace Esa.UI
         }
         void GetInput()
         {
-            if (!gameObject.activeSelf || !enabled) return;
+            if (!gameObject.activeInHierarchy || !enabled) return;
             this.CheckResize(OnResize);
 
             if (Vector2.Distance(Input.mousePosition, prevPos) > moveError) { selIdx = 0; move = true; }

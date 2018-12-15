@@ -4,28 +4,53 @@ using UnityEngine;
 using UnityEngine.UI;
 namespace Esa.UI
 {
+    [ExecuteInEditMode]
     public partial class UI : Singleton<UI>
     {
-        public void StartCoro(System.Collections.IEnumerator ie)
+        public static Transform Root
         {
-            StartCoroutine(ie);
+            get { return canvas.transform; }
         }
-
         [Header("CallBack")]
         public List<InputCall> inputs;
         public List<InputCall> called;
-        public override void _Start()
-        {
-            I.inputs = new List<InputCall>();
-        }
+        public bool seeCalledList = true;
         public virtual int SortList(InputCall a, InputCall b)
         {
             if (a.order > b.order) { return 1; } ///顺序从低到高
             else if (a.order < b.order) { return -1; }
             return a.name.CompareTo(b.name);
         }
-        public bool seeCalledList = true;
-        public void Update()
+
+        List<UIGrid> grids;
+        List<Button_Row> rows;
+        [Button]
+        public void Initialize()
+        {
+            print("UI Initialize.");
+            inputs = new List<InputCall>();
+            glHandlers = new List<GLHandler>();
+            imHandlers = new List<IMHandler>();
+            var wrapper = camera.GetComOrAdd<CameraEventWrapper>();
+            wrapper.onPostRender = CameraPostRender;
+
+            grids = TransformTool.GetComsScene<UIGrid>();
+            foreach (var grid in grids)
+            {
+                grid.Initialize();
+            }
+            rows = TransformTool.GetComsScene<Button_Row>();
+            foreach (var row in rows)
+            {
+                //row.Initialize();
+            }
+        }
+        private void Update()
+        {
+            if (Application.isPlaying)
+                UpdateInput();
+        }
+        public void UpdateInput()
         {
             Events.used = false;
             inputs.Sort(SortList);
@@ -54,7 +79,10 @@ namespace Esa.UI
                 if (Events.used) return;
             }
         }
-
+        public void StartCoro(System.Collections.IEnumerator ie)
+        {
+            StartCoroutine(ie);
+        }
         private static Canvas _canvas;
         public static Canvas canvas
         {
@@ -76,6 +104,14 @@ namespace Esa.UI
             }
             set { _scaler = value; }
         }
+        public float screenFactor
+        {
+            get { return Screen.currentResolution.width / Screen.currentResolution.height; }
+        }
+        public Vector2 screenSize
+        {
+            get { return new Vector2(Screen.width, Screen.height); }
+        }
         public static float facterToRealPixel
         {
             get { return Screen.width / scaler.referenceResolution.x; }
@@ -84,20 +120,40 @@ namespace Esa.UI
         {
             get { return scaler.referenceResolution.x / Screen.width; }
         }
+        public static Vector2 scalerRefRes
+        {
+            get { return scaler.referenceResolution; }
+        }
+        public static Vector2 mousePos // LT
+        {
+            get
+            {
+#if UNITY_EDITOR
+                if (!Application.isPlaying) return I.mousePosEvent;
+#endif
+                return Input.mousePosition;
+            }
+        }
         internal static Vector2 mousePosRef // LT
         {
             get
             {
-                var ip = Input.mousePosition;
-                ip *= facterToReference;
-                ip.y = scaler.referenceResolution.y - ip.y;
-                return ip;
+#if UNITY_EDITOR
+                if (!Application.isPlaying)
+                    return (I.mousePosEvent / I.gameViewSize).MulRef();
+#endif
+                return (Input.mousePosition * facterToReference).
+                    f_sub_y(scaler.referenceResolution.y);
             }
         }
-        internal static Vector2 mousePosRef_LB // LB
+        public static Vector2 mousePosRef_LB // LB 本来就是左下坐标
         {
             get
             {
+#if UNITY_EDITOR
+                if (!Application.isPlaying)
+                    return (I.mousePosEvent / I.gameViewSize).FlipY().MulRef();
+#endif
                 return Input.mousePosition * facterToReference;
             }
         }

@@ -12,7 +12,10 @@ namespace Esa.UI
         public new Camera camera;
         public static GLHandler gl;
         public static IMHandler im;
+
+        public RectTransform Owner; // for inspect
         private static RectTransform _owner;
+
         public static RectTransform owner
         {
             set
@@ -27,15 +30,6 @@ namespace Esa.UI
         {
             camera = Camera.main;
             if (camera == null) camera = FindObjectOfType<Camera>();
-            if (!Application.isPlaying && updateInEditor) Start();
-        }
-        [Button]
-        private void Start()
-        {
-            glHandlers = new List<GLHandler>();
-            imHandlers = new List<IMHandler>();
-            var wrapper = camera.GetComOrAdd<CameraEventWrapper>();
-            wrapper.onPostRender = CameraPostRender;
         }
         [Button]
         void Print()
@@ -49,21 +43,64 @@ namespace Esa.UI
                 }
             }
         }
+        public Vector2 _mousePosRef;
+#if UNITY_EDITOR
+        Vector2 mousePosEvent;
+        Vector2 gameViewSize;
+        Vector2 sceneViewSize;
+        private void OnDrawGizmos() // 需要打开SceneView 放在GameView右边
+        {
+            mousePosEvent = Event.current.mousePosition;
+
+            sceneViewSize = screenSize;
+
+            mousePosEvent = mousePosEvent.ReverseX().f_sub_x(gameViewSize.x);
+
+            // sceneview的Size会计算标题栏 高度40
+            var titleOs = 40f;
+            var osY = (sceneViewSize.y - titleOs - gameViewSize.y) * 0.5f;
+
+            mousePosEvent.y -= osY;
+            _mousePosRef = mousePosRef_LB; // for inspect in editor, play or not
+
+            if (!Application.isPlaying)
+            {
+                UpdateInput();
+                //OnGUI();
+            }
+        }
+#endif
         private void OnGUI()
         {
+#if UNITY_EDITOR
+            gameViewSize = screenSize;
             if (!Application.isPlaying && !updateInEditor) return;
+#endif
+            _mousePosRef = mousePosRef_LB; // for inspect in editor & runtime;
+            Owner = owner;
             foreach (var hdr in imHandlers)
             {
-                hdr.Execute();
+                if (hdr.owner.gameObject.activeInHierarchy)
+                    hdr.Execute();
             }
         }
         private void CameraPostRender()
         {
+            Owner = owner;
             GLUI.SetLineMaterial();
             foreach (var hdr in glHandlers)
             {
-                hdr.Execute();
+                if (hdr.owner.gameObject.activeInHierarchy)
+                    hdr.Execute();
             }
+        }
+        public static void ClearGL()
+        {
+            gl.cmds.Clear();
+        }
+        public static void ClearIM()
+        {
+            im.cmds.Clear();
         }
         public static void ClearCmd()
         {

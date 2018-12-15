@@ -5,9 +5,33 @@ namespace Esa.UI
 {
     public static partial class UITool
     {
+        public static Vector2 MulRef(this Vector2 v)
+        {
+            return v * UI.scalerRefRes;
+        }
+        public static Vector2 AbsRefPos(this MonoBehaviour mono)
+        {
+            return UI.AbsRefPos(mono.transform as RectTransform);
+        }
+        public static Vector2 AbsRefPos(this Transform t)
+        {
+            return UI.AbsRefPos(t as RectTransform);
+        }
         public static bool MouseOver(this MonoBehaviour mono)
         {
             return UI.MouseOver(mono.transform as RectTransform);
+        }
+        public static void StartIM(this MonoBehaviour mono)
+        {
+            UI.owner = mono.transform as RectTransform;
+            UI.ClearIM();
+        }
+        public static void StartGL(this MonoBehaviour mono)
+        {
+            UI.owner = mono.transform as RectTransform;
+            UI.ClearGL();
+            GLUI.BeginOrtho();
+            GLUI.BeginOrder(0);
         }
         public static void FrameStart(this MonoBehaviour mono)
         {
@@ -24,7 +48,7 @@ namespace Esa.UI
             }
             return new List<Vector2>(vs);
         }
-        public static Vector2 ToLB(this Vector2 pos) 
+        public static Vector2 ToLB(this Vector2 pos)
         {
             pos.y = UI.scaler.referenceResolution.y - pos.y;
             return pos;
