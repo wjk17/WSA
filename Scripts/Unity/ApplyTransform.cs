@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static partial class TransformTool
+public static partial class TransTool
 {
     public static void ApplyTransform(this Transform t)
     {

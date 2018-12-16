@@ -24,22 +24,26 @@ namespace Esa.UI
 
         List<UIGrid> grids;
         List<Button_Row> rows;
+        public Material texMaterial;
         [Button]
         public void Initialize()
         {
-            print("UI Initialize.");
+            if (SYS.debugUI) print("UI Initialize.");
+
+            GLUI.texMaterial = texMaterial;
+
             inputs = new List<InputCall>();
             glHandlers = new List<GLHandler>();
             imHandlers = new List<IMHandler>();
             var wrapper = camera.GetComOrAdd<CameraEventWrapper>();
             wrapper.onPostRender = CameraPostRender;
 
-            grids = TransformTool.GetComsScene<UIGrid>();
+            grids = TransTool.GetComsScene<UIGrid>();
             foreach (var grid in grids)
             {
-                grid.Initialize();
+                //grid.Initialize();
             }
-            rows = TransformTool.GetComsScene<Button_Row>();
+            rows = TransTool.GetComsScene<Button_Row>();
             foreach (var row in rows)
             {
                 //row.Initialize();

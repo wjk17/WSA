@@ -50,6 +50,7 @@ namespace Esa
 
         public int fps = 60;
         public bool mirror;
+
         void Start()
         {
             playTime = 0;
@@ -89,7 +90,7 @@ namespace Esa
             {
                 current = clips[0];
                 Mirror(current);
-                print(current.clipName + " length: " + current.frameRange.y);
+                if (SYS.debugAnime) print(current.clipName + " length: " + current.frameRange.y);
             }
         }
         Clip Mirror(Clip clip)

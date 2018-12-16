@@ -9,7 +9,8 @@ namespace Esa.UI
     /// </summary>
     public static class GLUI
     {
-        static Material lineMaterial;
+        public static Material lineMaterial;
+        public static Material texMaterial;
         internal static int commandOrder
         {
             set { _commandOrder = value; }
@@ -46,6 +47,12 @@ namespace Esa.UI
             // Apply the line material
             lineMaterial.SetPass(0);
         }
+        public static void SetTexMaterial(Texture texture)
+        {
+            if (!texMaterial) throw null;
+            texMaterial.SetTexture("_MainTex", texture);
+            texMaterial.SetPass(0);
+        }
         public static void Test()
         {
             SetLineMaterial();
@@ -64,9 +71,62 @@ namespace Esa.UI
             cmd.args = args;
             return cmd;
         }
+        public static void SetLineMat() // 正交变换
+        {
+            UI.AddCommand(Cmd(commandOrder, GLCmdType.SetLineMat));
+        }
         public static void BeginOrtho() // 正交变换
         {
             UI.AddCommand(Cmd(-1, GLCmdType.LoadOrtho));
+        }
+        public static void DrawTex(Texture2D texture, params Vector2[] v)
+        {
+            DrawTex(texture, (IList<Vector2>)v);
+        }
+        public static void DrawTex(Texture2D texture, Color color, params Vector2[] v)
+        {
+            DrawTex(texture, color, (IList<Vector2>)v);
+        }
+        public static void DrawTex(Texture2D texture, IList<Vector2> v)
+        {
+            DrawTex(texture, Color.white, v);
+        }
+        public static void DrawTex(Texture2D texture, Color color, IList<Vector2> v)
+        {
+            UI.AddCommand(Cmd(commandOrder, GLCmdType.DrawTexOrtho, texture, color, v[0], v[1], v[2], v[3]));
+        }
+        /// <summary>
+        /// Clockwise Reverse
+        /// </summary>
+        public static void _DrawTex(Texture2D texture, params Vector2[] v)
+        {
+            _DrawTex(texture, (IList<Vector2>)v);
+        }
+        public static void _DrawTex(Texture2D texture, Color color, params Vector2[] v)
+        {
+            _DrawTex(texture, color, (IList<Vector2>)v);
+        }
+        public static void _DrawTex(Texture2D texture, IList<Vector2> v)
+        {
+            _DrawTex(texture, Color.white, v);
+        }
+        public static void _DrawTex(Texture2D texture, Color color, IList<Vector2> v)
+        {
+            SetTexMaterial(texture);
+            GL.Color(color);
+            GL.LoadOrtho();
+            GL.Begin(GL.QUADS);
+            var uv = new Vector3[] {
+            new Vector3(0, 0, 0),
+            new Vector3(0, 1, 0),
+            new Vector3(1, 1, 0),
+            new Vector3(1, 0, 0)};
+            for (int i = 0; i < 4; i++)
+            {
+                GL.TexCoord(uv[i]);
+                GL.Vertex(v[i].ToNDC());
+            }
+            GL.End();
         }
         /// <summary>
         /// 左上角坐标
@@ -111,7 +171,6 @@ namespace Esa.UI
         }
         public static void DrawLineWidthIns(Vector2 p1, Vector2 p2, float width, Color color)
         {
-            SetLineMaterial();
             GL.LoadOrtho();
             DrawLineWidth(p1, p2, width, color, false);
         }
@@ -138,6 +197,7 @@ namespace Esa.UI
         // 控制粗细的线条实际是画四边形，不一定与坐标轴垂直。
         public static void DrawLineWidth(Vector2 p1, Vector2 p2, float width, Color color, bool clip = true)
         {
+            SetLineMaterial();
             //clip
             if (clip)
             {
@@ -165,6 +225,7 @@ namespace Esa.UI
         /// </summary>
         public static void DrawLineOrtho(Vector2 p1, Vector2 p2, Color color, bool clip = true)
         {
+            SetLineMaterial();
             //clip
             if (clip)
             {
@@ -191,6 +252,7 @@ namespace Esa.UI
         }
         internal static void DrawSquare(Vector2 p, float wh, Color color)
         {
+            SetLineMaterial();
             wh *= 0.5f;
             var p1 = p - Vector2.one * wh; // lt
             var p2 = new Vector2(p.x + wh, p.y - wh); // rt
@@ -207,6 +269,7 @@ namespace Esa.UI
         }
         internal static void DrawSquare(Vector2 p, float wh, float lineWidth, Color color)
         {
+            SetLineMaterial();
             wh *= 0.5f;
             var p12a = p - Vector2.one * wh;
             var p12b = new Vector2(p.x + wh, p.y - wh);
@@ -227,8 +290,13 @@ namespace Esa.UI
             DrawLine(p34a, p34b, lineWidth, color);
             DrawLine(p41a, p41b, lineWidth, color);
         }
+        public static void _DrawQuads(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, Color color)
+        {
+            DrawVertices(color, p1, p2, p3, p4);
+        }
         public static void DrawVertices(Color color, params Vector2[] vs)
         {
+            SetLineMaterial();
             GL.Begin(GL.QUADS);
             GL.Color(color);
             foreach (var v in vs)
@@ -237,16 +305,13 @@ namespace Esa.UI
             }
             GL.End();
         }
-        public static void _DrawQuads(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, Color color)
-        {
-            DrawVertices(color, p1, p2, p3, p4);
-        }
         public static void DrawCircle(Vector3 pos, float radius, Color color, float accurracy = 0.01f)
         {
             DrawCircle(pos.x, pos.y, pos.z, radius, color, accurracy);
         }
         static void DrawCircle(float x, float y, float z, float r, Color color, float accuracy)
         {
+            SetLineMaterial();
             float stride = r * accuracy;
             float size = 1 / accuracy;
             float x1 = x, x2 = x, y1 = 0, y2 = 0;

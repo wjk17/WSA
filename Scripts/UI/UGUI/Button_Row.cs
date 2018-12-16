@@ -43,7 +43,7 @@ namespace Esa.UI
             {
                 if (child != prefab)
                 {
-                    child.parent = null;
+                    child.SetParent(null, false);
                     ComTool.DestroyAuto(child.gameObject);
                 }
             }

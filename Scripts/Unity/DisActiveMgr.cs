@@ -9,11 +9,11 @@ namespace Esa
         [Button]
         void HaveALook()
         {
-            list = TransformTool.GetComsScene<DisActiveOnAwake>();
+            list = TransTool.GetComsScene<DisActiveOnAwake>();
         }
         void Awake()
         {
-            list = TransformTool.GetComsScene<DisActiveOnAwake>();
+            list = TransTool.GetComsScene<DisActiveOnAwake>();
             foreach (var hoa in list)
             {
                 hoa.gameObject.SetActive(false);

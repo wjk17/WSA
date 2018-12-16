@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace Esa
 {
-    public class MonoSingletonMgr : MonoBehaviour
+    public class SingletonMgr : MonoBehaviour
     {
-        public static List<MonoSingletonBase> objs;
+        public static List<SingletonBase> objs;
         public static void Init()
         {
-            objs = TransformTool.GetComsScene<MonoSingletonBase>();
+            if (SYS.debugSingleton) print("Singleton Init");
+            objs = TransTool.GetComsScene<SingletonBase>();
         }
         [Button]
         void Awake()
@@ -17,7 +18,6 @@ namespace Esa
             {
                 obj._Awake();
             }
-
         }
         [Button]
         private void Start()

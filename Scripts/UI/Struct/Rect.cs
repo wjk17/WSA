@@ -84,7 +84,7 @@ namespace Esa
         /// ClockWise
         /// </summary>
         /// <returns></returns>
-        public List<Vector2> ToPointsCW()
+        public List<Vector2> ToPointsCW_()
         {
             var vs = new List<Vector2>();
             vs.Add(pos);
@@ -97,7 +97,36 @@ namespace Esa
             //vs.Add(pos + size * pivot.FlipRevX());
             return vs;
         }
-        public List<Vector2> ToPointsCWLT()
+        public List<Vector2> ToPointsCW()
+        {
+            var vs = new List<Vector2>();
+            vs.Add(pos);
+            vs.Add(pos + size * Vector2.right);
+            vs.Add(pos + size);
+            vs.Add(pos + size * Vector2.up);
+
+            for (int i = 0; i < vs.Count; i++)
+            {
+                vs[i] += size.X() * -pivot.x;
+                vs[i] += size.Y() * pivot.y;
+            }
+            return vs;
+        }
+        public List<Vector2> ToCW()
+        {
+            var vs = new List<Vector2>();
+            vs.Add(pos);
+            vs.Add(pos + size * Vector2.right);
+            vs.Add(pos + size);
+            vs.Add(pos + size * Vector2.up);
+
+            for (int i = 0; i < vs.Count; i++)
+            {
+                vs[i] += size * -pivot;
+            }
+            return vs;
+        }
+        public List<Vector2> ToPointsCWLT(int os = 0)
         {
             var vs = new List<Vector2>();
             vs.Add(pos);
@@ -109,6 +138,18 @@ namespace Esa
             {
                 vs[i] += size.X() * -pivot.x;
                 vs[i] += size.Y() * (1 - pivot.y);
+            }
+            var vsos = new List<Vector2>();
+            if (os != 0)
+            {
+                for (int i = 0; i < vs.Count; i++)
+                {
+                    var n = i + os;
+                    while (n >= vs.Count) n -= vs.Count;
+                    while (n < 0) n += vs.Count;
+                    vsos.Add(vs[n]);
+                }
+                return vsos;
             }
             return vs;
         }

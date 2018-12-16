@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using StrCom = System.StringComparison;
-public static partial class TransformTool
+public static partial class TransTool
 {
     public static bool m_IgnoreCase = true;
     public static bool SearchIgnoreCase
@@ -205,7 +205,20 @@ public static partial class TransformTool
             if (com != null) return com;
         }
         return null;
-    }    
+    }
+    /// <summary>
+    /// 跟 FindObjectOfType<T> 的区别是在于可以包括隐藏的对象，性能未做比较
+    /// </summary>
+    public static T GetComScene<T>(bool includeInActive = true) where T : Component
+    {
+        GameObject[] GO = SceneManager.GetActiveScene().GetRootGameObjects();
+        foreach (GameObject go in GO)
+        {
+            var c = go.GetComponentInChildren<T>(includeInActive);
+            if (c != null) return c;
+        }
+        return null;
+    }
     /// <summary>
     /// 跟 FindObjectsOfType<T> 的区别是在于可以包括隐藏的对象，性能未做比较
     /// </summary>

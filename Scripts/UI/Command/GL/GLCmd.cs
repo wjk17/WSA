@@ -6,9 +6,11 @@ namespace Esa.UI
 {
     public enum GLCmdType
     {
+        SetLineMat,
         LoadOrtho,
         DrawLineOrtho,
         DrawQuadOrtho,
+        DrawTexOrtho,
     }
     [Serializable]
     public class GLCmd : Cmd

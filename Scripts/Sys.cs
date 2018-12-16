@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 namespace Esa
 {
-    public class Sys
+    public class SYS : MonoBehaviour
     {
         public static float Fps
         {
@@ -15,6 +16,31 @@ namespace Esa
         public static float Tpf // timePerFrame
         {
             get { return 1 / Fps; }
+        }
+        public static bool debugAnime;
+        public static bool debugUI;
+        public static bool debugSingleton;
+        public static bool debugDepot;
+        public bool _debugDepot;
+        public bool debug;
+        private void Awake()
+        {
+            Update();
+            if (debug) print("SYS Init");
+
+            UI.UI.I.Initialize();
+            SingletonMgr.Init();
+        }
+        private void Update()
+        {
+            debugSingleton = debugUI = debugAnime = debug;
+            debugDepot = _debugDepot;
+        }
+
+        public static void ShowMsg(string v)
+        {
+            UIBlock.I.GetComChild<Text>().text = v;
+            UIBlock.I.BlockUI(true);
         }
     }
 }

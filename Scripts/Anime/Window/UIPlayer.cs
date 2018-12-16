@@ -67,7 +67,7 @@ namespace Esa.UI
         }
         void ApplyTo60Fps()
         {
-            var ratio = 60f / Sys.Fps;
+            var ratio = 60f / SYS.Fps;
             foreach (var curveObj in UIClip.I.clip.curves)
             {
                 foreach (var curve in curveObj.curves)
@@ -87,7 +87,7 @@ namespace Esa.UI
         {
             float v;
             var success = float.TryParse(s, out v);
-            if (success) Sys.Fps = v;
+            if (success) SYS.Fps = v;
         }
         public void Pause()
         {
@@ -106,7 +106,7 @@ namespace Esa.UI
             }
             if (play)
             {
-                UITimeLine.I.frameIdx_F += Time.deltaTime * Sys.Fps * speed;
+                UITimeLine.I.frameIdx_F += Time.deltaTime * SYS.Fps * speed;
                 float end;
                 if (!toggleFlip.isOn)
                 {
