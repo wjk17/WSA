@@ -14,6 +14,12 @@ namespace Esa
             SVRaycast(screenPos, out hitPoint);
             return hitPoint;
         }
+        public static Transform SVRaycast(int layerMask)
+        {
+            Transform hit = null;
+            SVRaycast(Input.mousePosition, out hit, layerMask);
+            return hit;
+        }
         public static bool SVRaycast(out Transform hitT, int layerMask)
         {
             return SVRaycast(Input.mousePosition, out hitT, layerMask);

@@ -4,9 +4,17 @@ using UnityEngine;
 using UnityEngine.UI;
 namespace Esa.UI
 {
+    [Serializable]
+    public class _Cursor
+    {
+        public Texture2D icon;
+        public Vector2 hotspot;
+    }
     [ExecuteInEditMode]
     public partial class UI : Singleton<UI>
     {
+        public _Cursor cursorOverNPC;
+        public _Cursor cursorDefault;
         public static Transform Root
         {
             get { return canvas.transform; }
