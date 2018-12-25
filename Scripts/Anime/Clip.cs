@@ -73,15 +73,9 @@ namespace Esa
             foreach (var curve in curves)
             {
                 var ast = curve.ast;
-<<<<<<< HEAD
                 if (ast == null || !bones.Contains(ast.dof.bone)) continue;
                 curve.AddPositionCurve(frameIdx, ast.pos);
                 Debug.Log("插入位移 " + ast.name);
-=======
-                if (ast == null || ast.transform == null
-                    || !bones.Contains(ast.dof.bone)) continue;
-                curve.AddEulerCurve(frameIdx, ast.euler);
->>>>>>> 24043e712b72d6b0830a68afd97c91aabffbd344
                 c++;
             }
             if(SYS.debugAnime) Debug.Log("插入 " + c.ToString() + " 条位移曲线");
@@ -92,13 +86,8 @@ namespace Esa
             foreach (var curve in curves)
             {
                 var ast = curve.ast;
-<<<<<<< HEAD
                 if (ast == null) continue;
                 curve.AddPositionCurve(frameIdx, ast.pos);
-=======
-                if (ast == null || ast.transform == null) continue;
-                curve.AddEulerCurve(frameIdx, ast.euler);
->>>>>>> 24043e712b72d6b0830a68afd97c91aabffbd344
                 c++;
             }
             if (SYS.debugAnime) Debug.Log("插入 " + c.ToString() + " 条位移曲线");

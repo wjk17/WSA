@@ -29,9 +29,6 @@ namespace Esa.UI
             else if (a.order < b.order) { return -1; }
             return a.name.CompareTo(b.name);
         }
-
-        List<UIGrid> grids;
-        List<Button_Row> rows;
         public Material texMaterial;
         [Button]
         public void Initialize()
@@ -45,17 +42,6 @@ namespace Esa.UI
             imHandlers = new List<IMHandler>();
             var wrapper = camera.GetComOrAdd<CameraEventWrapper>();
             wrapper.onPostRender = CameraPostRender;
-
-            grids = TransTool.GetComsScene<UIGrid>();
-            foreach (var grid in grids)
-            {
-                //grid.Initialize();
-            }
-            rows = TransTool.GetComsScene<Button_Row>();
-            foreach (var row in rows)
-            {
-                //row.Initialize();
-            }
         }
         private void Update()
         {
