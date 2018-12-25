@@ -38,7 +38,7 @@ namespace Esa.UI
         public Vector2 mousePosRef;
 
         [SerializeField] bool dragging;
-        public Key2 keySel;
+        Key2 keySel;
         public List<Key2> keySels;
         List<Vector2> oss;
         [SerializeField] Vector2 os;

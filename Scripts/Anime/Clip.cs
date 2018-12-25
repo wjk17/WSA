@@ -74,7 +74,8 @@ namespace Esa
             {
                 var ast = curve.ast;
                 if (ast == null || !bones.Contains(ast.dof.bone)) continue;
-                curve.AddEulerCurve(frameIdx, ast.euler);
+                curve.AddPositionCurve(frameIdx, ast.pos);
+                Debug.Log("插入位移 " + ast.name);
                 c++;
             }
             Debug.Log("插入 " + c.ToString() + " 条位移曲线");
@@ -86,7 +87,7 @@ namespace Esa
             {
                 var ast = curve.ast;
                 if (ast == null) continue;
-                curve.AddEulerCurve(frameIdx, ast.euler);
+                curve.AddPositionCurve(frameIdx, ast.pos);
                 c++;
             }
             Debug.Log("插入 " + c.ToString() + " 条位移曲线");

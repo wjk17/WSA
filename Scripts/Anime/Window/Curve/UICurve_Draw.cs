@@ -25,6 +25,7 @@ namespace Esa.UI
         public Color clrGridLinesSnd = Palette.L1;
         public Color clrBorder = Color.grey;
 
+        public bool drawSelOnly = true;
         private void Awake()
         {
             Curve2.drawLine = DrawLine;
@@ -89,7 +90,11 @@ namespace Esa.UI
             // Curve
             foreach (var curve in curveObj.curves)
             {
-                Curve2.colorTrack = clrTracks[cc++];
+                if (drawSelOnly)
+                    Curve2.colorTrack = clrTracks[(int)_curveSelType];
+                else
+                    Curve2.colorTrack = clrTracks[cc++];
+                if (drawSelOnly && curve != curveSel) continue;
                 if (curve == null || curve.Count == 0) continue;
                 if (mirror) // 使用默认方法画出曲线线段
                 {

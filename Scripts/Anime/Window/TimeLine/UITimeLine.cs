@@ -97,6 +97,7 @@ namespace Esa.UI
         }
         void GetInput()
         {
+            frameIdx_KeyHandler.curve = UICurve.I.curveSel;
             var use = false;
             float delta = Events.AxisMouseWheel;
             if (delta != 0 && UI.MouseOver(rt, ruler, UICurve.I.rt))

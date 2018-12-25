@@ -42,6 +42,7 @@ namespace Esa.UI
         private void OnClick(int i)
         {
             CurveSelType = (CurveType)i;
+            keySel = null;
         }
 
         void OnResize()
