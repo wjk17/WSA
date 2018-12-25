@@ -5,6 +5,13 @@ using UnityEngine;
 using UnityEngine.UI;
 namespace Esa
 {
+    public static class SYSTool
+    {
+        public static void StartCo(this IEnumerator e)
+        {
+            UI.UI.I.StartCoro(e);
+        }
+    }
     public class SYS : MonoBehaviour
     {
         public static float Fps

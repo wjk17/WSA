@@ -61,7 +61,7 @@ namespace Esa.UI
             var osY = (sceneViewSize.y - titleOs - gameViewSize.y) * 0.5f;
 
             mousePosEvent.y -= osY;
-            _mousePosRef = mousePosRef_LB; // for inspect in editor, play or not
+            _mousePosRef = mousePosRef; // for inspect in editor, play or not
 
             if (!Application.isPlaying)
             {
@@ -76,7 +76,7 @@ namespace Esa.UI
             gameViewSize = screenSize;
             if (!Application.isPlaying && !updateInEditor) return;
 #endif
-            _mousePosRef = mousePosRef_LB; // for inspect in editor & runtime;
+            _mousePosRef = mousePosRef; // for inspect in editor & runtime;
             Owner = owner;
             foreach (var hdr in imHandlers)
             {

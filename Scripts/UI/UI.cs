@@ -59,8 +59,16 @@ namespace Esa.UI
         }
         private void Update()
         {
-            if (Application.isPlaying)
-                UpdateInput();
+#if UNITY_EDITOR
+            if (!Application.isPlaying) return;
+#endif
+            EarlyUpdate();
+            UpdateInput();
+        }
+        public Action earlyUpdate;
+        public void EarlyUpdate()
+        {
+            if (earlyUpdate != null) earlyUpdate();
         }
         public void UpdateInput()
         {
@@ -85,7 +93,7 @@ namespace Esa.UI
                 if (call.checkOver && call.RT != null)
                 {
                     call.rt = new Rect(call.RT);
-                    call.mouseOver = call.rt.Contains(mousePosRef_LB);
+                    call.mouseOver = call.rt.Contains(mousePosRef);
                     if (call.mouseOver) return;
                 }
                 if (Events.used) return;
@@ -146,7 +154,7 @@ namespace Esa.UI
                 return Input.mousePosition;
             }
         }
-        internal static Vector2 mousePosRef // LT
+        internal static Vector2 mousePosRef_LT // LT
         {
             get
             {
@@ -158,7 +166,7 @@ namespace Esa.UI
                     f_sub_y(scaler.referenceResolution.y);
             }
         }
-        public static Vector2 mousePosRef_LB // LB 本来就是左下坐标
+        public static Vector2 mousePosRef // LB 本来就是左下坐标
         {
             get
             {
@@ -182,7 +190,7 @@ namespace Esa.UI
             foreach (var rt in rts)
             {
                 var rect = GetAbsRect(rt);
-                if (rect.Contains(mousePosRef_LB)) return true;
+                if (rect.Contains(mousePosRef)) return true;
             }
             return false;
         }

@@ -529,13 +529,25 @@ public static partial class TransTool
     {
         (com.transform as RectTransform).anchoredPosition = v;
     }
+    public static void AddUIPosX(this Transform trans, float f)
+    {
+        var rt = trans as RectTransform;
+        rt.anchoredPosition = new Vector2(rt.anchoredPosition.x + f, rt.anchoredPosition.y);
+    }
+    public static void AddUIPosY(this Transform trans, float f)
+    {
+        var rt = trans as RectTransform;
+        rt.anchoredPosition = new Vector2(rt.anchoredPosition.x, rt.anchoredPosition.y + f);
+    }
     public static void SetUIPosX(this Transform trans, float f)
     {
-        (trans as RectTransform).anchoredPosition = new Vector2(f, trans.localPosition.y);
+        var rt = trans as RectTransform;
+        rt.anchoredPosition = new Vector2(f, rt.anchoredPosition.y);
     }
     public static void SetUIPosY(this Transform trans, float f)
     {
-        (trans as RectTransform).anchoredPosition = new Vector2(trans.localPosition.x, f);
+        var rt = trans as RectTransform;
+        rt.anchoredPosition = new Vector2(rt.anchoredPosition.x, f);
     }
     public static void SetUIPosX(this Component com, float f)
     {

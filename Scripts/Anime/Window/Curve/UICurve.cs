@@ -68,7 +68,7 @@ namespace Esa.UI
 
             if (Vector2.Distance(Input.mousePosition, prevPos) > moveError) { selIdx = 0; move = true; }
 
-            mousePosRef = UI.mousePosRef_LB;
+            mousePosRef = UI.mousePosRef;
             mousePosCurve = m_Ref_Curve.MultiplyPoint(mousePosRef);
             var sizeClickCurve = m_Ref_Curve.ScaleV2(Vector2.one * sizeClick);
 

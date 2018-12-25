@@ -77,7 +77,7 @@ namespace Esa.UI
 
                 if (draw) UITool.DrawSquare(absPositionParent, rectSideLength, Color.blue);
 
-                mouseOver = rect.Contains(UI.mousePosRef_LB);
+                mouseOver = rect.Contains(UI.mousePosRef);
             }
         }
     }
