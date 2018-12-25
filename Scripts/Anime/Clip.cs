@@ -66,19 +66,25 @@ namespace Esa
         {
             if (IndexOf(ast) != -1) throw null;
             curves.Add(new CurveObj(ast));
-        }
+        }        
         public void AddPosCurve(int frameIdx, params Bone[] bones)
         {
             var c = 0;
             foreach (var curve in curves)
             {
                 var ast = curve.ast;
+<<<<<<< HEAD
                 if (ast == null || !bones.Contains(ast.dof.bone)) continue;
                 curve.AddPositionCurve(frameIdx, ast.pos);
                 Debug.Log("插入位移 " + ast.name);
+=======
+                if (ast == null || ast.transform == null
+                    || !bones.Contains(ast.dof.bone)) continue;
+                curve.AddEulerCurve(frameIdx, ast.euler);
+>>>>>>> 24043e712b72d6b0830a68afd97c91aabffbd344
                 c++;
             }
-            Debug.Log("插入 " + c.ToString() + " 条位移曲线");
+            if(SYS.debugAnime) Debug.Log("插入 " + c.ToString() + " 条位移曲线");
         }
         public void AddPosAllCurve(int frameIdx)
         {
@@ -86,11 +92,16 @@ namespace Esa
             foreach (var curve in curves)
             {
                 var ast = curve.ast;
+<<<<<<< HEAD
                 if (ast == null) continue;
                 curve.AddPositionCurve(frameIdx, ast.pos);
+=======
+                if (ast == null || ast.transform == null) continue;
+                curve.AddEulerCurve(frameIdx, ast.euler);
+>>>>>>> 24043e712b72d6b0830a68afd97c91aabffbd344
                 c++;
             }
-            Debug.Log("插入 " + c.ToString() + " 条位移曲线");
+            if (SYS.debugAnime) Debug.Log("插入 " + c.ToString() + " 条位移曲线");
         }
         public void AddEulerAllCurve(int frameIdx)
         {
@@ -98,11 +109,11 @@ namespace Esa
             foreach (var curve in curves)
             {
                 var ast = curve.ast;
-                if (ast == null) continue;
+                if (ast == null || ast.transform == null) continue;
                 curve.AddEulerCurve(frameIdx, ast.euler);
                 c++;
             }
-            Debug.Log("插入 " + c.ToString() + " 条旋转曲线");
+            if (SYS.debugAnime) Debug.Log("插入 " + c.ToString() + " 条旋转曲线");
         }
         public void AddEulerPosAllCurve(int frameIdx)
         {
@@ -110,11 +121,11 @@ namespace Esa
             foreach (var curve in curves)
             {
                 var ast = curve.ast;
-                if (ast == null) continue;
+                if (ast == null || ast.transform == null) continue;
                 curve.AddEulerPos(frameIdx, ast.euler, ast.pos);
                 c++;
             }
-            Debug.Log("插入 " + c.ToString() + " 条位移+旋转曲线");
+            if (SYS.debugAnime) Debug.Log("插入 " + c.ToString() + " 条位移+旋转曲线");
         }
         public void RemoveEulerPosAllCurve(float frameIdx)
         {
@@ -123,7 +134,7 @@ namespace Esa
             {
                 c += oc.RemoveAtTime(frameIdx);
             }
-            Debug.Log("删除 " + c.ToString() + " 条曲线");
+            if (SYS.debugAnime) Debug.Log("删除 " + c.ToString() + " 条曲线");
         }
     }
 }

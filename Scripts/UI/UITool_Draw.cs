@@ -10,17 +10,26 @@ namespace Esa.UI
         {
             Draw(mono, Color.black);
         }
-        public static void Draw(this MonoBehaviour mono, Color color)
+        public static void Draw(this MonoBehaviour mono, Color color, bool solid = false)
         {
-            Draw(mono.transform as RectTransform, color);
+            Draw(mono.transform as RectTransform, color, solid);
         }
-        public static void Draw(this RectTransform rt, Color color)
+        public static void Draw(this RectTransform rt, Color color, bool solid = false)
         {
-            Draw(new Rect(rt), color);
+            Draw(new Rect(rt), color, solid);
         }
-        public static void Draw(this Rect rt, Color color)
+        public static void Draw(this Rect rt, Color color, bool solid = false)
         {
-            Draw(rt.ToPointsCWLT(), color);
+            if (solid)
+            {
+                GLUI.DrawQuads(rt.ToPointsCWLT(), color);
+            }
+            else Draw(rt.ToPointsCWLT(), color);
+        }
+        public static void DrawSquare(Vector2 pos, float size, Color color, bool solid)
+        {
+            if (solid) GLUI.DrawQuads(ToPointsRect(pos, size), color);
+            else DrawSquare(pos, size, color);
         }
         public static void DrawSquare(Vector2 pos, float size, Color color)
         {

@@ -16,9 +16,9 @@ namespace Esa.UI
             {
                 case IMCmdType.DrawText:
                     if (ArgType<string, Vector2>(cmd))
-                        IMUI.DrawTextIM((string)cmd.args[0], (Vector2)cmd.args[1]);
+                        IMUI._DrawText((string)cmd.args[0], (Vector2)cmd.args[1]);
                     else if (ArgType<string, Vector2, Vector2>(cmd))
-                        IMUI.DrawTextIM((string)cmd.args[0], (Vector2)cmd.args[1], (Vector2)cmd.args[2]);
+                        IMUI._DrawText((string)cmd.args[0], (Vector2)cmd.args[1], (Vector2)cmd.args[2]);
                     break;
                 default:
                     throw null;

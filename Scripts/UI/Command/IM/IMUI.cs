@@ -13,14 +13,25 @@ namespace Esa.UI
             cmd.args = args;
             return cmd;
         }
-        public static void DrawText(string content, Vector2 pos, Vector2 pivot)
+        /// <summary>
+        /// LB
+        /// </summary>
+        public static Vector2 DrawText(string content, Vector2 pos, Vector2 pivot)
         {
             UI.AddCommand(Cmd(IMCmdType.DrawText, content, pos, pivot));
+            return fontStyle.CalcSize(new GUIContent(content));
         }
-        public static void DrawText(string content, Vector2 pos)
-        {
+        /// <summary>
+        /// LB
+        /// </summary>
+        public static Vector2 DrawText(string content, Vector2 pos)
+        {            
             UI.AddCommand(Cmd(IMCmdType.DrawText, content, pos));
+            return fontStyle.CalcSize(new GUIContent(content));
         }
+        /// <summary>
+        /// return Reference Size
+        /// </summary>
         public static Vector2 CalSize(string content)
         {
             var n = new GUIStyle(fontStyle);
@@ -28,20 +39,32 @@ namespace Esa.UI
             Vector2 size = n.CalcSize(new GUIContent(content));
             return size;
         }
-        public static void DrawTextIM(string content, Vector2 pos)
+        // ref pos
+        public static void _DrawTextRef(string content, Vector2 pos)
         {
-            //Debug.Log(UI.owner.parent.name);
-            //pos += MathTool.ReverseY(UI.owner.anchoredPosition);
             pos *= UI.facterToRealPixel;
             fontStyle.fontSize = Mathf.RoundToInt(fontSize * UI.facterToRealPixel);
             Vector2 size = fontStyle.CalcSize(new GUIContent(content)); // 计算对应样式的字符尺寸  
             GUI.Label(new UnityEngine.Rect(pos, size), content, fontStyle);
         }
-        public static void DrawTextIM(string content, Vector2 pos, Vector2 pivot)
+        public static void _DrawTextRef(string content, Vector2 pos, Vector2 pivot)
         {
-            //Debug.Log(UI.owner.parent.name);
-            //pos += MathTool.ReverseY(UI.owner.anchoredPosition);
             pos *= UI.facterToRealPixel;
+            fontStyle.fontSize = Mathf.RoundToInt(fontSize * UI.facterToRealPixel);
+            Vector2 size = fontStyle.CalcSize(new GUIContent(content));
+            GUI.Label(new UnityEngine.Rect(pos - Vector2.Scale(size, pivot), size), content, fontStyle);
+        }
+        // screen pos
+        public static void _DrawText(string content, Vector2 pos)
+        {
+            pos = pos.f_sub_y(Screen.height);
+            fontStyle.fontSize = Mathf.RoundToInt(fontSize * UI.facterToRealPixel);
+            Vector2 size = fontStyle.CalcSize(new GUIContent(content)); // 计算对应样式的字符尺寸  
+            GUI.Label(new UnityEngine.Rect(pos, size), content, fontStyle);
+        }
+        public static void _DrawText(string content, Vector2 pos, Vector2 pivot)
+        {
+            pos = pos.f_sub_y(Screen.height);
             fontStyle.fontSize = Mathf.RoundToInt(fontSize * UI.facterToRealPixel);
             Vector2 size = fontStyle.CalcSize(new GUIContent(content));
             GUI.Label(new UnityEngine.Rect(pos - Vector2.Scale(size, pivot), size), content, fontStyle);

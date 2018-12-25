@@ -100,7 +100,7 @@ namespace Esa.UI
         }
         void GetInput()
         {
-            if (!gameObject.activeSelf || !enabled) return;
+            if (!gameObject.activeInHierarchy || !enabled) return;
 
             if (on)//&& mouseInWin)
             {

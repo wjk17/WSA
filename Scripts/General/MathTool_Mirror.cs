@@ -22,12 +22,18 @@ namespace Esa
         {
             tran.position = new Vector3(-tran.position.x, tran.position.y, tran.position.z);
         }
+        // sub
+        public static Vector3 f_sub_y(this Vector3 v, float f)
+        {
+            return new Vector3(v.x, f - v.y, v.z);
+        }
+        public static Vector2 f_sub_x(this Vector2 v, float f)
+        {
+            return new Vector2(f - v.x, v.y);
+        }
         /// <summary>
         /// (v.x, f - v.y)
-        /// </summary>
-        /// <param name="v"></param>
-        /// <param name="f"></param>
-        /// <returns></returns>
+        /// </summary>        
         public static Vector2 f_sub_y(this Vector2 v, float f)
         {
             return new Vector2(v.x, f - v.y);
@@ -36,6 +42,9 @@ namespace Esa
         {
             return new Vector2(v.x, v.y - f);
         }
+        /// <summary>
+        /// add
+        /// </summary>
         public static Vector2 y_add_f(this Vector2 v, float f)
         {
             return new Vector2(v.x, f + v.y);

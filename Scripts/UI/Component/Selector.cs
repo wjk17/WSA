@@ -23,8 +23,8 @@ namespace Esa.UI
         }
         void GetInput()
         {
-            if (UICurve.I.gameObject.activeSelf) return;
-            if (!gameObject.activeSelf || !enabled) return;
+            if (UICurve.I.gameObject.activeInHierarchy) return;
+            if (!gameObject.activeInHierarchy || !enabled) return;
             if (Events.MouseUp(1))
             {
                 Transform target;

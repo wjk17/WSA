@@ -135,7 +135,7 @@ namespace Esa
                     Debug.Log("match: " + ast.transform.name);
                 }
             }
-            if (init) Start();
+            if (init) Awake();
         }
         public void LoadFromDOFMgr()
         {
@@ -145,7 +145,7 @@ namespace Esa
                 ast.dof = dof;
             }
         }
-        private void Start()
+        private void Awake()
         {
             foreach (var t in data.asts)
             {

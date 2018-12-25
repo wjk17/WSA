@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using StrCom = System.StringComparison;
-public static partial class TransformTool
+public static partial class TransTool
 {
     public static bool m_IgnoreCase = true;
     public static bool SearchIgnoreCase
@@ -206,7 +206,22 @@ public static partial class TransformTool
         }
         return null;
     }
-    // 跟 FindObjectsOfType<T> 的区别是在于可以包括隐藏的对象，性能未做比较
+    /// <summary>
+    /// 跟 FindObjectOfType<T> 的区别是在于可以包括隐藏的对象，性能未做比较
+    /// </summary>
+    public static T GetComScene<T>(bool includeInActive = true) where T : Component
+    {
+        GameObject[] GO = SceneManager.GetActiveScene().GetRootGameObjects();
+        foreach (GameObject go in GO)
+        {
+            var c = go.GetComponentInChildren<T>(includeInActive);
+            if (c != null) return c;
+        }
+        return null;
+    }
+    /// <summary>
+    /// 跟 FindObjectsOfType<T> 的区别是在于可以包括隐藏的对象，性能未做比较
+    /// </summary>
     public static List<T> GetComsScene<T>(bool includeInActive = true) where T : Component
     {
         GameObject[] GO = SceneManager.GetActiveScene().GetRootGameObjects();
@@ -514,13 +529,25 @@ public static partial class TransformTool
     {
         (com.transform as RectTransform).anchoredPosition = v;
     }
+    public static void AddUIPosX(this Transform trans, float f)
+    {
+        var rt = trans as RectTransform;
+        rt.anchoredPosition = new Vector2(rt.anchoredPosition.x + f, rt.anchoredPosition.y);
+    }
+    public static void AddUIPosY(this Transform trans, float f)
+    {
+        var rt = trans as RectTransform;
+        rt.anchoredPosition = new Vector2(rt.anchoredPosition.x, rt.anchoredPosition.y + f);
+    }
     public static void SetUIPosX(this Transform trans, float f)
     {
-        (trans as RectTransform).anchoredPosition = new Vector2(f, trans.localPosition.y);
+        var rt = trans as RectTransform;
+        rt.anchoredPosition = new Vector2(f, rt.anchoredPosition.y);
     }
     public static void SetUIPosY(this Transform trans, float f)
     {
-        (trans as RectTransform).anchoredPosition = new Vector2(trans.localPosition.x, f);
+        var rt = trans as RectTransform;
+        rt.anchoredPosition = new Vector2(rt.anchoredPosition.x, f);
     }
     public static void SetUIPosX(this Component com, float f)
     {

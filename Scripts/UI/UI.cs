@@ -4,23 +4,73 @@ using UnityEngine;
 using UnityEngine.UI;
 namespace Esa.UI
 {
+    [Serializable]
+    public class _Cursor
+    {
+        public Texture2D icon;
+        public Vector2 hotspot;
+    }
+    [ExecuteInEditMode]
     public partial class UI : Singleton<UI>
     {
+        public _Cursor cursorOverNPC;
+        public _Cursor cursorDefault;
+        public static Transform Root
+        {
+            get { return canvas.transform; }
+        }
         [Header("CallBack")]
         public List<InputCall> inputs;
         public List<InputCall> called;
-        public override void Init()
-        {
-            I.inputs = new List<InputCall>();
-        }
+        public bool seeCalledList = true;
         public virtual int SortList(InputCall a, InputCall b)
         {
             if (a.order > b.order) { return 1; } ///顺序从低到高
             else if (a.order < b.order) { return -1; }
             return a.name.CompareTo(b.name);
         }
-        public bool seeCalledList = true;
-        public void Update()
+
+        List<UIGrid> grids;
+        List<Button_Row> rows;
+        public Material texMaterial;
+        [Button]
+        public void Initialize()
+        {
+            if (SYS.debugUI) print("UI Initialize.");
+
+            GLUI.texMaterial = texMaterial;
+
+            inputs = new List<InputCall>();
+            glHandlers = new List<GLHandler>();
+            imHandlers = new List<IMHandler>();
+            var wrapper = camera.GetComOrAdd<CameraEventWrapper>();
+            wrapper.onPostRender = CameraPostRender;
+
+            grids = TransTool.GetComsScene<UIGrid>();
+            foreach (var grid in grids)
+            {
+                //grid.Initialize();
+            }
+            rows = TransTool.GetComsScene<Button_Row>();
+            foreach (var row in rows)
+            {
+                //row.Initialize();
+            }
+        }
+        private void Update()
+        {
+#if UNITY_EDITOR
+            if (!Application.isPlaying) return;
+#endif
+            EarlyUpdate();
+            UpdateInput();
+        }
+        public Action earlyUpdate;
+        public void EarlyUpdate()
+        {
+            if (earlyUpdate != null) earlyUpdate();
+        }
+        public void UpdateInput()
         {
             Events.used = false;
             inputs.Sort(SortList);
@@ -43,13 +93,16 @@ namespace Esa.UI
                 if (call.checkOver && call.RT != null)
                 {
                     call.rt = new Rect(call.RT);
-                    call.mouseOver = call.rt.Contains(mousePosRef_LB);
+                    call.mouseOver = call.rt.Contains(mousePosRef);
                     if (call.mouseOver) return;
                 }
                 if (Events.used) return;
             }
         }
-
+        public void StartCoro(System.Collections.IEnumerator ie)
+        {
+            StartCoroutine(ie);
+        }
         private static Canvas _canvas;
         public static Canvas canvas
         {
@@ -71,6 +124,14 @@ namespace Esa.UI
             }
             set { _scaler = value; }
         }
+        public float screenFactor
+        {
+            get { return Screen.currentResolution.width / Screen.currentResolution.height; }
+        }
+        public Vector2 screenSize
+        {
+            get { return new Vector2(Screen.width, Screen.height); }
+        }
         public static float facterToRealPixel
         {
             get { return Screen.width / scaler.referenceResolution.x; }
@@ -79,20 +140,40 @@ namespace Esa.UI
         {
             get { return scaler.referenceResolution.x / Screen.width; }
         }
-        internal static Vector2 mousePosRef // LT
+        public static Vector2 scalerRefRes
+        {
+            get { return scaler.referenceResolution; }
+        }
+        public static Vector2 mousePos // LT
         {
             get
             {
-                var ip = Input.mousePosition;
-                ip *= facterToReference;
-                ip.y = scaler.referenceResolution.y - ip.y;
-                return ip;
+#if UNITY_EDITOR
+                if (!Application.isPlaying) return I.mousePosEvent;
+#endif
+                return Input.mousePosition;
             }
         }
-        internal static Vector2 mousePosRef_LB // LB
+        internal static Vector2 mousePosRef_LT // LT
         {
             get
             {
+#if UNITY_EDITOR
+                if (!Application.isPlaying)
+                    return (I.mousePosEvent / I.gameViewSize).MulRef();
+#endif
+                return (Input.mousePosition * facterToReference).
+                    f_sub_y(scaler.referenceResolution.y);
+            }
+        }
+        public static Vector2 mousePosRef // LB 本来就是左下坐标
+        {
+            get
+            {
+#if UNITY_EDITOR
+                if (!Application.isPlaying)
+                    return (I.mousePosEvent / I.gameViewSize).FlipY().MulRef();
+#endif
                 return Input.mousePosition * facterToReference;
             }
         }
@@ -109,7 +190,7 @@ namespace Esa.UI
             foreach (var rt in rts)
             {
                 var rect = GetAbsRect(rt);
-                if (rect.Contains(mousePosRef_LB)) return true;
+                if (rect.Contains(mousePosRef)) return true;
             }
             return false;
         }
@@ -124,6 +205,10 @@ namespace Esa.UI
             pos += rt.rect.size * Vectors.half2d;
             pos -= rt.pivot * rt.rect.size;
             return pos;
+        }
+        public static Vector2 AbsRefPos(MonoBehaviour mono)
+        {
+            return AbsRefPos(mono.transform as RectTransform);
         }
         public static Vector2 AbsRefPos(Transform t)
         {

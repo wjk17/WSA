@@ -4,23 +4,28 @@ using UnityEngine;
 using System;
 namespace Esa
 {
-    public class MonoSingletonBase : MonoBehaviour
+    public class SingletonBase : MonoBehaviour
     {
-        public virtual void Init() { }
+        public virtual void _Start() { }
+        public virtual void _Awake() { }
     }
     /// <summary>
     /// Use GetInstance() when start the scene
     /// </summary>
-    public class Singleton<T1> : MonoSingletonBase where T1 : MonoBehaviour
+    public class Singleton<T1> : SingletonBase where T1 : MonoBehaviour
     {
         /// <summary>
         /// 如果需要在场景开始时禁用单例对象，使用这个字段来禁用，否则会有找不到单例的可能出现。
+        /// ↑已修改，可以找到
         /// </summary>
         public bool startActive = true;
-        public override void Init()
+        public override void _Awake()
         {
             gameObject.SetActive(startActive);
             _i = (T1)(object)this;
+        }
+        public override void _Start()
+        {
         }
         public static T1 I
         {

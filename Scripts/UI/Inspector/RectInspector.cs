@@ -33,6 +33,8 @@ namespace Esa.UI
         private RectTransform rt;
         bool modify;
         public float rectSideLength = 10f;
+
+        public bool draw;
         private void Reset()
         {
             Start();
@@ -45,9 +47,11 @@ namespace Esa.UI
         {
             if (!Application.isPlaying && !updateInEditor) return;
 
-            this.FrameStart();
-            this.Draw();
-
+            if (draw)
+            {
+                this.FrameStart();
+                this.Draw();
+            }
             if (modify)
             {
                 rt.anchorMin = anchorMin;
@@ -71,9 +75,9 @@ namespace Esa.UI
                 absPosition = rect.pos;
                 absPositionParent = UI.AbsRefPos(rt.parent);
 
-                UITool.DrawSquare(absPositionParent, rectSideLength, Color.blue);
+                if (draw) UITool.DrawSquare(absPositionParent, rectSideLength, Color.blue);
 
-                mouseOver = rect.Contains(UI.mousePosRef_LB);
+                mouseOver = rect.Contains(UI.mousePosRef);
             }
         }
     }

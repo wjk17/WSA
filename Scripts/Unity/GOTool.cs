@@ -7,7 +7,7 @@ public static class GOTool
     public static Transform GetOrAddTransScnRoot(string name)
     {
         Transform obj;
-        var find = TransformTool.SearchScnRootCache(name);
+        var find = TransTool.SearchScnRootCache(name);
         if (find != null) obj = find;
         else
         {

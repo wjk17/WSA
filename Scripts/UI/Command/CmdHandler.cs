@@ -44,6 +44,7 @@ namespace Esa.UI
             if (!(cmd.args[1].GetType() == typeof(T2))) return false;
             return true;
         }
+        // 待做 增加模板类型支持 List<T> 以及接口 IList<T>
         public bool ArgType<T1, T2, T3>(Cmd cmd)
         {
             if (cmd.args.Length != 3) return false;
@@ -69,6 +70,17 @@ namespace Esa.UI
             if (!(cmd.args[2].GetType() == typeof(T3))) return false;
             if (!(cmd.args[3].GetType() == typeof(T4))) return false;
             if (!(cmd.args[4].GetType() == typeof(T5))) return false;
+            return true;
+        }
+        public bool ArgType<T1, T2, T3, T4, T5, T6>(Cmd cmd)
+        {
+            if (cmd.args.Length != 6) return false;
+            if (!(cmd.args[0].GetType() == typeof(T1))) return false;
+            if (!(cmd.args[1].GetType() == typeof(T2))) return false;
+            if (!(cmd.args[2].GetType() == typeof(T3))) return false;
+            if (!(cmd.args[3].GetType() == typeof(T4))) return false;
+            if (!(cmd.args[4].GetType() == typeof(T5))) return false;
+            if (!(cmd.args[5].GetType() == typeof(T6))) return false;
             return true;
         }
     }
