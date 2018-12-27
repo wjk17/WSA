@@ -12,6 +12,14 @@ namespace Esa
             objs = TransTool.GetComsScene<SingletonBase>();
         }
         [Button]
+        void Print()
+        {
+            foreach (var obj in objs)
+            {
+                print(obj.name);
+            } 
+        }
+        [Button]
         void Awake()
         {
             foreach (var obj in objs)

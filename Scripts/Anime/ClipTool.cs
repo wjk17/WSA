@@ -36,6 +36,7 @@ namespace Esa
         {
             foreach (var curve in curves)
             {
+                if (curve == null || curve.ast == null) continue;
                 if (curve.ast.dof.bone == bone)
                     return curve;
             }

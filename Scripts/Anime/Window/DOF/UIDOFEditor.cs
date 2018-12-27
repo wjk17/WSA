@@ -76,7 +76,8 @@ namespace Esa.UI
             UITimeLine.I.onFrameIdxChanged = OnFrameIdxChanged;
 
             UpdateDOF();
-            exBone = avatar[Bone.other].transform;
+            var astOther = avatar[Bone.other];
+            if (astOther.transform != null) exBone = astOther.transform;
         }
         void OnFrameIdxChanged(int frameIdx)
         {

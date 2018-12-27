@@ -65,7 +65,7 @@ namespace Esa
         public void AddCurve(TransDOF ast)
         {
             if (IndexOf(ast) != -1) throw null;
-            curves.Add(new CurveObj(ast));
+            if (ast.transform != null) curves.Add(new CurveObj(ast));
         }        
         public void AddPosCurve(int frameIdx, params Bone[] bones)
         {

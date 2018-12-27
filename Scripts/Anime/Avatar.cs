@@ -71,7 +71,8 @@ namespace Esa
         }
         public void Reset()
         {
-            rig = transform;
+            rig = transform.Search("metarig");
+            if (rig == null) rig = transform;
             folder = "Avatar/";
             fileName = "General.xml";
             Load();
