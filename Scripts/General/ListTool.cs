@@ -7,6 +7,25 @@ namespace Esa
 {
     public static partial class ListTool
     {
+        public static string ToStr<T>(this IList<T> list, string split = "")
+        {
+            string str = "";
+            foreach (var item in list)
+            {
+                if (str.Length != 0) str += split;
+                str += item.ToString();
+            }
+            return str;
+        }
+        public static List<string> ToStrList<T>(this IList<T> list)
+        {
+            var strs = new List<string>();
+            foreach (var item in list)
+            {
+                strs.Add(item.ToString());
+            }
+            return strs;
+        }
         public static bool Contains<T>(this T[] array, T t)
         {
             foreach (var item in array)
