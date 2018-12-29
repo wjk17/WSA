@@ -101,6 +101,7 @@ namespace Esa
         }
         internal void Update(float time)
         {
+            if (ast == null || ast.transform == null) return;
             ast.pos = Pos(time);
             ast.euler = Rot(time);
             ast.Update();
