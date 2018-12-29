@@ -77,25 +77,33 @@ namespace Esa.UI
                 {
                     if (rt.Contains(UI.mousePosRef) && clickable[i])
                     {
-                        rt.Draw(colorOver, true);
                         OnOver(i);
-                        if (drawTips)
+                        if (Events.Mouse1to3)
                         {
-                            // tips
-                            var str = names[i];
-                            var size = IMUI.CalSize(str);
-                            size += fontBorder;
+                            rt.Draw(colorDown, true);
+                            if (Events.MouseDown1to3 && !clicked)
+                            {
+                                OnClick(i);
+                                clicked = true;
 
-                            var os = offset + osFactor * size;
-                            IMUI.DrawText(str, UI.mousePos + os * UI.facterToRealPixel, Vectors.half2d);
-                            GLUI.BeginOrder(3);
-                            var bg = new Rect(UI.mousePosRef + os, size, Vectors.half2d);
-                            bg.Draw(Color.white, true);
+                            }
                         }
-                        if (Events.MouseDown1to3 && !clicked)
+                        else
                         {
-                            OnClick(i);
-                            clicked = true;
+                            rt.Draw(colorOver, true);
+                            if (drawTips)
+                            {
+                                // tips
+                                var str = names[i];
+                                var size = IMUI.CalSize(str);
+                                size += fontBorder;
+
+                                var os = offset + osFactor * size;
+                                IMUI.DrawText(str, UI.mousePos + os * UI.facterToRealPixel, Vectors.half2d);
+                                GLUI.BeginOrder(3);
+                                var bg = new Rect(UI.mousePosRef + os, size, Vectors.half2d);
+                                bg.Draw(Color.white, true);
+                            }
                         }
                     }
                     else rt.Draw(colorNormal, true);
