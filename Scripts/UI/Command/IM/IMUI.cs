@@ -6,6 +6,7 @@ namespace Esa.UI
     {
         public static GUIStyle fontStyle = new GUIStyle();
         public static int fontSize = 24; // reference size设计时的字体大小
+        public static Color fontColor = Color.black;
         public static IMCmd Cmd(IMCmdType type, params object[] args)
         {
             var cmd = new IMCmd();
@@ -18,15 +19,15 @@ namespace Esa.UI
         /// </summary>
         public static Vector2 DrawText(string content, Vector2 pos, Vector2 pivot)
         {
-            UI.AddCommand(Cmd(IMCmdType.DrawText, content, pos, pivot));
+            UI.AddCommand(Cmd(IMCmdType.DrawText, content, pos, pivot, fontColor));
             return fontStyle.CalcSize(new GUIContent(content));
         }
         /// <summary>
         /// LB
         /// </summary>
         public static Vector2 DrawText(string content, Vector2 pos)
-        {            
-            UI.AddCommand(Cmd(IMCmdType.DrawText, content, pos));
+        {
+            UI.AddCommand(Cmd(IMCmdType.DrawText, content, pos, fontColor));
             return fontStyle.CalcSize(new GUIContent(content));
         }
         /// <summary>
@@ -55,17 +56,19 @@ namespace Esa.UI
             GUI.Label(new UnityEngine.Rect(pos - Vector2.Scale(size, pivot), size), content, fontStyle);
         }
         // screen pos
-        public static void _DrawText(string content, Vector2 pos)
+        public static void _DrawText(string content, Vector2 pos,Color color)
         {
             pos = pos.f_sub_y(Screen.height);
             fontStyle.fontSize = Mathf.RoundToInt(fontSize * UI.facterToRealPixel);
+            fontStyle.normal.textColor = color;
             Vector2 size = fontStyle.CalcSize(new GUIContent(content)); // 计算对应样式的字符尺寸  
             GUI.Label(new UnityEngine.Rect(pos, size), content, fontStyle);
         }
-        public static void _DrawText(string content, Vector2 pos, Vector2 pivot)
+        public static void _DrawText(string content, Vector2 pos, Vector2 pivot, Color color)
         {
             pos = pos.f_sub_y(Screen.height);
             fontStyle.fontSize = Mathf.RoundToInt(fontSize * UI.facterToRealPixel);
+            fontStyle.normal.textColor = color;
             Vector2 size = fontStyle.CalcSize(new GUIContent(content));
             GUI.Label(new UnityEngine.Rect(pos - Vector2.Scale(size, pivot), size), content, fontStyle);
         }

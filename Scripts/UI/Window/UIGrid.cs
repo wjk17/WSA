@@ -9,6 +9,7 @@ namespace Esa.UI
     {
         List<Rect> rects;
         public List<bool> clickable;
+        public List<bool> visible;
         public List<string> names;
         public List<Texture2D> textures;
 
@@ -32,7 +33,11 @@ namespace Esa.UI
         public Vector2 osFactor = new Vector2(-0.5f, 0.5f);
         public Vector2 offset = new Vector2(-5, 5);
 
+        public Vector2 nameOffset;
+
         public bool initOnStart = true;
+        public int _drawOrder = 0;
+        public int drawOrder = 0;
         private void Reset()
         {
             colorNormal = Color.grey;
@@ -46,7 +51,7 @@ namespace Esa.UI
         public void Initialize()
         {
             if (SYS.debugUI) print("UIGrid Initialize");
-            this.AddInput(Input, 0, false);
+            this.AddInput(Input, drawOrder, false);
             {
                 foreach (var img in transform.GetComChildren<Image>())
                 {
@@ -54,6 +59,9 @@ namespace Esa.UI
                 }
             }
         }
+        public Vector2 pivot = Vectors.half2d;
+        public Color fontColor = Color.black;
+
         public void Input()
         {
             this.FrameStart();
@@ -64,13 +72,15 @@ namespace Esa.UI
                 for (int x = 0; x < gridCount.x; x++)
                 {
                     rects.Add(new Rect(startPos + gridOsFactor * new Vector2(x, y) *
-                        (gridOs + gridSize), gridSize));
+                        (gridOs + gridSize), gridSize, pivot));
                 }
             }
             var i = 0; bool clicked = false;
             foreach (var rt in rects)
             {
-                GLUI.BeginOrder(0);
+                if (!visible[i]) { i++; continue; }
+                IMUI.fontColor = fontColor;
+                GLUI.BeginOrder(0 + _drawOrder);
 
                 if (!clickable[i]) rt.Draw(colorDown, true);
                 else
@@ -85,7 +95,6 @@ namespace Esa.UI
                             {
                                 OnClick(i);
                                 clicked = true;
-
                             }
                         }
                         else
@@ -100,7 +109,7 @@ namespace Esa.UI
 
                                 var os = offset + osFactor * size;
                                 IMUI.DrawText(str, UI.mousePos + os * UI.facterToRealPixel, Vectors.half2d);
-                                GLUI.BeginOrder(3);
+                                GLUI.BeginOrder(3 + _drawOrder);
                                 var bg = new Rect(UI.mousePosRef + os, size, Vectors.half2d);
                                 bg.Draw(Color.white, true);
                             }
@@ -109,19 +118,19 @@ namespace Esa.UI
                     else rt.Draw(colorNormal, true);
                     if (drawName)
                     {
-                        IMUI.DrawText(names[i], rt.pos * UI.facterToRealPixel, Vectors.half2d);
+                        IMUI.DrawText(names[i], (rt.pos + nameOffset) * UI.facterToRealPixel, Vectors.half2d);
                     }
-                    GLUI.BeginOrder(1);
+                    GLUI.BeginOrder(1 + _drawOrder);
                     if (textures[i] != null)
                     {
                         GLUI.DrawTex(textures[i], rt.ToPointsCWLT(-1));
                     }
 
                     GLUI.SetLineMat();
-                    GLUI.BeginOrder(0);
+                    GLUI.BeginOrder(0 + _drawOrder);
                 }
                 // 待做优化 tex和line分开两个loop
-                GLUI.BeginOrder(2);
+                GLUI.BeginOrder(2 + _drawOrder);
                 if (drawBorder) rt.Draw(drawBorderClr, false);
                 i++;
             }
