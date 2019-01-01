@@ -9,7 +9,7 @@ namespace Esa
     {
         [XmlIgnore] public string clipName;
         [XmlIgnore] public Vector2Int frameRange;
-
+        public bool loop;
         public List<CurveObj> curves;
         public Clip() { curves = new List<CurveObj>(); }
         public Clip(string clipName) { this.clipName = clipName; curves = new List<CurveObj>(); }

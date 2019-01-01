@@ -7,6 +7,20 @@ namespace Esa
 {
     public class Animator : MonoBehaviour
     {
+        public bool finished
+        {
+            get
+            {
+                return playTime * fps >= current.frameRange.y;
+            }
+        }
+        public float nTime
+        {
+            get
+            {
+                return playTime * fps / current.frameRange.y;
+            }
+        }
         public static Clip current
         {
             get
@@ -17,21 +31,6 @@ namespace Esa
         }
         private static Clip _current;
         public bool play = true;
-        public bool walk
-        {
-            set
-            {
-                if (fps == 60 && !value) // turn off
-                {
-                    playTime = 0;
-                    fps = 0;
-                }
-                else if (fps == 0 && value) // turn on
-                {
-                    fps = 60;
-                }
-            }
-        }
         public string _path;
         public string path
         {
@@ -50,6 +49,7 @@ namespace Esa
 
         public int fps = 60;
         public bool mirror;
+        public bool loop = true;
 
         void Start()
         {
@@ -58,6 +58,8 @@ namespace Esa
         }
         public void SetClip(string clipName)
         {
+            if (current != null && clipName == current.clipName) return;
+            playTime = 0;
             foreach (var clip in clips)
             {
                 if (clip.clipName == clipName)
@@ -78,6 +80,7 @@ namespace Esa
 
                 foreach (var curve in c.curves)
                 {
+                    if (curve.ast == null) continue;
                     curve.ast = GetComponent<Avatar>().GetTransDOF(curve.ast.dof);
                 }
 
@@ -88,24 +91,60 @@ namespace Esa
             }
             if (clips.Count > 0)
             {
-                current = clips[0];
+                SetClip("Walk");
                 Mirror(current);
+
+                SetClip("Slash");
+                ScaleClip(current, 0.25f);
+                //OffsetClip(current, 10);
+                current.frameRange.y = (int)(current.frameRange.y * 0.5f);
+
                 if (SYS.debugAnime) print(current.clipName + " length: " + current.frameRange.y);
             }
         }
         Clip Mirror(Clip clip)
         {
-            var i = 40;
             mirror = true;
-            PlayIdx(i);
-            clip.AddEulerPosAllCurve(80);
+            clip.loop = true;
             PlayIdx(0);
+            clip.AddEulerPosAllCurve(80);
+            PlayIdx(40);
             clip.AddEulerPosAllCurve(120);
-            clip.frameRange.y *= 2;
             mirror = false;
+            PlayIdx(0);
+            clip.AddEulerPosAllCurve(160);
+
+            ScaleClip(clip, 0.5f);
+
+            ClipTool.GetFrameRange(clip);
             return clip;
         }
-
+        public void ScaleClip(Clip clip, float factor)
+        {
+            foreach (var oc in clip.curves)
+            {
+                foreach (var curve in oc.curves)
+                {
+                    foreach (var key in curve.keys)
+                    {
+                        key.time *= factor;
+                    }
+                }
+            }
+        }
+        private void OffsetClip(Clip clip, int i)
+        {
+            foreach (var oc in clip.curves)
+            {
+                foreach (var curve in oc.curves)
+                {
+                    foreach (var key in curve.keys)
+                    {
+                        key.idx += i;
+                    }
+                }
+            }
+        }
         private void PlayEveryFrame()
         {
             if (play)
@@ -120,11 +159,21 @@ namespace Esa
         }
         void PlayIdx(int i)
         {
-            if (i > current.frameRange.y) playTime = 0;
+            if (i > current.frameRange.y)
+            {
+                if (current.loop)
+                    i = (int)Mathf.Repeat(i, current.frameRange.y);
+                else i = current.frameRange.y;
+            }
             foreach (var ast in GetComponent<Avatar>().data.asts)
             {
                 if (ast.dof.bone == Bone.root) continue;
-                var curveAst = current.GetCurve(ast);
+                var curveAst = current.GetCurve(ast); // 从clip里找到对应的曲线
+                if (curveAst == null)
+                {
+                    //if (debug) print("没找到: " + Enum.GetName(typeof(Bone), ast.dof.bone));
+                    continue;
+                }
                 if (mirror)
                 {
                     var pair = curveAst.pair;

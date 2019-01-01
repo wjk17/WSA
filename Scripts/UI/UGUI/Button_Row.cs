@@ -73,6 +73,7 @@ namespace Esa.UI
         }
         void ItemClick(int idx)
         {
+            AudioMgr.I.PlaySound("Click");
             if (onClick != null) onClick(idx);
         }
     }

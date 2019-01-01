@@ -7,7 +7,8 @@ namespace Esa.UI
 {
     public class UIGrid : MonoBehaviour
     {
-        List<Rect> rects;
+        [NonSerialized]
+        public List<Rect> rects;
         public List<bool> clickable;
         public List<bool> visible;
         public List<string> names;
@@ -78,7 +79,7 @@ namespace Esa.UI
             var i = 0; bool clicked = false;
             foreach (var rt in rects)
             {
-                if (!visible[i]) { i++; continue; }
+                if (visible.NotEmpty() && !visible[i]) { i++; continue; }
                 IMUI.fontColor = fontColor;
                 GLUI.BeginOrder(0 + _drawOrder);
 
@@ -142,6 +143,7 @@ namespace Esa.UI
         void OnClick(int idx)
         {
             if (SYS.debugUI) print("ItemClick");
+            AudioMgr.I.PlaySound("Click");
             if (onClick != null) onClick(idx);
         }
     }
