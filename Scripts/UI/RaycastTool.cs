@@ -14,6 +14,22 @@ namespace Esa
             SVRaycast(screenPos, out hitPoint);
             return hitPoint;
         }
+        public static Transform Raycast(Vector3 pos, int layerMask)
+        {
+            Transform hit = null;
+            SVRaycast(pos, out hit, layerMask);
+            return hit;
+        }
+        public static Vector3 RaycastPos(Vector3 pos, int layerMask)
+        {
+            RaycastHit hit;
+            SVRaycast(pos, out hit, layerMask);
+            return hit.transform == null ? Vector3.positiveInfinity : hit.point;
+        }
+
+
+
+
         public static Transform SVRaycast(int layerMask)
         {
             Transform hit = null;
@@ -61,6 +77,10 @@ namespace Esa
         }
         public static bool SVRaycast(out RaycastHit hit, int layerMask)
         {
+#if UNITY_EDITOR
+            if (!Application.isPlaying)
+                return SVRaycast(Events.MousePosLB, out hit, layerMask);
+#endif
             return SVRaycast(Input.mousePosition, out hit, layerMask);
         }
         public static bool SVRaycast(Vector3 mousePos, out RaycastHit hit, int layerMask)

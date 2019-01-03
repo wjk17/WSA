@@ -12,6 +12,17 @@ namespace Esa
             UI.UI.I.StartCoro(e);
         }
     }
+    public class LayerMasks
+    {
+        public static string TerrainName = "Terrain";
+        public static LayerMask Terrain { get { return LayerMask.GetMask(TerrainName); } }
+        public static int TerrainNum { get { return (int)Mathf.Log(Terrain.value, 2); } }
+
+
+        public static string GridName = "Grid";
+        public static LayerMask Grid { get { return LayerMask.GetMask(GridName); } }
+        public static int GridNum { get { return (int)Mathf.Log(Grid.value, 2); } }
+    }
     public class SYS : MonoBehaviour
     {
         public static float Fps
@@ -23,7 +34,7 @@ namespace Esa
         public static float Tpf // timePerFrame
         {
             get { return 1 / Fps; }
-        }
+        }    
         public static bool debugAnime;
         public static bool debugUI;
         public static bool debugSingleton;

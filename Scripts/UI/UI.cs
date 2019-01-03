@@ -13,6 +13,10 @@ namespace Esa.UI
     [ExecuteInEditMode]
     public partial class UI : Singleton<UI>
     {
+        public static string layerName = "UI";
+        public static LayerMask layerMask { get { return LayerMask.GetMask(layerName); } }
+        public static int layerNum { get { return (int)Mathf.Log(layerMask.value, 2); } }
+
         public _Cursor cursorOverNPC;
         public _Cursor cursorDefault;
         public static Transform Root

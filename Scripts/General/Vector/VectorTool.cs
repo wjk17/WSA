@@ -108,6 +108,27 @@ namespace Esa
             return new Vector3((minX + maxX) / 2.0f, (minY + maxY) / 2.0f, (minZ + maxZ) / 2.0f);
         }
         // 计算中心点
+        public static Vector3 GetCenter(this Mesh mesh)
+        {
+            var pos = Vector3.zero;
+            foreach (var v in mesh.vertices)
+            {
+                pos += v;
+            }
+            pos /= (mesh.vertices.Length - 1);
+            return pos;
+        }
+
+        public static Vector3 GetCenter(this IList<Vector3> vs)
+        {
+            var pos = Vector3.zero;
+            foreach (var v in vs)
+            {
+                pos += v;
+            }
+            pos /= (vs.Count - 1);
+            return pos;
+        }
         public static Vector3 GetCenter(GameObject[] g)
         {
             Vector3 center = Vector3.zero;
@@ -166,17 +187,47 @@ namespace Esa
         }
         public static Vector3 Divide(this Vector3 a, Vector3 b)
         {
-            Vector3 n;
-            n.x = a.x / b.x;
-            n.y = a.y / b.y;
-            n.z = a.z / b.z;
-            return n;
+            a.x = a.x / b.x;
+            a.y = a.y / b.y;
+            a.z = a.z / b.z;
+            return a;
         }
         public static void Divide(ref Vector3 a, Vector3 b)
         {
             a.x = a.x / b.x;
             a.y = a.y / b.y;
             a.z = a.z / b.z;
+        }
+        public static Vector2Int DivideToInt(this Vector2 a, float b)
+        {
+            var i = new Vector2Int();
+            i.x = Mathf.RoundToInt(a.x / b);
+            i.y = Mathf.RoundToInt(a.y / b);
+            return i;
+        }
+        public static Vector3Int DivideToInt(this Vector3 a, float b)
+        {
+            var i = new Vector3Int();
+            i.x = Mathf.RoundToInt(a.x / b);
+            i.y = Mathf.RoundToInt(a.y / b);
+            i.z = Mathf.RoundToInt(a.z / b);
+            return i;
+        }
+        public static Vector3Int DivideToInt(this Vector3 a, Vector3 b)
+        {
+            var i = new Vector3Int();
+            i.x = Mathf.RoundToInt(a.x / b.x);
+            i.y = Mathf.RoundToInt(a.y / b.y);
+            i.z = Mathf.RoundToInt(a.z / b.z);
+            return i;
+        }
+        public static Vector2 Snap(this Vector2 a, float b)
+        {
+            return (Vector2)a.DivideToInt(b) * b;
+        }
+        public static Vector3 Snap(this Vector3 a, float b)
+        {
+            return (Vector3)a.DivideToInt(b) * b;
         }
         /// <summary>
         /// 曼哈顿距离

@@ -58,6 +58,11 @@ namespace Esa.UI
             pos.y = UI.scaler.referenceResolution.y - pos.y;
             return pos;
         }
+        public static Vector2 ToLTScreen(this Vector2 pos)
+        {
+            pos.y = Screen.height - pos.y;
+            return pos;
+        }
         public static Vector2 ToNDC(this Vector2 p) // input screen pos
         {
             return p /= UI.scaler.referenceResolution;

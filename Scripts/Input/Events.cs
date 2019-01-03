@@ -115,31 +115,96 @@ namespace Esa
         /// </summary>
         public static bool MouseDown0
         {
-            get { return !used && Input.GetMouseButtonDown(0); }
+            get
+            {
+#if UNITY_EDITOR
+                if (!Application.isPlaying)
+                    return Event.current.type == EventType.MouseDown && Event.current.button == 0;
+#endif
+                return !used && Input.GetMouseButtonDown(0);
+            }
         }
         public static bool MouseDown1
         {
-            get { return !used && Input.GetMouseButtonDown(1); }
+            get
+            {
+#if UNITY_EDITOR
+                if (!Application.isPlaying)
+                    return Event.current.type == EventType.MouseDown && Event.current.button == 1;
+#endif
+                return !used && Input.GetMouseButtonDown(1);
+            }
         }
         public static bool MouseDown2
         {
-            get { return !used && Input.GetMouseButtonDown(2); }
+            get
+            {
+#if UNITY_EDITOR
+                if (!Application.isPlaying)
+                    return Event.current.type == EventType.MouseDown && Event.current.button == 2;
+#endif
+                return !used && Input.GetMouseButtonDown(2);
+            }
         }
         /// <summary>
         /// MouseHold
         /// </summary>
         public static bool Mouse0
         {
-            get { return !used && Input.GetMouseButton(0); }
+            get
+            {
+#if UNITY_EDITOR
+                if (!Application.isPlaying)
+                    return Event.current.type == EventType.MouseDrag && Event.current.button == 0;
+#endif
+                return !used && Input.GetMouseButton(0);
+            }
         }
         public static bool Mouse1
         {
-            get { return !used && Input.GetMouseButton(1); }
+            get
+            {
+#if UNITY_EDITOR
+                if (!Application.isPlaying)
+                    return Event.current.type == EventType.MouseDrag && Event.current.button == 1;
+#endif
+                return !used && Input.GetMouseButton(1);
+            }
         }
         public static bool Mouse2
         {
-            get { return !used && Input.GetMouseButton(2); }
+            get
+            {
+#if UNITY_EDITOR
+                if (!Application.isPlaying)
+                    return Event.current.type == EventType.MouseDrag && Event.current.button == 2;
+#endif
+                return !used && Input.GetMouseButton(2);
+            }
         }
+#if UNITY_EDITOR
+        public static bool MouseMove
+        {
+            get
+            {
+                return Event.current.type == EventType.MouseMove;
+            }
+        }
+        public static Vector3 MousePos
+        {
+            get
+            {
+                return Event.current.mousePosition;
+            }
+        }
+        public static Vector3 MousePosLB
+        {
+            get
+            {
+                return Event.current.mousePosition.f_sub_y(Screen.height);
+            }
+        }
+#endif
         /// <summary>
         /// Mouse 1to3
         /// </summary>
@@ -187,6 +252,6 @@ namespace Esa
             if (Input.GetKeyDown(KeyCode.Alpha8)) return i; i++;
             if (Input.GetKeyDown(KeyCode.Alpha9)) return i; i++;
             if (Input.GetKeyDown(KeyCode.Alpha0)) return i; return -1;
-        }        
+        }
     }
 }
