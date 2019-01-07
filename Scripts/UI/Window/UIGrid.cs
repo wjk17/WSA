@@ -16,7 +16,7 @@ namespace Esa.UI
 
         public bool drawName;
         public bool drawBorder;
-        public Color drawBorderClr;
+        public Color drawBorderClr = Color.black;
         public bool drawTips;
 
         public Vector2Int gridCount = new Vector2Int(8, 3);
@@ -24,9 +24,9 @@ namespace Esa.UI
         public Vector2 gridOsFactor = Vector2.one;
         public Vector2 gridSize = new Vector2(80, 80);
 
-        public Color colorNormal;
-        public Color colorOver;
-        public Color colorDown;
+        public Color colorNormal = Color.grey;
+        public Color colorOver = Color.white;
+        public Color colorDown = Color.grey;
         public Action<int> onClick;
         public Action<int> onOver;
 
@@ -39,12 +39,6 @@ namespace Esa.UI
         public bool initOnStart = true;
         public int _drawOrder = 0;
         public int drawOrder = 0;
-        private void Reset()
-        {
-            colorNormal = Color.grey;
-            colorOver = Color.white;
-            colorDown = Color.grey;
-        }
         void Start()
         {
             if (initOnStart) Initialize();
@@ -83,7 +77,7 @@ namespace Esa.UI
                 IMUI.fontColor = fontColor;
                 GLUI.BeginOrder(0 + _drawOrder);
 
-                if (!clickable[i]) rt.Draw(colorDown, true);
+                if (!clickable[i]) rt.DrawButton(colorDown, 2);
                 else
                 {
                     if (rt.Contains(UI.mousePosRef) && clickable[i])
@@ -91,7 +85,7 @@ namespace Esa.UI
                         OnOver(i);
                         if (Events.Mouse1to3)
                         {
-                            rt.Draw(colorDown, true);
+                            rt.DrawButton(colorDown, 2);
                             if (Events.MouseDown1to3 && !clicked)
                             {
                                 OnClick(i);
@@ -100,7 +94,7 @@ namespace Esa.UI
                         }
                         else
                         {
-                            rt.Draw(colorOver, true);
+                            rt.DrawButton(colorOver, 1);
                             if (drawTips)
                             {
                                 // tips
@@ -116,7 +110,7 @@ namespace Esa.UI
                             }
                         }
                     }
-                    else rt.Draw(colorNormal, true);
+                    else rt.DrawButton(colorNormal, 0);
                     if (drawName)
                     {
                         IMUI.DrawText(names[i], (rt.pos + nameOffset) * UI.facterToRealPixel, Vectors.half2d);

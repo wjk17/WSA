@@ -18,10 +18,12 @@ namespace Esa
         {
             return new Rect(rect.position, rect.size);
         }
+        public Rect(MonoBehaviour mono) : this(mono.transform as RectTransform)
+        {
+        }
         /// <summary>
         /// BUG：横向Strech模式下pivot.y必须为0，竖向则x为0，双向则都为0。
         /// </summary>
-        /// <param name="rt"></param>
         public Rect(RectTransform rt)
         {
             pos = UI.UI.AbsRefPos(rt);
@@ -31,7 +33,6 @@ namespace Esa
 
             //pos -= rt.pivot.FlipY() * rt.rect.size;
             size = rt.rect.size;
-
         }
         public Rect(Vector2 pos, float sideLength) : this(pos, Vector2.one * sideLength)
         {
@@ -53,22 +54,16 @@ namespace Esa
         {
             pos += size * pivot;
         }
-        public Vector2 LB()
+        public void SetPivot(Vector2 pivot)
         {
-            return pos - size * Vectors.half2d;
+            var os = pivot - this.pivot;
+            pos += size * os;
+            this.pivot = pivot;
         }
-        public Vector2 LT()
-        {
-            return pos - size * Vectors.half2d.ReverseY();
-        }
-        public Vector2 RT()
-        {
-            return pos + size * Vectors.half2d;
-        }
-        public Vector2 RB()
-        {
-            return pos + size * Vectors.half2d.ReverseY();
-        }
+        public Vector2 cornerLB { get { return pos - size * Vectors.half2d; } }
+        public Vector2 cornerLT { get { return pos - size * Vectors.half2d.ReverseY(); } }
+        public Vector2 cornerRT { get { return pos + size * Vectors.half2d; } }
+        public Vector2 cornerRB { get { return pos + size * Vectors.half2d.ReverseY(); } }
         /// <summary>
         /// LT
         /// </summary>

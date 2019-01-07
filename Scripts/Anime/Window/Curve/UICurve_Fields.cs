@@ -58,7 +58,7 @@ namespace Esa.UI
         public bool showTangentsUnSel;
 
         Vector2 _rtPos;
-        Vector2 rtPos { get { return new Rect(rt).LB(); } }
+        Vector2 rtPos { get { return new Rect(rt).cornerLB; } }
         //rt.rect.size; 
         Vector2 rtSize { get { return rt.rect.size; } } // 曲线视图区域大小
         public RectTransform rt { get { return (transform as RectTransform); } }

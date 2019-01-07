@@ -53,6 +53,12 @@ namespace Esa.UI
             texMaterial.SetTexture("_MainTex", texture);
             texMaterial.SetPass(0);
         }
+        public static void SetTexColor(Color color)
+        {
+            if (!texMaterial) throw null;
+            texMaterial.SetColor("_Color", color);
+            //texMaterial.SetPass(0);
+        }
         public static void Test()
         {
             SetLineMaterial();
@@ -79,9 +85,17 @@ namespace Esa.UI
         {
             UI.AddCommand(Cmd(-1, GLCmdType.LoadOrtho));
         }
-        public static void DrawTex(Texture2D texture, params Vector2[] v)
+        public static void DrawTex(Texture2D texture, Vector2[] vs, Vector2[] uv)
         {
-            DrawTex(texture, (IList<Vector2>)v);
+            DrawTex(texture, Color.white, vs, uv);
+        }
+        public static void DrawTex(Texture2D texture, Color color, Vector2[] vs, Vector2[] uv)
+        {
+            UI.AddCommand(Cmd(commandOrder, GLCmdType.DrawTexOrtho, texture, color, vs, uv));
+        }
+        public static void DrawTex(Texture2D texture, params Vector2[] vs)
+        {
+            DrawTex(texture, (IList<Vector2>)vs);
         }
         public static void DrawTex(Texture2D texture, Color color, params Vector2[] v)
         {
@@ -113,7 +127,7 @@ namespace Esa.UI
         public static void _DrawTex(Texture2D texture, Color color, IList<Vector2> v)
         {
             SetTexMaterial(texture);
-            GL.Color(color);
+            SetTexColor(color);
             GL.LoadOrtho();
             GL.Begin(GL.QUADS);
             var uv = new Vector3[] {
@@ -121,6 +135,23 @@ namespace Esa.UI
             new Vector3(0, 1, 0),
             new Vector3(1, 1, 0),
             new Vector3(1, 0, 0)};
+            for (int i = 0; i < 4; i++)
+            {
+                GL.TexCoord(uv[i]);
+                GL.Vertex(v[i].ToNDC());
+            }
+            GL.End();
+        }
+        public static void _DrawTex(Texture2D texture, IList<Vector2> v, IList<Vector2> uv)
+        {
+            _DrawTex(texture, Color.white, v, uv);
+        }
+        public static void _DrawTex(Texture2D texture, Color color, IList<Vector2> v, IList<Vector2> uv)
+        {
+            SetTexMaterial(texture);
+            SetTexColor(color);
+            GL.LoadOrtho();
+            GL.Begin(GL.QUADS);
             for (int i = 0; i < 4; i++)
             {
                 GL.TexCoord(uv[i]);

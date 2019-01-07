@@ -3,8 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace Esa.UI
 {
+    [System.Serializable]
+    public class TextureSet
+    {
+        public Texture2D this[int i] { get { return tex[i]; } }
+        public Texture2D[] tex;
+        public Texture2D hover { get { return tex[0]; } }
+        public Texture2D normal { get { return tex[1]; } }
+        public Texture2D down { get { return tex[2]; } }
+        public Texture2D focus { get { return tex[3]; } }
+    }
     public partial class UI // Commands
     {
+        public TextureSet texWindow;
+        public TextureSet texButton;
+        public float corSizeButton;
+        public float corSizeWindow;
+
         [Header("Command")]
         public bool updateInEditor;
         public List<GLHandler> glHandlers;
@@ -48,6 +63,7 @@ namespace Esa.UI
         Vector2 mousePosEvent;
         Vector2 gameViewSize;
         Vector2 sceneViewSize;
+
         private void OnDrawGizmos() // 需要打开SceneView 放在GameView右边
         {
             mousePosEvent = Event.current.mousePosition;

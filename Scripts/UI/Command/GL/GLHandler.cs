@@ -51,7 +51,13 @@ namespace Esa.UI
                     else { throw new Exception("未定义 参数"); }
                     break;
                 case GLCmdType.DrawTexOrtho:
-                    if (ArgType<Texture2D, Color, Vector2, Vector2, Vector2, Vector2>(cmd))
+                    if (ArgType<Texture2D, Color, Vector2[], Vector2[]>(cmd))
+                    {
+                        GLUI._DrawTex((Texture2D)cmd.args[0], (Color)cmd.args[1],
+                            (Vector2[])cmd.args[2], 
+                            (Vector2[])cmd.args[3]);
+                    }
+                    else if (ArgType<Texture2D, Color, Vector2, Vector2, Vector2, Vector2>(cmd))
                     {
                         GLUI._DrawTex((Texture2D)cmd.args[0], (Color)cmd.args[1],
                             (Vector2)cmd.args[2],

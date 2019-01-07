@@ -21,6 +21,10 @@ public static class Serializer
         }
         catch (Exception e) { Debug.LogError(e); return default(T); }
     }
+    public static void XMLDeSerialize<T>(out T obj, string path)
+    {
+        obj = XMLDeSerialize<T>(path);
+    }
     public static T XMLDeSerialize<T>(string filePath)
     {
         try
