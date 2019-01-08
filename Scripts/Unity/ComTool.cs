@@ -109,6 +109,13 @@ namespace Esa
             a = b;
             b = c;
         }
+        public static void DestroyImages(this Component target)
+        {
+            foreach (var img in target.GetComponentsInChildren<UnityEngine.UI.Image>(true))
+            {
+                DestroyAuto(img);
+            }
+        }
 #if UNITY_EDITOR
         public static void DestroyAuto(this Object target)
         {

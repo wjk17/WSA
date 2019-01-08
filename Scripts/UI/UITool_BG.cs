@@ -13,11 +13,15 @@ namespace Esa.UI
                 pos + size - pivot * size,
                 pos + size.X()- pivot * size};
         }
-        public static void DrawBG(this Component c, float cornerSize)
+        public static void DrawBG(this Component c, bool solid = true)
         {
-            DrawBG(c, cornerSize, Color.white);
+            DrawBG(c, UI.I.corSizeWindow, Color.white, solid);
         }
-        public static void DrawBG(this Component c, float cornerSize, Color color)
+        public static void DrawBG(this Component c, float cornerSize, bool solid = true)
+        {
+            DrawBG(c, cornerSize, Color.white, solid);
+        }
+        public static void DrawBG(this Component c, float cornerSize, Color color, bool solid = true)
         {
             var RT = c.transform as RectTransform;
             if (RT == null) return;
@@ -27,18 +31,28 @@ namespace Esa.UI
             rect.size = rt.sizeAbs;
             rect.pos = rt.center;
 
-            DrawWindow(rect, color, 0);
+            if (solid)
+                DrawWindow(rect, cornerSize, color, 0);
+            else DrawFrame(rect, cornerSize, color, 0);
         }
         // status 0 normal, 1 hover, 2 down, 3 focus.
         public static void DrawWindow(this Rect rt, Color color, int status)
         {
             DrawBG(rt, UI.I.texWindow[status], UI.I.corSizeWindow, color);
         }
+        public static void DrawWindow(this Rect rt, float cornerSize, Color color, int status)
+        {
+            DrawBG(rt, UI.I.texWindow[status], cornerSize, color);
+        }
+        public static void DrawFrame(this Rect rt, float cornerSize, Color color, int status)
+        {
+            DrawBG(rt, UI.I.texWindow[status], cornerSize, color, false);
+        }
         public static void DrawButton(this Rect rt, Color color, int status)
         {
             DrawBG(rt, UI.I.texButton[status], UI.I.corSizeButton, color);
         }
-        public static void DrawBG(this Rect rt, Texture2D tex, float cornerSize, Color color)
+        public static void DrawBG(this Rect rt, Texture2D tex, float cornerSize, Color color, bool drawCenter = true)
         {
             var corSize_Ref = Vector2.one * 10f;
             var corSize = Vector2.one * cornerSize;
@@ -93,10 +107,51 @@ namespace Esa.UI
             v = GetVS(rt.cornerRB + corSize.Y(), hS, Vector2.right);
             GLUI.DrawTex(tex, color, v, uv);
 
-            // Center
-            uv = GetVS(corSize_uv, Vector2.one - corSize_uv * 2f, Vector2.zero);
-            v = GetVS(rt.cornerLB + corSize, new Vector2(w, h), Vector2.zero);
-            GLUI.DrawTex(tex, color, v, uv);
+            if (drawCenter)
+            {
+                // Center
+                uv = GetVS(corSize_uv, Vector2.one - corSize_uv * 2f, Vector2.zero);
+                v = GetVS(rt.cornerLB + corSize, new Vector2(w, h), Vector2.zero);
+                GLUI.DrawTex(tex, color, v, uv);
+            }
+        }
+        public static void MaskCorner(this Texture2D tex, Texture2D texMask, float _corSize)
+        {
+            var corSize = (Vector2.one * _corSize).ToInt();
+            var texMaskSize = texMask.Size();
+            var texSize = tex.Size();
+            var lb = texMask.GetPixels(Vector2Int.zero, corSize);
+            var lt = texMask.GetPixels(texMaskSize.Y() - corSize.Y(), corSize);
+            var rt = texMask.GetPixels(texMaskSize - corSize, corSize);
+            var rb = texMask.GetPixels(texMaskSize.X() - corSize.X(), corSize);
+            // LB
+            var pixels = tex.GetPixels(Vector2Int.zero, corSize);
+            for (int i = 0; i < pixels.Length; i++)
+            {
+                pixels[i].a = lb[i].a;
+            }
+            tex.SetPixels(Vector2Int.zero, corSize, pixels);
+            // LT
+            pixels = tex.GetPixels(texSize.Y() - corSize.Y(), corSize);
+            for (int i = 0; i < pixels.Length; i++)
+            {
+                pixels[i].a = lt[i].a;
+            }
+            tex.SetPixels(texSize.Y() - corSize.Y(), corSize, pixels);
+            // RT
+            pixels = tex.GetPixels(texSize - corSize, corSize);
+            for (int i = 0; i < pixels.Length; i++)
+            {
+                pixels[i].a = rt[i].a;
+            }
+            tex.SetPixels(texSize - corSize, corSize, pixels);
+            // RB
+            pixels = tex.GetPixels(texSize.X() - corSize.X(), corSize);
+            for (int i = 0; i < pixels.Length; i++)
+            {
+                pixels[i].a = rb[i].a;
+            }
+            tex.SetPixels(texSize.X() - corSize.X(), corSize, pixels);
         }
     }
 }

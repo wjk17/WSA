@@ -17,8 +17,8 @@ namespace Esa.UI
     {
         public TextureSet texWindow;
         public TextureSet texButton;
-        public float corSizeButton;
-        public float corSizeWindow;
+        public int corSizeButton;
+        public int corSizeWindow;
 
         [Header("Command")]
         public bool updateInEditor;

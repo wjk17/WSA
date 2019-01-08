@@ -6,6 +6,16 @@ namespace Esa.UI
     public static partial class UITool // Draw
     {
         public static bool debug;
+
+        public static Vector2[] UVOne
+        {
+            get
+            {
+                if (_UVOne == null) _UVOne = GetVS(Vector2.zero, Vector2.one, Vector2.zero);
+                return _UVOne;
+            }
+        }
+        static Vector2[] _UVOne;
         public static void Draw(this MonoBehaviour mono)
         {
             Draw(mono, Color.black);

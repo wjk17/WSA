@@ -7,6 +7,10 @@ namespace Esa
 {
     public static class VectorTool
     {
+        public static Vector2Int Mul(this Vector2Int v, float f)
+        {
+            return new Vector2Int(Mathf.RoundToInt(v.x * f), Mathf.RoundToInt(v.y * f));
+        }
         public static int eleCount(this Vector2Int v)
         {
             return v.x * v.y;

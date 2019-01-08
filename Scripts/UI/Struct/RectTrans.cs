@@ -14,17 +14,20 @@ namespace Esa
     {
         public Vector2 anchoredPos
         {
-            get { return parentPos + (pos + (sizeAbs * pivot - parentPivotV) - anchorMinV); }
+            get { return pos + (sizeAbs * pivot - parentPivotV) - anchorMinV; }
             set { pos = value; }
         }
         public Vector2 pos;
+        public Vector2 posAbs { get { return parentCorLB + anchoredPos; } }
         public Vector2 sizeAbs;
+        public Vector2 parentCorLB { get { return parent == null ? Vector2.zero : parent.cornerLB; } }
+        public Vector2 parentPos { get { return parent == null ? Vector2.zero : parent.anchoredPos; } }
         public Vector2 parentPivotV { get { return parentSizeAnchored * pivot; } }
-        public Vector2 pivotV { get { return parentPos + parentSizeAbs * pivot; } }
+        public Vector2 pivotV { get { return parentSizeAbs * pivot; } }
         public Vector2 pivot;
         public Vector2 anchorMinV { get { return parentSizeAbs * anchorMin; } }
         public Vector2 anchorMin; // 0~1
-        public Vector2 anchorMaxV { get { return parentPos + parentSizeAbs * anchorMax; } }
+        public Vector2 anchorMaxV { get { return parentSizeAbs * anchorMax; } }
         public Vector2 anchorMax;
 
         public Vector2 _offsetMin;
@@ -37,10 +40,24 @@ namespace Esa
         internal Vector2 center { get { return (cornerRT + cornerLB) * 0.5f; } }
         internal Vector2 cornerLT { get { return new Vector2(cornerLB.x, cornerRT.y); } }
         internal Vector2 cornerRB { get { return new Vector2(cornerRT.x, cornerLB.y); } }
-        internal Vector2 cornerRT { get { return anchorMaxV + offsetMax; } }
-        internal Vector2 cornerLB { get { return anchorMinV + offsetMin; } }
+        internal Vector2 cornerRT { get { return parentOs + anchorMaxV + offsetMax; } }
+        internal Vector2 cornerLB { get { return parentOs + anchorMinV + offsetMin; } }
+        internal Vector2 _cornerLB { get { return anchorMinV + offsetMin; } }
+        internal Vector2 parentOs
+        {
+            get
+            {
+                var p = parent;
+                var parentLBAbs = Vector2.zero;
+                while (p != null)
+                {
+                    parentLBAbs += p._cornerLB;
+                    p = p.parent;
+                }
+                return parentLBAbs;
+            }
+        }
 
-        Vector2 parentPos { get { return parent == null ? Vector2.zero : parent.anchoredPos; } }
         public Vector2 parentSizeAnchored { get { return parentSizeAbs * anchorMax - parentSizeAbs * anchorMin; } }
         public Vector2 parentSizeAbs { get { return parent == null ? UI.UI.scalerRefRes : parent.sizeAbs; } }
         public RectTrans(Component c) : this(c.transform as RectTransform) { }
@@ -95,5 +112,5 @@ namespace Esa
                 anchoredPos += a * pivot;
             }
         }
-    }    
+    }
 }
