@@ -43,10 +43,11 @@ namespace Esa.UI
         {
             if (initOnStart) Initialize();
         }
+        InputCall ic;
         public void Initialize()
         {
             if (SYS.debugUI) print("UIGrid Initialize");
-            this.AddInput(Input, drawOrder, false);
+            ic = this.AddInput(Input, drawOrder, false);
             {
                 foreach (var img in transform.GetComChildren<Image>())
                 {
@@ -56,10 +57,11 @@ namespace Esa.UI
         }
         public Vector2 pivot = Vectors.half2d;
         public Color fontColor = Color.black;
-
+        public int buttonStyle = 0;
         public void Input()
         {
-            this.FrameStart();
+            ic.order = drawOrder;
+            this.BeginFrame();
             var startPos = this.AbsRefPos();
             rects = new List<Rect>();
             for (int y = 0; y < gridCount.y; y++)
@@ -77,7 +79,7 @@ namespace Esa.UI
                 IMUI.fontColor = fontColor;
                 GLUI.BeginOrder(0 + _drawOrder);
 
-                if (!clickable[i]) rt.DrawButton(colorDown, 2);
+                if (!clickable[i]) rt.DrawButton(buttonStyle, colorDown, 2);
                 else
                 {
                     if (rt.Contains(UI.mousePosRef) && clickable[i])
@@ -85,7 +87,7 @@ namespace Esa.UI
                         OnOver(i);
                         if (Events.Mouse1to3)
                         {
-                            rt.DrawButton(colorDown, 2);
+                            rt.DrawButton(buttonStyle,colorDown, 2);
                             if (Events.MouseDown1to3 && !clicked)
                             {
                                 OnClick(i);
@@ -94,7 +96,7 @@ namespace Esa.UI
                         }
                         else
                         {
-                            rt.DrawButton(colorOver, 1);
+                            rt.DrawButton(buttonStyle,colorOver, 1);
                             if (drawTips)
                             {
                                 // tips
@@ -110,7 +112,7 @@ namespace Esa.UI
                             }
                         }
                     }
-                    else rt.DrawButton(colorNormal, 0);
+                    else rt.DrawButton(buttonStyle, colorNormal, 0);
                     if (drawName)
                     {
                         IMUI.DrawText(names[i], (rt.pos + nameOffset) * UI.facterToRealPixel, Vectors.half2d);

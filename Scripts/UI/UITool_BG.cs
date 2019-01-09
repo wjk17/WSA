@@ -48,6 +48,11 @@ namespace Esa.UI
         {
             DrawBG(rt, UI.I.texWindow[status], cornerSize, color, false);
         }
+        public static void DrawButton(this Rect rt, int style, Color color, int status)
+        {
+            var tex = style == 0 ? UI.I.texButton[status] : UI.I.texButtonCon[status];
+            DrawBG(rt, tex, UI.I.corSizeButton, color);
+        }
         public static void DrawButton(this Rect rt, Color color, int status)
         {
             DrawBG(rt, UI.I.texButton[status], UI.I.corSizeButton, color);

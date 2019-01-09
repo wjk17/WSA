@@ -38,7 +38,7 @@ namespace Esa.UI
         public Vector2Int drawAreaStart;
         private void Update()
         {
-            this.FrameStart();
+            this.BeginFrame();
 
             Curve2.colorCtrlLines = clrCtrlLinesUnSel;
             Curve2.colorBorder = clrBorder;

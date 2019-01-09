@@ -17,6 +17,7 @@ namespace Esa.UI
     {
         public TextureSet texWindow;
         public TextureSet texButton;
+        public TextureSet texButtonCon;
         public int corSizeButton;
         public int corSizeWindow;
 

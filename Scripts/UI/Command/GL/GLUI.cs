@@ -137,7 +137,7 @@ namespace Esa.UI
             new Vector3(1, 0, 0)};
             for (int i = 0; i < 4; i++)
             {
-                GL.TexCoord(uv[i]);
+                GL.TexCoord(new Vector3(uv[i].x, uv[i].y, texZ));
                 GL.Vertex(v[i].ToNDC());
             }
             GL.End();
@@ -146,6 +146,7 @@ namespace Esa.UI
         {
             _DrawTex(texture, Color.white, v, uv);
         }
+        public static float texZ;
         public static void _DrawTex(Texture2D texture, Color color, IList<Vector2> v, IList<Vector2> uv)
         {
             SetTexMaterial(texture);
@@ -154,7 +155,7 @@ namespace Esa.UI
             GL.Begin(GL.QUADS);
             for (int i = 0; i < 4; i++)
             {
-                GL.TexCoord(uv[i]);
+                GL.TexCoord(new Vector3(uv[i].x, uv[i].y, texZ));
                 GL.Vertex(v[i].ToNDC());
             }
             GL.End();

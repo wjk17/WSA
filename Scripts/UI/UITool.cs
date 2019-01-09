@@ -33,7 +33,7 @@ namespace Esa.UI
             GLUI.BeginOrtho();
             GLUI.BeginOrder(0);
         }
-        public static void FrameStart(this MonoBehaviour mono)
+        public static void BeginFrame(this MonoBehaviour mono)
         {
             UI.owner = mono.transform as RectTransform;
             UI.ClearCmd();

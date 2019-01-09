@@ -468,6 +468,14 @@ public static partial class TransTool
     {
         com.transform.localScale = new Vector3(com.transform.localScale.x, com.transform.localScale.y, f);
     }
+
+    // setpos 
+    public static void SetPosXZ(this Component com, float x, float z)
+    {
+        com.transform.position = new Vector3(x, com.transform.position.y, z);
+    }
+
+    // setlocalpos
     public static void SetLocalPosX(this Component com, float f)
     {
         com.transform.localPosition = new Vector3(f, com.transform.localPosition.y, com.transform.localPosition.z);

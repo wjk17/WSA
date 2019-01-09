@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Object = UnityEngine.Object;
+using UnityEngine.UI;
 namespace Esa
 {
     public static class ComTool
@@ -63,6 +64,22 @@ namespace Esa
             if (keepParent) copy.SetParent(go.transform.parent);
             return copy;
         }
+        public static void Disable<T>(this Component com) where T : MonoBehaviour
+        {
+            com.GetComponent<T>().enabled = false;
+        }
+        public static void Enable<T>(this Component com) where T : MonoBehaviour
+        {
+            com.GetComponent<T>().enabled = true;
+        }
+        public static void Active(this Component com)
+        {
+            com.gameObject.SetActive(true);
+        }
+        public static void Disactive(this Component com)
+        {
+            com.gameObject.SetActive(false);
+        }
         public static bool ToggleActive(this Component com)
         {
             com.gameObject.SetActive(!com.gameObject.activeSelf);
@@ -109,9 +126,21 @@ namespace Esa
             a = b;
             b = c;
         }
+        public static void SetTextsColor(this Component target, Color color)
+        {
+            foreach (var text in target.GetComponentsInChildren<Text>(true))
+            {
+                text.color = color;
+            }
+        }
+        public static void DestroyImage(this Component target)
+        {
+            var img = target.GetComponent<Image>();
+            if (img != null) DestroyAuto(img);
+        }
         public static void DestroyImages(this Component target)
         {
-            foreach (var img in target.GetComponentsInChildren<UnityEngine.UI.Image>(true))
+            foreach (var img in target.GetComponentsInChildren<Image>(true))
             {
                 DestroyAuto(img);
             }

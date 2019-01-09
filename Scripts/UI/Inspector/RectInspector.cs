@@ -49,7 +49,7 @@ namespace Esa.UI
 
             if (draw)
             {
-                this.FrameStart();
+                this.BeginFrame();
                 this.Draw();
             }
             if (modify)

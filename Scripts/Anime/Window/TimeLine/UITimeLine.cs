@@ -28,7 +28,7 @@ namespace Esa.UI
         public bool clip = false;
         private void Update()
         {
-            this.FrameStart();
+            this.BeginFrame();
             this.Draw(Color.grey);
             var pos = UI.AbsRefPos(rtArea) - rtArea.rect.size * 0.5f;
             var scl = rtAreaSize / SizeInt;
