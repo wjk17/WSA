@@ -7,6 +7,15 @@ namespace Esa
 {
     public static class VectorTool
     {
+        public static Vector4 Normalize3(this Vector4 v4)
+        {
+            Vector3 v3 = v4;
+            var n3 = v3.normalized;
+            v4.x = n3.x;
+            v4.y = n3.y;
+            v4.z = n3.z;            
+            return v4;
+        }
         public static Vector2Int Mul(this Vector2Int v, float f)
         {
             return new Vector2Int(Mathf.RoundToInt(v.x * f), Mathf.RoundToInt(v.y * f));

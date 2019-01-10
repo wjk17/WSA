@@ -5,6 +5,24 @@ namespace Esa.UI
 {
     public static partial class UITool // BG
     {
+
+        public static Vector2[] Arrange(this Vector2[] list, params int[] idx)
+        {
+            var vs = new Vector2[list.Length];
+            for (int i = 0; i < idx.Length; i++)
+            {
+                vs[i] = list[idx[i]];
+            }
+            return vs;
+        }
+        public static Vector2[] GetUV(Vector2 pos, Vector2 size, Vector2 pivot)
+        {
+            return new Vector2[] {
+                pos + size.Y() - pivot * size,
+                pos + size - pivot * size,
+                pos - pivot * size,
+                pos + size.X()- pivot * size};
+        }
         public static Vector2[] GetVS(Vector2 pos, Vector2 size, Vector2 pivot)
         {
             return new Vector2[] {

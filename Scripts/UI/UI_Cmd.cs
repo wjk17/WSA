@@ -22,7 +22,9 @@ namespace Esa.UI
         public int corSizeWindow;
 
         [Header("Command")]
+#if UNITY_EDITOR
         public bool updateInEditor;
+#endif
         public List<GLHandler> glHandlers;
         public List<IMHandler> imHandlers;
         public new Camera camera;
@@ -67,6 +69,9 @@ namespace Esa.UI
 
         private void OnDrawGizmos() // 需要打开SceneView 放在GameView右边
         {
+#if UNITY_EDITOR
+            if (!Application.isPlaying && !updateInEditor) return;
+#endif
             mousePosEvent = Event.current.mousePosition;
 
             sceneViewSize = screenSize;
@@ -90,8 +95,8 @@ namespace Esa.UI
         private void OnGUI()
         {
 #if UNITY_EDITOR
-            gameViewSize = screenSize;
             if (!Application.isPlaying && !updateInEditor) return;
+            gameViewSize = screenSize;
 #endif
             _mousePosRef = mousePosRef; // for inspect in editor & runtime;
             Owner = owner;

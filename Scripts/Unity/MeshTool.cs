@@ -54,6 +54,29 @@ public class MeshWrapper
 }
 public static class MeshTool
 {
+    public static void SetMesh(this MonoBehaviour mono, Mesh mesh)
+    {
+        var smr = mono.GetComponent<SkinnedMeshRenderer>();
+        if (smr != null) smr.sharedMesh = mesh;
+        else
+        {
+            var mf = mono.GetComponent<MeshFilter>();
+            if (mf != null) mf.sharedMesh = mesh;
+        }
+    }
+    public static Mesh GetMesh(this MonoBehaviour mono)
+    {
+        Mesh mesh = null;
+        var smr = mono.GetComponent<SkinnedMeshRenderer>();
+        if (smr != null) mesh = smr.sharedMesh;
+        else
+        {
+            var mf = mono.GetComponent<MeshFilter>();
+            if (mf != null) mesh = mf.sharedMesh;
+        }
+        return mesh;
+    }
+
     public static void UseBinormalAsTangent(this SkinnedMeshRenderer smr)
     {
         var mesh = Object.Instantiate(smr.sharedMesh);

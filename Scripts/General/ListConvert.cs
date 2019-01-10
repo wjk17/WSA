@@ -33,26 +33,29 @@ namespace Esa
             return list[list.Count - 1];
         }
         public static T[] IListToArray<T>(IList<T> list)
-
         {
+            if (list == null) return null;
             var count = list.Count;
-            var ns = new T[count];
+            // 是 Array 直接返回
             if (list.GetType() == typeof(T[]))
             {
-                ns = (T[])list;
+                return (T[])list;
             }
+            // List 转 Array
             else if (list.GetType() == typeof(List<T>))
             {
-                ns = ((List<T>)list).ToArray();
+                return ((List<T>)list).ToArray();
             }
+            // 其他 IList 转 Array
             else
             {
+                var ns = new T[count];
                 for (int i = 0; i < count; i++)
                 {
                     ns[i] = list[i];
                 }
+                return ns;
             }
-            return ns;
         }
 
         public static void Swap<T>(this IList<T> list, int a, int b)
