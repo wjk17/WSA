@@ -15,7 +15,15 @@ namespace Esa.UI
             switch (cmd.type)
             {
                 case GLCmdType.LoadOrtho: GL.LoadOrtho(); break;
+                case GLCmdType.LoadMatrix: GL.LoadProjectionMatrix((Matrix4x4)cmd.args[0]); break;
                 case GLCmdType.SetLineMat: GLUI.SetLineMaterial(); break;
+                case GLCmdType.DrawGrid:
+                    if (ArgType<Vector3, float, Color>(cmd))
+                    {
+                        GLUI._DrawGrid((Vector3)cmd.args[0], (float)cmd.args[1], (Color)cmd.args[2]);
+                    }
+                    else Debug.Log("Error");
+                    break;
                 case GLCmdType.DrawLineOrtho:
                     if (ArgType<Vector2, Vector2>(cmd))
                     {
@@ -54,7 +62,7 @@ namespace Esa.UI
                     if (ArgType<Texture2D, Color, Vector2[], Vector2[]>(cmd))
                     {
                         GLUI._DrawTex((Texture2D)cmd.args[0], (Color)cmd.args[1],
-                            (Vector2[])cmd.args[2], 
+                            (Vector2[])cmd.args[2],
                             (Vector2[])cmd.args[3]);
                     }
                     else if (ArgType<Texture2D, Color, Vector2, Vector2, Vector2, Vector2>(cmd))

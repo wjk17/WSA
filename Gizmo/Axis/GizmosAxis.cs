@@ -3,27 +3,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 namespace Esa.UI
-{
+{    
     public partial class GizmosAxis : Singleton<GizmosAxis>
     {
+        public float drawAxisLength = 100f;
+        public bool drawAxisProj;
+        Vector2 screenThisPos;
+        Vector2 screenAxis;
+        Vector2 mousePosProj;
+        public int CB_Order = 10;
         private void Start()
         {
             originSize = cam.orthographicSize;
-            originScale = transform.localScale;
-            this.AddInput(GetInput, CB_Order);
+            this.AddInput(Input, CB_Order);
         }
         private void LateUpdate()
         {
+            Draw();
             //AdjustSize
             var ratio = cam.orthographicSize / originSize;
-            transform.localScale = originScale * ratio;
+            transform.localScale = Vector3.one * gizmosSize * ratio;
         }
-        void GetInput()
+        void Input()
         {
+            Draw();
             deltaPosition = Vector3.zero;
             if (!dragging) CheckHover();
             CheckClick();
-            if (dragging) MouseDragEvent(Input.mousePosition);
+            if (dragging) MouseDragEvent(UnityEngine.Input.mousePosition);
         }
         void DrawLineScreen(Vector2 a, Vector2 b, Color color)
         {
@@ -33,21 +40,21 @@ namespace Esa.UI
             b /= screenSize;
             DrawLines.DoDrawLines(color, new Vector2[] { a, b }, new int[] { 0, 1 }, m);
         }
-        private void OnRenderObject()
+        public Vector3 gridSize;
+        public float smallStep;
+        public Color color;
+        private void Draw()
         {
+            this._StartGL();
+            GLUI.DrawGrid(gridSize, smallStep, color);
+
             if (dragging && drawAxisProj)
             {
                 DrawLineScreen(screenThisPos, screenThisPos + screenAxis.normalized * drawAxisLength, Color.white);
                 DrawLineScreen(screenThisPos, mousePosProj, Color.red);
-                DrawLineScreen(screenThisPos, Input.mousePosition, Color.black);
+                DrawLineScreen(screenThisPos, UnityEngine.Input.mousePosition, Color.black);
             }
         }
-        public float drawAxisLength = 100f;
-        public bool drawAxisProj;
-        Vector2 screenThisPos;
-        Vector2 screenAxis;
-        Vector2 mousePosProj;
-        public int CB_Order = 10;
 
         Vector3 GetProjPos()
         {
@@ -75,7 +82,7 @@ namespace Esa.UI
             screenThisPos = Camera.main.WorldToScreenPoint(transform.position);
             screenAxis = Camera.main.worldToCameraMatrix.MultiplyVector(axisV);
 
-            var v = (Vector2)Input.mousePosition - screenThisPos;
+            var v = (Vector2)UnityEngine.Input.mousePosition - screenThisPos;
             var n = screenAxis;
             mousePosProj = screenThisPos + (Vector2)Vector3.Project(v, n);
 

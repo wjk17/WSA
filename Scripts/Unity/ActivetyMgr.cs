@@ -18,11 +18,11 @@ namespace Esa
             GetList();
             foreach (var active in list)
             {
-                active.gameObject.SetActive(true);
+                if (active.on) active.gameObject.SetActive(true);
             }
             foreach (var disact in listDis)
             {
-                disact.gameObject.SetActive(false);
+                if (disact.on) disact.gameObject.SetActive(false);
             }
         }
     }

@@ -8,6 +8,8 @@ namespace Esa.UI
     {
         SetLineMat,
         LoadOrtho,
+        LoadMatrix,
+        DrawGrid,
         DrawLineOrtho,
         DrawQuadOrtho,
         DrawTexOrtho,

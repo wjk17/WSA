@@ -26,7 +26,7 @@ namespace Esa.UI
         [Header("CallBack")]
         public List<InputCall> inputs;
         public List<InputCall> called;
-        public bool seeCalledList = true;
+        public bool seeCalledList;
         public virtual int SortList(InputCall a, InputCall b)
         {
             if (a.order > b.order) { return 1; } ///顺序从低到高

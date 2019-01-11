@@ -26,6 +26,12 @@ namespace Esa.UI
             UI.owner = mono.transform as RectTransform;
             UI.ClearIM();
         }
+        public static void _StartGL(this MonoBehaviour mono)
+        {
+            UI.owner = mono.transform as RectTransform;
+            UI.ClearGL();
+            GLUI.BeginOrder(0);
+        }
         public static void StartGL(this MonoBehaviour mono)
         {
             UI.owner = mono.transform as RectTransform;

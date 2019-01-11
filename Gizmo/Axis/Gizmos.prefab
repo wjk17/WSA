@@ -538,9 +538,9 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1325383289937176}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.108584404, y: -0.16142273, z: 0.8409424}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4562243241524120}
   - {fileID: 4987628979531498}
@@ -1220,6 +1220,10 @@ MonoBehaviour:
   startActive: 0
   drawAxisLength: 100
   drawAxisProj: 0
+  CB_Order: 10
+  gridSize: {x: 10, y: 0, z: 10}
+  smallStep: 0.5
+  color: {r: 1, g: 1, b: 1, a: 1}
   handles:
   - {fileID: 4781934012794042}
   - {fileID: 4181329920679002}
@@ -1243,6 +1247,7 @@ MonoBehaviour:
   axisIndex: 0
   dragging: 0
   downPosAxisWorld: {x: 0, y: 0, z: 0}
+  gizmosSize: 10
   _controlObj: {fileID: 0}
 --- !u!136 &136157517559349768
 CapsuleCollider:

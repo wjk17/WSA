@@ -25,7 +25,7 @@ namespace Esa.UI
 
         internal Vector3 deltaPosition;
         float originSize;
-        Vector3 originScale;
+        public float gizmosSize = 1f;
 
         string layerName = "Gizmos";
         LayerMask mask { get { return LayerMask.GetMask(layerName); } }

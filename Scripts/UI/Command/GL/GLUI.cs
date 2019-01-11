@@ -109,6 +109,10 @@ namespace Esa.UI
         {
             UI.AddCommand(Cmd(commandOrder, GLCmdType.DrawTexOrtho, texture, color, v[0], v[1], v[2], v[3]));
         }
+        public static void DrawGrid(Vector3 gridSize, float smallStep, Color color)
+        {
+            UI.AddCommand(Cmd(commandOrder, GLCmdType.DrawGrid, gridSize, smallStep, color));
+        }
         /// <summary>
         /// Clockwise Reverse
         /// </summary>
@@ -119,6 +123,35 @@ namespace Esa.UI
         public static void _DrawTex(Texture2D texture, Color color, params Vector2[] v)
         {
             _DrawTex(texture, color, (IList<Vector2>)v);
+        }
+
+        public static void _DrawGrid(Vector3 gridSize, float smallStep, Color color)
+        {
+            SetLineMaterial();
+            //GL.PushMatrix();
+            //GL.LoadProjectionMatrix(Camera.main.worldToCameraMatrix);
+            GL.Begin(GL.LINES);
+            GL.Color(color);
+            Vector3 start = Vector3.zero;
+            float offsetY = 0.5f;
+            for (float j = 0; j <= gridSize.y; j += smallStep)
+            {
+                //X axis lines
+                for (float z = 0; z <= gridSize.z; z += smallStep)
+                {
+                    GL.Vertex3(start.x, j + offsetY, start.z + z);
+                    GL.Vertex3(gridSize.x, j + offsetY, start.z + z);
+                }
+
+                //Z axis lines
+                for (float x = 0; x <= gridSize.x; x += smallStep)
+                {
+                    GL.Vertex3(start.x + x, j + offsetY, start.z);
+                    GL.Vertex3(start.x + x, j + offsetY, gridSize.z);
+                }
+            }
+            GL.End();
+            //GL.PopMatrix();
         }
         public static void _DrawTex(Texture2D texture, IList<Vector2> v)
         {
@@ -324,9 +357,9 @@ namespace Esa.UI
         }
         public static void _DrawQuads(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, Color color)
         {
-            DrawVertices(color, p1, p2, p3, p4);
+            _DrawQuads(color, p1, p2, p3, p4);
         }
-        public static void DrawVertices(Color color, params Vector2[] vs)
+        public static void _DrawQuads(Color color, params Vector2[] vs)
         {
             SetLineMaterial();
             GL.Begin(GL.QUADS);

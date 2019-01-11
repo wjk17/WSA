@@ -111,6 +111,42 @@ namespace Esa.UI
 
             GL.End();
         }
+        public static void DrawGrids(Vector3 gridSize, float smallStep, Color color)
+        {
+            LineMaterial.SetPass(0);
+            //GL.PushMatrix();
+            GL.Begin(GL.LINES);
+            GL.Color(color);
+            Vector3 start= Vector3.zero;
+            float offsetY = 0.5f;
+            for (float j = 0; j <= gridSize.y; j += smallStep)
+            {
+                //X axis lines
+                for (float z = 0; z <= gridSize.z; z += smallStep)
+                {
+                    GL.Vertex3(start.x, j + offsetY, start.z + z);
+                    GL.Vertex3(gridSize.x, j + offsetY, start.z + z);
+                }
+
+                //Z axis lines
+                for (float x = 0; x <= gridSize.x; x += smallStep)
+                {
+                    GL.Vertex3(start.x + x, j + offsetY, start.z);
+                    GL.Vertex3(start.x + x, j + offsetY, gridSize.z);
+                }
+            }
+            GL.End();
+           // GL.PopMatrix();
+            //Y axis lines
+            //for (float i = 0; i <= gridSize.z; i += smallStep)
+            //{
+            //    for (float k = 0; k <= gridSize.x; k += smallStep)
+            //    {
+            //        GL.Vertex3(start.x + k, startY + offsetY, start.z + i);
+            //        GL.Vertex3(start.x + k, gridSize.y + offsetY, start.z + i);
+            //    }
+            //}
+        }
         public static void DoDrawLines(Color color, IList<Vector2> vs, IList<int> indices, Matrix4x4 m)
         {
             if (vs == null || indices == null) return;

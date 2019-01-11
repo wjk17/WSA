@@ -102,7 +102,7 @@ namespace Esa.UI
             Owner = owner;
             foreach (var hdr in imHandlers)
             {
-                if (hdr.owner.gameObject.activeInHierarchy)
+                if (hdr.owner == null || hdr.owner.gameObject.activeInHierarchy)
                     hdr.Execute();
             }
         }
@@ -112,7 +112,7 @@ namespace Esa.UI
             GLUI.SetLineMaterial();
             foreach (var hdr in glHandlers)
             {
-                if (hdr.owner.gameObject.activeInHierarchy)
+                if (hdr.owner == null || hdr.owner.gameObject.activeInHierarchy)
                     hdr.Execute();
             }
         }

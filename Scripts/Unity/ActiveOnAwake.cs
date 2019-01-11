@@ -5,5 +5,6 @@ namespace Esa
 {
     public class ActiveOnAwake : MonoBehaviour
     {
+        public bool on = true;
     }
 }
