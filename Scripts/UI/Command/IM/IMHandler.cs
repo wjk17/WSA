@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-namespace Esa.UI
+namespace Esa._UI
 {
     [Serializable]
     public class IMHandler : CmdHandler
     {
         public IMHandler() : base() { }
-        public IMHandler(RectTransform owner) : base(owner) { }
+        public IMHandler(GameObject owner) : base(owner) { }
         public override void ExecuteCommand(Cmd command)
         {
             var cmd = command as IMCmd;

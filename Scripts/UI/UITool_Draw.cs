@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace Esa.UI
+namespace Esa._UI
 {
     public static partial class UITool // Draw
     {
@@ -34,13 +34,13 @@ namespace Esa.UI
         {
             if (solid)
             {
-                GLUI.DrawQuads(rt.ToPointsCWLT(), color);
+                GLUI.DrawQuad(rt.ToPointsCWLT(), color);
             }
             else Draw(rt.ToPointsCWLT(), color);
         }
         public static void DrawSquare(Vector2 pos, float size, Color color, bool solid)
         {
-            if (solid) GLUI.DrawQuads(ToPointsRect(pos, size), color);
+            if (solid) GLUI.DrawQuad(ToPointsRect(pos, size), color);
             else DrawSquare(pos, size, color);
         }
         public static void DrawSquare(Vector2 pos, float size, Color color)

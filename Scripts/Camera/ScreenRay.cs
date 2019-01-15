@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace Esa.UI
+namespace Esa._UI
 {
     public class ScreenRay : MonoBehaviour
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-namespace Esa.UI
+namespace Esa._UI
 {
     public class SavePng : MonoBehaviour
     {

@@ -2,8 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace Esa.UI
-{    
+namespace Esa._UI
+{
     public partial class GizmosAxis : Singleton<GizmosAxis>
     {
         public float drawAxisLength = 100f;
@@ -19,7 +19,6 @@ namespace Esa.UI
         }
         private void LateUpdate()
         {
-            Draw();
             //AdjustSize
             var ratio = cam.orthographicSize / originSize;
             transform.localScale = Vector3.one * gizmosSize * ratio;
@@ -40,13 +39,35 @@ namespace Esa.UI
             b /= screenSize;
             DrawLines.DoDrawLines(color, new Vector2[] { a, b }, new int[] { 0, 1 }, m);
         }
-        public Vector3 gridSize;
-        public float smallStep;
-        public Color color;
+        public Vector3 gridSize = new Vector3(8, 8, 8);
+        public float gridUnitSize = 0.5f;
+        public Color colorGrid = Color.grey;
+        public Color colorAxisX = Color.red;
+        public Color colorAxisZ = Color.blue;
+        public Color colorAxisXSel = Color.red;
+        public Color colorAxisYSel = Color.green;
+        public Color colorAxisZSel = Color.blue;
+        int drawAxis = -1;
+
         private void Draw()
         {
-            this._StartGL();
-            GLUI.DrawGrid(gridSize, smallStep, color);
+            this.StartGLWorld();
+            GLUI.DrawGrid(gridSize, gridUnitSize, colorGrid);
+
+            var half = gridSize * 0.5f;
+            GLUI.BeginOrder(1);
+            GLUI.DrawLineWorld(-half.X(), half.X(), colorAxisX);
+            GLUI.DrawLineWorld(-half.Z(), half.Z(), colorAxisZ);
+
+            GLUI.BeginOrder(2);
+            var selAxisSize = gridSize * 10f;
+            var pos = transform.position;
+            if (drawAxis == 0)
+                GLUI.DrawLineWorld(pos - selAxisSize.X(), pos + selAxisSize.X(), colorAxisXSel);
+            else if (drawAxis == 1)
+                GLUI.DrawLineWorld(pos - selAxisSize.Y(), pos + selAxisSize.Y(), colorAxisYSel);
+            else if (drawAxis == 2)
+                GLUI.DrawLineWorld(pos - selAxisSize.Z(), pos + selAxisSize.Z(), colorAxisZSel);
 
             if (dragging && drawAxisProj)
             {
@@ -92,8 +113,12 @@ namespace Esa.UI
                 int i = 0;
                 foreach (var p in planes)
                 {
-                    p.GetComponent<MeshRenderer>().enabled = showPlane && p == plane1;
-                    axes[i == 0 ? 2 : i - 1].GetComponent<MeshRenderer>().enabled = showAxes && p == plane1;
+                    if (p == plane1)
+                    {
+                        p.GetComponent<MeshRenderer>().enabled = showPlane;
+                        //axes[i == 0 ? 2 : i - 1].GetComponent<MeshRenderer>().enabled = showAxes;
+                        drawAxis = i == 0 ? 2 : i - 1;
+                    }
                     i++;
                 }
             }
@@ -135,10 +160,7 @@ namespace Esa.UI
                 {
                     p.GetComponent<MeshRenderer>().enabled = false;
                 }
-                foreach (var a in axes)
-                {
-                    a.GetComponent<MeshRenderer>().enabled = false;
-                }
+                drawAxis = -1;
             }
             var hits = this.SVRaycastAll(mask.value);
             foreach (var hit in hits)

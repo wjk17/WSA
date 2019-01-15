@@ -13,7 +13,7 @@ namespace Esa
             var n3 = v3.normalized;
             v4.x = n3.x;
             v4.y = n3.y;
-            v4.z = n3.z;            
+            v4.z = n3.z;
             return v4;
         }
         public static Vector2Int Mul(this Vector2Int v, float f)
@@ -269,12 +269,11 @@ namespace Esa
         {
             return new Vector3(Mathf.Abs(a.x), Mathf.Abs(a.y), Mathf.Abs(a.z));
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="vec"></param>
-        /// <param name="f"></param>
-        /// <returns></returns>
+        //set components
+        public static Vector3 SetZ(this Vector2 vec, float f)
+        {
+            return new Vector3(vec.x, vec.y, f);
+        }
         public static Vector2 SetX(this Vector2 vec, float f)
         {
             return new Vector2(f, vec.y);
@@ -307,7 +306,16 @@ namespace Esa
         {
             return new Vector3(vec.x, vec.y, f);
         }
+        public static Vector3 AddZ(this Vector3 vec, float f)
+        {
+            return new Vector3(vec.x, vec.y, vec.z + f);
+        }
         /// v2 to v3
+        public static Vector3 XY1(this Vector2 v2)
+        {
+            return new Vector3(v2.x, v2.y, 1f);
+
+        }
         public static Vector3 X0Y(this Vector2 v2)
         {
             return new Vector3(v2.x, 0f, v2.y);
@@ -396,7 +404,19 @@ namespace Esa
         {
             return new Vector2(v2.x, 0);
         }
-
+        // v3 XYZ
+        public static Vector3 Z(this Vector3 v)
+        {
+            return new Vector3(0, 0, v.z);
+        }
+        public static Vector3 Y(this Vector3 v)
+        {
+            return new Vector3(0, v.y, 0);
+        }
+        public static Vector3 X(this Vector3 v)
+        {
+            return new Vector3(v.x, 0, 0);
+        }
         internal static Vector2Int Clamp(object v)
         {
             throw new NotImplementedException();

@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace Esa.UI
+namespace Esa._UI
 {
     public partial class UICurve
     {
@@ -203,7 +203,7 @@ namespace Esa.UI
             b = m.MultiplyPoint(b);
             c = m.MultiplyPoint(c);
             d = m.MultiplyPoint(d);
-            GLUI.DrawQuads(a, b, c, d, color);
+            GLUI.DrawQuad(a, b, c, d, color);
         }
         void DrawLine(Vector2 a, Vector2 b, Color color, Matrix4x4 m) // 接口 
         {

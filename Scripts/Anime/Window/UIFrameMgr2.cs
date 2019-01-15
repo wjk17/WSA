@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-namespace Esa.UI
+namespace Esa._UI
 {
     public class UIFrameMgr2 : Singleton<UIFrameMgr2>
     {

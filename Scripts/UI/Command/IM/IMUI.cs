@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-namespace Esa.UI
+namespace Esa._UI
 {
     public static class IMUI
     {

@@ -10,7 +10,7 @@ namespace Esa
     {
         public static Vector2[] Rect(this RectTransform rt)
         {
-            var v = UI.UI.AbsRefPos(rt) - Vectors.half2d * rt.rect.size;
+            var v = _UI.UI.AbsRefPos(rt) - Vectors.half2d * rt.rect.size;
             return new Vector2[] { v, v + rt.rect.size };
         }
         public static T NameOf<T>(this string name, IList<T> components) where T : Component

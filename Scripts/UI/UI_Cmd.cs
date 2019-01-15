@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace Esa.UI
+namespace Esa._UI
 {
     [System.Serializable]
     public class TextureSet
@@ -31,10 +31,10 @@ namespace Esa.UI
         public static GLHandler gl;
         public static IMHandler im;
 
-        public RectTransform Owner; // for inspect
-        private static RectTransform _owner;
+        public object Owner; // for inspect
+        private static object _owner;
 
-        public static RectTransform owner
+        public static object owner
         {
             set
             {
@@ -54,7 +54,9 @@ namespace Esa.UI
         {
             foreach (var gl in glHandlers)
             {
-                print(gl.owner.name);
+                var go = gl.owner as GameObject;
+                var name = go == null ? "null" : go.name;
+                print("glHandler: " + name);
                 foreach (var cmd in gl.cmds)
                 {
                     print(cmd);
@@ -102,20 +104,31 @@ namespace Esa.UI
             Owner = owner;
             foreach (var hdr in imHandlers)
             {
-                if (hdr.owner == null || hdr.owner.gameObject.activeInHierarchy)
-                    hdr.Execute();
+                var go = (GameObject)hdr.owner;
+                if (go != null && !go.activeInHierarchy) continue;
+                hdr.Execute();
             }
         }
-        private void CameraPostRender()
+        public void CameraPostRender()
         {
             Owner = owner;
             GLUI.SetLineMaterial();
+            glHandlers.Sort(SortList);
             foreach (var hdr in glHandlers)
             {
-                if (hdr.owner == null || hdr.owner.gameObject.activeInHierarchy)
+                var go = (GameObject)hdr.owner;
+                if (go == null || go.activeInHierarchy)
+                {
+                    GL.PushMatrix();
                     hdr.Execute();
+                    GL.PopMatrix();
+                }
             }
         }
+        //private void OnRenderObject()
+        //{
+        //    CameraPostRender();
+        //}
         public static void ClearGL()
         {
             gl.cmds.Clear();
@@ -131,6 +144,8 @@ namespace Esa.UI
         }
         public static void AddCommand(Cmd cmd)
         {
+            cmd.insertOrder = GLUI._insertOrder;
+            GLUI._insertOrder++;
             if (cmd.GetType() == typeof(GLCmd))
             {
                 gl.cmds.Add(cmd);

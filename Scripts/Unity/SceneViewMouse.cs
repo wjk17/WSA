@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
-namespace Esa.UI
+namespace Esa._UI
 {
     [CustomEditor(typeof(SceneViewMouse))]
     public class SceneViewMouseEditor : Editor

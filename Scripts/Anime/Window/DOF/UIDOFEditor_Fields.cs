@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-namespace Esa.UI
+namespace Esa._UI
 {
     public class UIDOFEditor_Fields : MonoBehaviour
     {

@@ -7,6 +7,62 @@ namespace Esa
 {
     public static partial class ListTool
     {
+        // 根据指定序号重新排序
+        public static T[] Arrange<T>(this T[] list, params int[] idx)
+        {
+            var vs = new T[list.Length];
+            for (int i = 0; i < idx.Length; i++)
+            {
+                vs[i] = list[idx[i]];
+            }
+            return vs;
+        }
+        public static List<T> Arrange<T>(this List<T> list, params int[] idx)
+        {
+            var vs = new List<T>();
+            for (int i = 0; i < idx.Length; i++)
+            {
+                vs.Add(list[idx[i]]);
+            }
+            return vs;
+        }
+        // 设置Z值
+        public static Vector3[] SetZ(this Vector2[] vs, float z)
+        {
+            var v3 = new Vector3[vs.Length];
+            for (int i = 0; i < vs.Length; i++)
+            {
+                v3[i] = vs[i].SetZ(z);
+            }
+            return v3;
+        }
+        public static List<Vector3> SetZ(this List<Vector2> vs, float z)
+        {
+            var v3 = new List<Vector3>();
+            foreach (var v in vs)
+            {
+                v3.Add(v.SetZ(z));
+            }
+            return v3;
+        }
+        public static int IndexOfApprox(this IList<Vector3> vs, Vector3 target, float dist)
+        {
+            int i = 0;
+            foreach (var v in vs)
+            {
+                if (Vector3.Distance(v, target) < dist) return i;
+                i++;
+            }
+            return -1;
+        }
+        public static bool ContainApprox(this IList<Vector3> vs, Vector3 target, float dist)
+        {
+            foreach (var v in vs)
+            {
+                if (Vector3.Distance(v, target) < dist) return true;
+            }
+            return false;
+        }
         public static string ToStr<T>(this IList<T> list, string split = "")
         {
             string str = "";
@@ -245,7 +301,7 @@ namespace Esa
             }
             return false;
         }
-        public static List<T> Rever<T>(this List<T> list1)
+        public static List<T> N_Reverse<T>(this List<T> list1)
         {
             var n = new List<T>(list1);
             n.Reverse();

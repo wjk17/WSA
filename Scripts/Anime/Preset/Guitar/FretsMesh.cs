@@ -33,7 +33,7 @@ namespace Esa
 
             var left = new Vector3[] { posU[0], posL[0] };
             var right = new Vector3[] { posU[1], posL[1] };
-            t_chordsM = t_chords.Combine(t_chords.Rever()._sub(1));
+            t_chordsM = t_chords.Combine(t_chords.N_Reverse()._sub(1));
             foreach (var t in t_chordsM)
             {
                 Debug.DrawLine(left.Lerp(t), right.Lerp(t), colorChord);

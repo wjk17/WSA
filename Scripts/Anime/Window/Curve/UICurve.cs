@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace Esa.UI
+namespace Esa._UI
 {
     /// <summary>
     /// TODO 做单选Toggle

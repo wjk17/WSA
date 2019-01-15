@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Esa.UI;
+using Esa._UI;
 namespace Esa
 {
     /// <summary>
@@ -26,7 +26,7 @@ namespace Esa
         /// </summary>
         public Rect(RectTransform rt)
         {
-            pos = UI.UI.AbsRefPos(rt);
+            pos = _UI.UI.AbsRefPos(rt);
 
             //pivot = rt.pivot.FlipY();
             pivot = Vectors.half2d;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-namespace Esa.UI
+namespace Esa._UI
 {
     /// <summary>
     /// 控制摄像头的UI，6视角快捷切换

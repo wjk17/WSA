@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-namespace Esa.UI
+namespace Esa._UI
 {
     public partial class Curve3Edit : Singleton<Curve3Edit>
     {

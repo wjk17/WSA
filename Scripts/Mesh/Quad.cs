@@ -11,6 +11,27 @@ namespace Esa
     [Serializable]
     public class Quad : ICloneable
     {
+        public int a, b, c, d;
+        public Vector2 uvA, uvB, uvC, uvD;
+        public Vector3[] Vertex(IList<Vector3> vertex) { return new Vector3[] { vertex[a], vertex[b], vertex[c], vertex[d] }; }
+        public int[] Index
+        {
+            get { return new int[] { a, b, c, d }; }
+            set { a = value[0]; b = value[1]; c = value[2]; d = value[3]; }
+        }
+        public Vector2[] UV
+        {
+            get { return new Vector2[] { uvA, uvB, uvC, uvD }; }
+        }
+        public Quad(IList<int> v, IList<Vector2> uv)
+        {
+            a = v[0]; b = v[1]; c = v[2]; d = v[3];
+            uvA = uv[0]; uvB = uv[1]; uvC = uv[2]; uvD = uv[3];
+        }
+        public Quad(params int[] vs)
+        {
+            Index = vs;
+        }
         public Quad(int a, int b, int c, int d)//, Vector3 normal)
         {
             this.a = a; this.b = b; this.c = c; this.d = d;
@@ -50,8 +71,7 @@ namespace Esa
             }
             //na = nb = nc = nd = normal;
         }
-        public int a, b, c, d;
-        public Vector2 uvA, uvB, uvC, uvD;
+
         //public Vector3 normal;
         //public Vector3 na, nb, nc, nd;
         public static Quad ToReverse(Quad quad)

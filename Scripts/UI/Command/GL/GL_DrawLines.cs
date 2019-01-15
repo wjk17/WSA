@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
-namespace Esa.UI
+namespace Esa._UI
 {
     public enum LINE_MODE { LINES, TRIANGLES, TETRAHEDRON };
 

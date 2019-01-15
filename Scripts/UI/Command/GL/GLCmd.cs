@@ -2,16 +2,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace Esa.UI
+namespace Esa._UI
 {
     public enum GLCmdType
     {
         SetLineMat,
+        PushMatrix,
+        PopMatrix,
         LoadOrtho,
         LoadMatrix,
         DrawGrid,
+        DrawLineWorld,
         DrawLineOrtho,
         DrawQuadOrtho,
+        DrawQuadDirect,
         DrawTexOrtho,
     }
     [Serializable]
@@ -21,7 +25,7 @@ namespace Esa.UI
         public override string ToString()
         {
             var typeName = Enum.GetName(typeof(GLCmdType), type);
-            return typeName + " " + base.ToString();
+            return "[" + order + "]" + typeName + " " + base.ToString();
         }
-    }    
+    }
 }

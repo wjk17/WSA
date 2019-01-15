@@ -1,10 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace Esa.UI
+namespace Esa._UI
 {
     public static partial class UITool
     {
+        public static Vector2 DivRef(this Vector2 v)
+        {
+            return v / UI.scalerRefRes;
+        }
         public static Vector2 MulRef(this Vector2 v)
         {
             return v * UI.scalerRefRes;
@@ -23,27 +27,29 @@ namespace Esa.UI
         }
         public static void StartIM(this MonoBehaviour mono)
         {
-            UI.owner = mono.transform as RectTransform;
+            UI.owner = mono.gameObject;
             UI.ClearIM();
         }
-        public static void _StartGL(this MonoBehaviour mono)
+        public static void StartGLWorld(this MonoBehaviour mono, int order = 0)
         {
-            UI.owner = mono.transform as RectTransform;
+            UI.owner = mono.gameObject;
             UI.ClearGL();
+            UI.gl.order = order;
             GLUI.BeginOrder(0);
         }
         public static void StartGL(this MonoBehaviour mono)
         {
-            UI.owner = mono.transform as RectTransform;
+            UI.owner = mono.gameObject;
             UI.ClearGL();
-            GLUI.BeginOrtho();
+            GLUI.LoadOrtho();
             GLUI.BeginOrder(0);
         }
-        public static void BeginFrame(this MonoBehaviour mono)
+        public static void BeginFrame(this MonoBehaviour mono, int order = 0)
         {
-            UI.owner = mono.transform as RectTransform;
+            UI.owner = mono.gameObject;
             UI.ClearCmd();
-            GLUI.BeginOrtho();
+            GLUI.LoadOrtho();
+            UI.gl.order = order;
             GLUI.BeginOrder(0);
         }
         public static List<Vector2> ListReverseY(this IList<Vector2> vs) // input screen pos
@@ -68,6 +74,10 @@ namespace Esa.UI
         {
             pos.y = Screen.height - pos.y;
             return pos;
+        }
+        public static Vector3 XYToNDC(this Vector3 p) // input screen pos
+        {
+            return (p.XY() / UI.scaler.referenceResolution).SetZ(p.z);
         }
         public static Vector2 ToNDC(this Vector2 p) // input screen pos
         {

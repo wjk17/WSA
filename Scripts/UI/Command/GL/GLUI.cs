@@ -2,10 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace Esa.UI
+namespace Esa._UI
 {
     /// <summary>
-    /// 左上角坐标
+    /// 左下角坐标
     /// </summary>
     public static class GLUI
     {
@@ -17,11 +17,21 @@ namespace Esa.UI
             get { var order = _commandOrder; if (!keepOrder) _commandOrder = 0; return order; }//每次使用后归0
                                                                                                //get {  return _commandOrder; }
         }
+
+        internal static void LoadMatrix(Matrix4x4 matrix)
+        {
+            UI.AddCommand(Cmd(commandOrder, GLCmdType.LoadMatrix, matrix));
+        }
+
         static int _commandOrder;
+        public static float _secondOrder; // float, offen use z/depth
+        public static int _insertOrder; // add cmd order
         static bool keepOrder = false;
         public static void BeginOrder(int order)
         {
             _commandOrder = order;
+            _secondOrder = 0;
+            _insertOrder = 0;
             keepOrder = true;
         }
         public static void EndOrder()
@@ -81,9 +91,17 @@ namespace Esa.UI
         {
             UI.AddCommand(Cmd(commandOrder, GLCmdType.SetLineMat));
         }
-        public static void BeginOrtho() // 正交变换
+        public static void PushMatrix() // 正交变换
         {
-            UI.AddCommand(Cmd(-1, GLCmdType.LoadOrtho));
+            UI.AddCommand(Cmd(commandOrder, GLCmdType.PushMatrix));
+        }
+        public static void PopMatrix() // 正交变换
+        {
+            UI.AddCommand(Cmd(commandOrder, GLCmdType.PopMatrix));
+        }
+        public static void LoadOrtho() // 正交变换
+        {
+            UI.AddCommand(Cmd(commandOrder, GLCmdType.LoadOrtho));
         }
         public static void DrawTex(Texture2D texture, Vector2[] vs, Vector2[] uv)
         {
@@ -125,33 +143,30 @@ namespace Esa.UI
             _DrawTex(texture, color, (IList<Vector2>)v);
         }
 
-        public static void _DrawGrid(Vector3 gridSize, float smallStep, Color color)
+        public static void _DrawGrid(Vector3 gridSize, float step, Color color)
         {
             SetLineMaterial();
-            //GL.PushMatrix();
-            //GL.LoadProjectionMatrix(Camera.main.worldToCameraMatrix);
             GL.Begin(GL.LINES);
             GL.Color(color);
-            Vector3 start = Vector3.zero;
-            float offsetY = 0.5f;
-            for (float j = 0; j <= gridSize.y; j += smallStep)
-            {
-                //X axis lines
-                for (float z = 0; z <= gridSize.z; z += smallStep)
-                {
-                    GL.Vertex3(start.x, j + offsetY, start.z + z);
-                    GL.Vertex3(gridSize.x, j + offsetY, start.z + z);
-                }
 
-                //Z axis lines
-                for (float x = 0; x <= gridSize.x; x += smallStep)
-                {
-                    GL.Vertex3(start.x + x, j + offsetY, start.z);
-                    GL.Vertex3(start.x + x, j + offsetY, gridSize.z);
-                }
+            step = Mathf.Max(step, 0.01f);
+
+            var lower = -gridSize * 0.5f;
+            var upper = lower + gridSize;
+
+            //X axis lines
+            for (float z = lower.z; z <= upper.z; z += step)
+            {
+                GL.Vertex3(lower.x, 0, z);
+                GL.Vertex3(upper.x, 0, z);
+            }
+            //Z axis lines
+            for (float x = lower.x; x <= upper.x; x += step)
+            {
+                GL.Vertex3(x, 0, lower.z);
+                GL.Vertex3(x, 0, upper.z);
             }
             GL.End();
-            //GL.PopMatrix();
         }
         public static void _DrawTex(Texture2D texture, IList<Vector2> v)
         {
@@ -180,6 +195,8 @@ namespace Esa.UI
             _DrawTex(texture, Color.white, v, uv);
         }
         public static float texZ;
+        public static float uiZ;
+
         public static void _DrawTex(Texture2D texture, Color color, IList<Vector2> v, IList<Vector2> uv)
         {
             SetTexMaterial(texture);
@@ -192,6 +209,10 @@ namespace Esa.UI
                 GL.Vertex(v[i].ToNDC());
             }
             GL.End();
+        }
+        public static void DrawLineWorld(Vector3 p1, Vector3 p2, Color color)
+        {
+            UI.AddCommand(Cmd(commandOrder, GLCmdType.DrawLineWorld, p1, p2, color));
         }
         /// <summary>
         /// 左上角坐标
@@ -222,14 +243,42 @@ namespace Esa.UI
         {
             UI.AddCommand(Cmd(commandOrder, GLCmdType.DrawLineOrtho, p1, p2, width, color, clip));
         }
-        public static void DrawQuads(IList<Vector2> p, Color color)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="color"></param>
+        /// <param name="vs"></param>
+        //public static void DrawQuad(Color color, IList<Vector3> vs)
+        //{
+        //    UI.AddCommand(Cmd(commandOrder, GLCmdType.DrawQuadOrtho, color, ListTool.IListToArray(vs)));
+        //}
+        public static void DrawQuad(Color color, params Vector3[] vs)
         {
-            UI.AddCommand(Cmd(commandOrder, GLCmdType.DrawQuadOrtho, p[0], p[1], p[2], p[3], color));
+            UI.AddCommand(Cmd(commandOrder, GLCmdType.DrawQuadOrtho, color, vs));
         }
-        public static void DrawQuads(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, Color color)
+        //v2
+        public static void DrawQuad(IList<Vector2> vs, Color color)
         {
-            UI.AddCommand(Cmd(commandOrder, GLCmdType.DrawQuadOrtho, p1, p2, p3, p4, color));
+            UI.AddCommand(Cmd(commandOrder, GLCmdType.DrawQuadOrtho, color, ListTool.IListToArray(vs)));
         }
+        public static void DrawQuad(Color color, params Vector2[] vs)
+        {
+            UI.AddCommand(Cmd(commandOrder, GLCmdType.DrawQuadOrtho, color, vs));
+        }
+        public static void DrawQuad(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, Color color)
+        {
+            DrawQuad(color, p1, p2, p3, p4);
+        }
+        public static void DrawQuadDirect(Color color, params Vector3[] vs)
+        {
+            UI.AddCommand(Cmd(commandOrder, GLCmdType.DrawQuadDirect, color, vs));
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
+        /// <param name="width"></param>
         public static void DrawLineWidthIns(Vector2 p1, Vector2 p2, float width)
         {
             DrawLineWidthIns(p1, p2, width, Color.black);
@@ -237,11 +286,11 @@ namespace Esa.UI
         public static void DrawLineWidthIns(Vector2 p1, Vector2 p2, float width, Color color)
         {
             GL.LoadOrtho();
-            DrawLineWidth(p1, p2, width, color, false);
+            _DrawLineWidth(p1, p2, width, color, false);
         }
-        public static void DrawLineWidth(Vector2 p1, Vector2 p2, float width)
+        public static void _DrawLineWidth(Vector2 p1, Vector2 p2, float width)
         {
-            DrawLineWidth(p1, p2, width, Color.black);
+            _DrawLineWidth(p1, p2, width, Color.black);
         }
         static void SortX(Vector2[] p)
         {
@@ -260,14 +309,18 @@ namespace Esa.UI
             if (p1.y > p2.y) Tool.swapPts(ref p1, ref p2);
         }
         // 控制粗细的线条实际是画四边形，不一定与坐标轴垂直。
-        public static void DrawLineWidth(Vector2 p1, Vector2 p2, float width, Color color, bool clip = true)
+        public static void _DrawLineWidth(Vector2 p1, Vector2 p2, float width, Color color, bool clip = true)
         {
             SetLineMaterial();
             //clip
             if (clip)
             {
-                var rect = UI.owner.Rect();
-                if (LineClip.ClipCohSuth(rect[0], rect[1], ref p1, ref p2) == LineClip.Result.discard) return;
+                var RT = UI.owner as RectTransform;
+                if (RT != null)
+                {
+                    var rect = RT.Rect();
+                    if (LineClip.ClipCohSuth(rect[0], rect[1], ref p1, ref p2) == LineClip.Result.discard) return;
+                }
             }
             var v = p2 - p1;
             var v2 = p1 - p2;
@@ -278,24 +331,41 @@ namespace Esa.UI
             var p2b = p2 + new Vector2(v2.y, -v2.x).normalized * width;
 
             //四边形可能切成更多边形，暂时没做画多边形功能因此暂不裁剪宽度，只裁剪长度
-            _DrawQuads(p1a, p1b, p2a, p2b, color);
+            _DrawQuad(color, p1a, p1b, p2a, p2b);
         }
         // 左下角原点（0,0），右上角（1,1）
-        public static void DrawLineOrtho(Vector2 p1, Vector2 p2)
+        public static void _DrawLineWorld(Vector2 p1, Vector2 p2)
         {
-            DrawLineOrtho(p1, p2, Color.black);
+            _DrawLineWorld(p1, p2, Color.black);
+        }
+        public static void _DrawLineWorld(Vector3 p1, Vector3 p2, Color color)
+        {
+            SetLineMaterial();
+            GL.Begin(GL.LINES);
+            GL.Color(color);
+            GL.Vertex(p1);
+            GL.Vertex(p2);
+            GL.End();
+        }
+        public static void _DrawLineOrtho(Vector2 p1, Vector2 p2)
+        {
+            _DrawLineOrtho(p1, p2, Color.black);
         }
         /// <summary>
         /// Ref Pos
         /// </summary>
-        public static void DrawLineOrtho(Vector2 p1, Vector2 p2, Color color, bool clip = true)
+        public static void _DrawLineOrtho(Vector2 p1, Vector2 p2, Color color, bool clip = true)
         {
             SetLineMaterial();
             //clip
             if (clip)
             {
-                var rect = UI.owner.Rect();
-                if (LineClip.ClipCohSuth(rect[0], rect[1], ref p1, ref p2) == LineClip.Result.discard) return;
+                var RT = UI.owner as RectTransform;
+                if (RT != null)
+                {
+                    var rect = RT.Rect();
+                    if (LineClip.ClipCohSuth(rect[0], rect[1], ref p1, ref p2) == LineClip.Result.discard) return;
+                }
             }
             //normalize & flip y
             p1 = p1.ToNDC();
@@ -355,18 +425,36 @@ namespace Esa.UI
             DrawLine(p34a, p34b, lineWidth, color);
             DrawLine(p41a, p41b, lineWidth, color);
         }
-        public static void _DrawQuads(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, Color color)
-        {
-            _DrawQuads(color, p1, p2, p3, p4);
-        }
-        public static void _DrawQuads(Color color, params Vector2[] vs)
+        public static void _DrawQuad(Color color, params Vector2[] vs)
         {
             SetLineMaterial();
             GL.Begin(GL.QUADS);
             GL.Color(color);
             foreach (var v in vs)
             {
-                GL.Vertex(v.ToNDC());
+                GL.Vertex(v.ToNDC().SetZ(uiZ));
+            }
+            GL.End();
+        }
+        public static void _DrawQuad(Color color, params Vector3[] vs)
+        {
+            SetLineMaterial();
+            GL.Begin(GL.QUADS);
+            GL.Color(color);
+            foreach (var v in vs)
+            {
+                GL.Vertex(v.XYToNDC());
+            }
+            GL.End();
+        }
+        public static void _DrawQuadDirect(Color color, params Vector3[] vs)
+        {
+            SetLineMaterial();
+            GL.Begin(GL.QUADS);
+            GL.Color(color);
+            foreach (var v in vs)
+            {
+                GL.Vertex(v);
             }
             GL.End();
         }

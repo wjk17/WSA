@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-namespace Esa.UI
+namespace Esa._UI
 {
     [Serializable]
     public class GLHandler : CmdHandler
     {
+        public int order;
         public GLHandler() : base() { }
-        public GLHandler(RectTransform owner) : base(owner) { }
+        public GLHandler(GameObject owner) : base(owner) { }
         public override void ExecuteCommand(Cmd command)
         {
             var cmd = command as GLCmd;
@@ -16,6 +17,8 @@ namespace Esa.UI
             {
                 case GLCmdType.LoadOrtho: GL.LoadOrtho(); break;
                 case GLCmdType.LoadMatrix: GL.LoadProjectionMatrix((Matrix4x4)cmd.args[0]); break;
+                case GLCmdType.PushMatrix: GL.PushMatrix(); break;
+                case GLCmdType.PopMatrix: GL.PopMatrix(); break;
                 case GLCmdType.SetLineMat: GLUI.SetLineMaterial(); break;
                 case GLCmdType.DrawGrid:
                     if (ArgType<Vector3, float, Color>(cmd))
@@ -24,37 +27,55 @@ namespace Esa.UI
                     }
                     else Debug.Log("Error");
                     break;
+                case GLCmdType.DrawLineWorld:
+                    if (ArgType<Vector3, Vector3, Color>(cmd))
+                    {
+                        GLUI._DrawLineWorld((Vector3)cmd.args[0], (Vector3)cmd.args[1], (Color)cmd.args[2]);
+                    }
+                    else Debug.Log("Error");
+                    break;
                 case GLCmdType.DrawLineOrtho:
                     if (ArgType<Vector2, Vector2>(cmd))
                     {
-                        GLUI.DrawLineOrtho((Vector2)cmd.args[0], (Vector2)cmd.args[1]);
+                        GLUI._DrawLineOrtho((Vector2)cmd.args[0], (Vector2)cmd.args[1]);
                     }
                     else if (ArgType<Vector2, Vector2, Color>(cmd))
                     {
-                        GLUI.DrawLineOrtho((Vector2)cmd.args[0], (Vector2)cmd.args[1], (Color)cmd.args[2]);
+                        GLUI._DrawLineOrtho((Vector2)cmd.args[0], (Vector2)cmd.args[1], (Color)cmd.args[2]);
                     }
                     else if (ArgType<Vector2, Vector2, Color, bool>(cmd))
                     {
-                        GLUI.DrawLineOrtho((Vector2)cmd.args[0], (Vector2)cmd.args[1], (Color)cmd.args[2], (bool)cmd.args[3]);
+                        GLUI._DrawLineOrtho((Vector2)cmd.args[0], (Vector2)cmd.args[1], (Color)cmd.args[2], (bool)cmd.args[3]);
                     }
                     else if (ArgType<Vector2, Vector2, float>(cmd))
                     {
-                        GLUI.DrawLineWidth((Vector2)cmd.args[0], (Vector2)cmd.args[1], (float)cmd.args[2]);
+                        GLUI._DrawLineWidth((Vector2)cmd.args[0], (Vector2)cmd.args[1], (float)cmd.args[2]);
                     }
                     else if (ArgType<Vector2, Vector2, float, Color>(cmd))
                     {
-                        GLUI.DrawLineWidth((Vector2)cmd.args[0], (Vector2)cmd.args[1], (float)cmd.args[2], (Color)cmd.args[3]);
+                        GLUI._DrawLineWidth((Vector2)cmd.args[0], (Vector2)cmd.args[1], (float)cmd.args[2], (Color)cmd.args[3]);
                     }
                     else if (ArgType<Vector2, Vector2, float, Color, bool>(cmd))
                     {
-                        GLUI.DrawLineWidth((Vector2)cmd.args[0], (Vector2)cmd.args[1], (float)cmd.args[2], (Color)cmd.args[3], (bool)cmd.args[4]);
+                        GLUI._DrawLineWidth((Vector2)cmd.args[0], (Vector2)cmd.args[1], (float)cmd.args[2], (Color)cmd.args[3], (bool)cmd.args[4]);
+                    }
+                    else { throw new Exception("未定义 参数"); }
+                    break;
+                case GLCmdType.DrawQuadDirect:
+                    if (ArgType<Color, Vector3[]>(cmd))
+                    {
+                        GLUI._DrawQuadDirect((Color)cmd.args[0], (Vector3[])cmd.args[1]);
                     }
                     else { throw new Exception("未定义 参数"); }
                     break;
                 case GLCmdType.DrawQuadOrtho:
-                    if (ArgType<Vector2, Vector2, Vector2, Vector2, Color>(cmd))
+                    if (ArgType<Color, Vector3[]>(cmd))
                     {
-                        GLUI._DrawQuads((Vector2)cmd.args[0], (Vector2)cmd.args[1], (Vector2)cmd.args[2], (Vector2)cmd.args[3], (Color)cmd.args[4]);
+                        GLUI._DrawQuad((Color)cmd.args[0], (Vector3[])cmd.args[1]);
+                    }
+                    else if (ArgType<Color, Vector2[]>(cmd))
+                    {
+                        GLUI._DrawQuad((Color)cmd.args[0], (Vector2[])cmd.args[1]);
                     }
                     else { throw new Exception("未定义 参数"); }
                     break;

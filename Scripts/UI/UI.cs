@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-namespace Esa.UI
+namespace Esa._UI
 {
     [Serializable]
     public class _Cursor
@@ -27,6 +27,12 @@ namespace Esa.UI
         public List<InputCall> inputs;
         public List<InputCall> called;
         public bool seeCalledList;
+        public virtual int SortList(GLHandler a, GLHandler b)
+        {
+            if (a.order > b.order) { return 1; } ///顺序从低到高
+            else if (a.order < b.order) { return -1; }
+            return 0;
+        }
         public virtual int SortList(InputCall a, InputCall b)
         {
             if (a.order > b.order) { return 1; } ///顺序从低到高
@@ -154,6 +160,13 @@ namespace Esa.UI
 #endif
                 return (Input.mousePosition * facterToReference).
                     f_sub_y(scaler.referenceResolution.y);
+            }
+        }
+        public static Vector2 mousePosView // LB 本来就是左下坐标
+        {
+            get
+            {
+                return Input.mousePosition / I.screenSize;
             }
         }
         public static Vector2 mousePosRef // LB 本来就是左下坐标

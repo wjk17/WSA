@@ -32,6 +32,13 @@ namespace Esa
         {
             return list[list.Count - 1];
         }
+        public static void IListCopyTo<T>(this IList<T> source, IList<T> dst)
+        {
+            for (int i = 0; i < source.Count; i++)
+            {
+                dst[i] = source[i];
+            }
+        }
         public static T[] IListToArray<T>(IList<T> list)
         {
             if (list == null) return null;

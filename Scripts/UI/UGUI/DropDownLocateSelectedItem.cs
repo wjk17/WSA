@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-namespace Esa.UI
+namespace Esa._UI
 {
     public class DropDownLocateSelectedItem : MonoBehaviour, IPointerClickHandler
     {

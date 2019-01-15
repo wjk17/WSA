@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Esa.UI
+namespace Esa._UI
 {
     public partial class UICurve
     {

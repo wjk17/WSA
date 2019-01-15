@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Esa.UI
+namespace Esa._UI
 {
     // UI控件
     public partial class UITimeLine : Singleton<UITimeLine>
