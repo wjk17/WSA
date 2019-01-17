@@ -14,7 +14,7 @@ namespace Esa
         public int a, b, c, d;
         public Vector2 uvA, uvB, uvC, uvD;
         public Vector3[] Vertex(IList<Vector3> vertex) { return new Vector3[] { vertex[a], vertex[b], vertex[c], vertex[d] }; }
-        public int[] Index
+        public int[] index
         {
             get { return new int[] { a, b, c, d }; }
             set { a = value[0]; b = value[1]; c = value[2]; d = value[3]; }
@@ -30,7 +30,7 @@ namespace Esa
         }
         public Quad(params int[] vs)
         {
-            Index = vs;
+            index = vs;
         }
         public Quad(int a, int b, int c, int d)//, Vector3 normal)
         {

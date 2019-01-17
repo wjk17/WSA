@@ -27,10 +27,14 @@ namespace Esa._UI
                     }
                     else Debug.Log("Error");
                     break;
-                case GLCmdType.DrawLineWorld:
-                    if (ArgType<Vector3, Vector3, Color>(cmd))
+                case GLCmdType.DrawLineDirect:
+                    if (ArgType<Vector3, Vector3, Color, Color>(cmd))
                     {
-                        GLUI._DrawLineWorld((Vector3)cmd.args[0], (Vector3)cmd.args[1], (Color)cmd.args[2]);
+                        GLUI._DrawLineDirect((Vector3)cmd.args[0], (Vector3)cmd.args[1], (Color)cmd.args[2], (Color)cmd.args[3]);
+                    }
+                    else if (ArgType<Vector3, Vector3, Color>(cmd))
+                    {
+                        GLUI._DrawLineDirect((Vector3)cmd.args[0], (Vector3)cmd.args[1], (Color)cmd.args[2]);
                     }
                     else Debug.Log("Error");
                     break;

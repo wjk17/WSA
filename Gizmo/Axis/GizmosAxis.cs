@@ -56,18 +56,18 @@ namespace Esa._UI
 
             var half = gridSize * 0.5f;
             GLUI.BeginOrder(1);
-            GLUI.DrawLineWorld(-half.X(), half.X(), colorAxisX);
-            GLUI.DrawLineWorld(-half.Z(), half.Z(), colorAxisZ);
+            GLUI.DrawLineDirect(-half.X(), half.X(), colorAxisX);
+            GLUI.DrawLineDirect(-half.Z(), half.Z(), colorAxisZ);
 
             GLUI.BeginOrder(2);
             var selAxisSize = gridSize * 10f;
             var pos = transform.position;
             if (drawAxis == 0)
-                GLUI.DrawLineWorld(pos - selAxisSize.X(), pos + selAxisSize.X(), colorAxisXSel);
+                GLUI.DrawLineDirect(pos - selAxisSize.X(), pos + selAxisSize.X(), colorAxisXSel);
             else if (drawAxis == 1)
-                GLUI.DrawLineWorld(pos - selAxisSize.Y(), pos + selAxisSize.Y(), colorAxisYSel);
+                GLUI.DrawLineDirect(pos - selAxisSize.Y(), pos + selAxisSize.Y(), colorAxisYSel);
             else if (drawAxis == 2)
-                GLUI.DrawLineWorld(pos - selAxisSize.Z(), pos + selAxisSize.Z(), colorAxisZSel);
+                GLUI.DrawLineDirect(pos - selAxisSize.Z(), pos + selAxisSize.Z(), colorAxisZSel);
 
             if (dragging && drawAxisProj)
             {

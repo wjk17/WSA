@@ -210,9 +210,13 @@ namespace Esa._UI
             }
             GL.End();
         }
-        public static void DrawLineWorld(Vector3 p1, Vector3 p2, Color color)
+        public static void DrawLineDirect(Vector3 p1, Vector3 p2, Color color)
         {
-            UI.AddCommand(Cmd(commandOrder, GLCmdType.DrawLineWorld, p1, p2, color));
+            DrawLineDirect(p1, p2, color, color);
+        }
+        public static void DrawLineDirect(Vector3 p1, Vector3 p2, Color color1, Color color2)
+        {
+            UI.AddCommand(Cmd(commandOrder, GLCmdType.DrawLineDirect, p1, p2, color1, color2));
         }
         /// <summary>
         /// 左上角坐标
@@ -334,27 +338,36 @@ namespace Esa._UI
             _DrawQuad(color, p1a, p1b, p2a, p2b);
         }
         // 左下角原点（0,0），右上角（1,1）
-        public static void _DrawLineWorld(Vector2 p1, Vector2 p2)
+        public static void _DrawLineDirect(Vector2 p1, Vector2 p2)
         {
-            _DrawLineWorld(p1, p2, Color.black);
+            _DrawLineDirect(p1, p2, Color.black);
         }
-        public static void _DrawLineWorld(Vector3 p1, Vector3 p2, Color color)
+        public static void _DrawLineDirect(Vector3 p1, Vector3 p2, Color color)
+        {
+            _DrawLineDirect(p1, p2, color, color);
+        }
+        public static void _DrawLineDirect(Vector3 p1, Vector3 p2, Color color1, Color color2)
         {
             SetLineMaterial();
             GL.Begin(GL.LINES);
-            GL.Color(color);
+            GL.Color(color1);
             GL.Vertex(p1);
+            GL.Color(color2);
             GL.Vertex(p2);
             GL.End();
-        }
-        public static void _DrawLineOrtho(Vector2 p1, Vector2 p2)
-        {
-            _DrawLineOrtho(p1, p2, Color.black);
         }
         /// <summary>
         /// Ref Pos
         /// </summary>
+        public static void _DrawLineOrtho(Vector2 p1, Vector2 p2)
+        {
+            _DrawLineOrtho(p1, p2, Color.black);
+        }
         public static void _DrawLineOrtho(Vector2 p1, Vector2 p2, Color color, bool clip = true)
+        {
+            _DrawLineOrtho(p1, p2, color, color, clip);
+        }
+        public static void _DrawLineOrtho(Vector2 p1, Vector2 p2, Color color1, Color color2, bool clip = true)
         {
             SetLineMaterial();
             //clip
@@ -372,8 +385,9 @@ namespace Esa._UI
             p2 = p2.ToNDC();
 
             GL.Begin(GL.LINES);
-            GL.Color(color);
+            GL.Color(color1);
             GL.Vertex(p1);
+            GL.Color(color2);
             GL.Vertex(p2);
             GL.End();
         }
@@ -455,6 +469,27 @@ namespace Esa._UI
             foreach (var v in vs)
             {
                 GL.Vertex(v);
+            }
+            GL.End();
+        }
+        public static void _DrawQuadDirect(Color[] color, Vector3[] vs)
+        {
+            SetLineMaterial();
+            GL.Begin(GL.QUADS);
+            for (int i = 0; i < vs.Length; i++)
+            {
+                GL.Color(color[i]);
+                GL.Vertex(vs[i]);
+            }
+            GL.End();
+        }
+        public static void _DrawQuadDirect_CusMat(Color[] color, Vector3[] vs)
+        {
+            GL.Begin(GL.QUADS);
+            for (int i = 0; i < vs.Length; i++)
+            {
+                GL.Color(color[i]);
+                GL.Vertex(vs[i]);
             }
             GL.End();
         }

@@ -12,7 +12,7 @@ namespace Esa._UI
         LoadOrtho,
         LoadMatrix,
         DrawGrid,
-        DrawLineWorld,
+        DrawLineDirect,
         DrawLineOrtho,
         DrawQuadOrtho,
         DrawQuadDirect,
