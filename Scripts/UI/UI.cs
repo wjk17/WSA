@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-namespace Esa._UI
+namespace Esa.UI_
 {
     [Serializable]
     public class _Cursor
@@ -31,7 +31,8 @@ namespace Esa._UI
         {
             if (a.order > b.order) { return 1; } ///顺序从低到高
             else if (a.order < b.order) { return -1; }
-            return 0;
+
+            return ((GameObject)a.owner).name.CompareTo(((GameObject)b.owner).name);
         }
         public virtual int SortList(InputCall a, InputCall b)
         {

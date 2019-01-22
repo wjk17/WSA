@@ -1,6 +1,6 @@
 ﻿using System;
 using UnityEngine;
-namespace Esa._UI
+namespace Esa.UI_
 {
     [ExecuteInEditMode]
     public class CameraEventWrapper : MonoBehaviour

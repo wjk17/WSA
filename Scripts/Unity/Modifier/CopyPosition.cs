@@ -21,8 +21,8 @@ namespace Esa
         Vector3 originPos;
         public Transform target;
 
-        public bool world = false;
-        public bool disableWhenSelect = true;
+        public bool world = true;
+        public bool disableWhenSelect;
         void Start()
         {
             x.bool2Label = y.bool2Label = z.bool2Label = "翻转";

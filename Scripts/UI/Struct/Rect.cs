@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Esa._UI;
+using Esa.UI_;
 namespace Esa
 {
     /// <summary>
@@ -18,6 +18,12 @@ namespace Esa
         {
             return new Rect(rect.position, rect.size);
         }
+
+        internal Rect Clone()
+        {
+            return new Rect(pos, size, pivot);
+        }
+
         public Rect(MonoBehaviour mono) : this(mono.transform as RectTransform)
         {
         }
@@ -26,7 +32,7 @@ namespace Esa
         /// </summary>
         public Rect(RectTransform rt)
         {
-            pos = _UI.UI.AbsRefPos(rt);
+            pos = UI_.UI.AbsRefPos(rt);
 
             //pivot = rt.pivot.FlipY();
             pivot = Vectors.half2d;
@@ -60,6 +66,12 @@ namespace Esa
             pos += size * os;
             this.pivot = pivot;
         }
+        public void SetPos(Vector2 pos, Vector2 pivot)
+        {
+            var os = pivot - this.pivot;
+            pos -= size * os;
+            this.pos = pos;
+        }
         public Vector2 cornerLB { get { return pos - size * Vectors.half2d; } }
         public Vector2 cornerLT { get { return pos - size * Vectors.half2d.ReverseY(); } }
         public Vector2 cornerRT { get { return pos + size * Vectors.half2d; } }
@@ -79,19 +91,6 @@ namespace Esa
         /// ClockWise
         /// </summary>
         /// <returns></returns>
-        public List<Vector2> ToPointsCW_()
-        {
-            var vs = new List<Vector2>();
-            vs.Add(pos);
-            vs.Add(pos + size * Vector2.right);
-            vs.Add(pos + size);
-            vs.Add(pos + size * Vector2.up);
-            //vs.Add(pos + size * pivot.FlipRev());
-            //vs.Add(pos + size * pivot.FlipRevY());
-            //vs.Add(pos + size * pivot);
-            //vs.Add(pos + size * pivot.FlipRevX());
-            return vs;
-        }
         public List<Vector2> ToPointsCW()
         {
             var vs = new List<Vector2>();

@@ -61,6 +61,31 @@ namespace Esa
                 return false;
             }
         }
+        public static Vector3 SVRaycast3D(Vector3 pos, Vector3 dir, int layerMask)
+        {
+            Ray ray = new Ray(pos, dir);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+            {
+                return hit.point;
+            }
+            return Vector3.zero;
+        }
+        public static bool SVRaycast3D(Vector3 pos, Vector3 dir, out RaycastHit rayHit, int layerMask)
+        {
+            Ray ray = new Ray(pos, dir);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+            {
+                rayHit = hit;
+                return true;
+            }
+            else
+            {
+                rayHit = default(RaycastHit);
+                return false;
+            }
+        }
         public static RaycastHit[] SVRaycastAll(this MonoBehaviour m, int layerMask)
         {
             return SVRaycastAll(Input.mousePosition, layerMask);

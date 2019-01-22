@@ -13,7 +13,7 @@
 using UnityEngine;
 using System.Collections;
 using System;
-namespace Esa._UI
+namespace Esa.UI_
 {
     public class CameraController : Singleton<CameraController>
     {

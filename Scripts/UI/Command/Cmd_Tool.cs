@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace Esa._UI
+namespace Esa.UI_
 {
     public static class Cmd_Tool
     {
@@ -28,10 +28,10 @@ namespace Esa._UI
             {
                 if (i.owner == item) return i;
             }
-            var n = new T();
-            n.owner = item;
-            list.Add(n);
-            return n;
+            //var n = new T();
+            //n.owner = item;
+            //list.Add(n);
+            return null;
         }
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using UnityEngine.Events;
-namespace Esa._UI
+namespace Esa.UI_
 {
     public class ButtonSwitch : MonoBehaviour
     {

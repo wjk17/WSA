@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-namespace Esa._UI
+namespace Esa.UI_
 {
     [ExecuteInEditMode]
     public class RectInspector : MonoBehaviour
@@ -49,7 +49,7 @@ namespace Esa._UI
 
             if (draw)
             {
-                this.BeginFrame();
+                this.BeginOrtho();
                 this.Draw();
             }
             if (modify)

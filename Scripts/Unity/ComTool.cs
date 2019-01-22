@@ -6,11 +6,16 @@ using Object = UnityEngine.Object;
 using UnityEngine.UI;
 namespace Esa
 {
+    using UI_;
     public static class ComTool
     {
+        public static Vector3 WorldToRefPoint(this Camera cam, Vector3 pos)
+        {
+            return cam.WorldToViewportPoint(pos).MulRef();
+        }
         public static Vector2[] Rect(this RectTransform rt)
         {
-            var v = _UI.UI.AbsRefPos(rt) - Vectors.half2d * rt.rect.size;
+            var v = UI_.UI.AbsRefPos(rt) - Vectors.half2d * rt.rect.size;
             return new Vector2[] { v, v + rt.rect.size };
         }
         public static T NameOf<T>(this string name, IList<T> components) where T : Component
@@ -76,9 +81,17 @@ namespace Esa
         {
             com.gameObject.SetActive(true);
         }
+        public static void Active(this GameObject go)
+        {
+            go.SetActive(true);
+        }
         public static void Disactive(this Component com)
         {
             com.gameObject.SetActive(false);
+        }
+        public static void Disactive(this GameObject go)
+        {
+            go.SetActive(false);
         }
         public static bool ToggleActive(this Component com)
         {

@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Esa._UI;
+using Esa.UI_;
 namespace Esa
 {
     /// <summary>
@@ -59,7 +59,7 @@ namespace Esa
         }
 
         public Vector2 parentSizeAnchored { get { return parentSizeAbs * anchorMax - parentSizeAbs * anchorMin; } }
-        public Vector2 parentSizeAbs { get { return parent == null ? _UI.UI.scalerRefRes : parent.sizeAbs; } }
+        public Vector2 parentSizeAbs { get { return parent == null ? UI_.UI.scalerRefRes : parent.sizeAbs; } }
         public RectTrans(Component c) : this(c.transform as RectTransform) { }
         public RectTrans(RectTransform rt)
         {

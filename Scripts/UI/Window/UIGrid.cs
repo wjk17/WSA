@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
-namespace Esa._UI
+namespace Esa.UI_
 {
     public class UIGrid : MonoBehaviour
     {
@@ -61,7 +61,7 @@ namespace Esa._UI
         public void Input()
         {
             ic.order = drawOrder;
-            this.BeginFrame();
+            this.BeginOrtho();
             var startPos = this.AbsRefPos();
             rects = new List<Rect>();
             for (int y = 0; y < gridCount.y; y++)

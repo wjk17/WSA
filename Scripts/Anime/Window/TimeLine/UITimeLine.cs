@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Esa._UI
+namespace Esa.UI_
 {
     // UI控件
     public partial class UITimeLine : Singleton<UITimeLine>
@@ -28,7 +28,7 @@ namespace Esa._UI
         public bool clip = false;
         private void Update()
         {
-            this.BeginFrame();
+            this.BeginOrtho();
             this.Draw(Color.grey);
             var pos = UI.AbsRefPos(rtArea) - rtArea.rect.size * 0.5f;
             var scl = rtAreaSize / SizeInt;

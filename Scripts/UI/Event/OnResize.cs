@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-namespace Esa._UI
+namespace Esa.UI_
 {
     /// <summary>
     /// mono类里this.CheckResize，需每帧调用，第一次调用会在列表里插入实例。

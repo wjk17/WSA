@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-namespace Esa._UI
+namespace Esa.UI_
 {
     [Serializable]
     public class CmdHandler
     {
         public object owner;
         public CmdHandler() { }
-        public CmdHandler(GameObject owner) { this.owner = owner; }
+        public CmdHandler(object owner) { this.owner = owner; }
         public List<Cmd> cmds = new List<Cmd>();
         public virtual void ExecuteCommand(Cmd cmd) { }
         public virtual int SortList(Cmd a, Cmd b)

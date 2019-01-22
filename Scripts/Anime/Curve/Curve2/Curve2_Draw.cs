@@ -24,11 +24,11 @@ namespace Esa
         internal void Draw(Matrix4x4 m, bool showTangents)
         {
             //grid 0, border 1, axis 2, lines 3, points 4, timeline 5
-            _UI.GLUI.BeginOrder(1);
+            UI_.GLUI.BeginOrder(1);
             DrawBorder(m);
-            _UI.GLUI.BeginOrder(3);
+            UI_.GLUI.BeginOrder(3);
             DrawLines(m, showTangents);
-            _UI.GLUI.BeginOrder(4);
+            UI_.GLUI.BeginOrder(4);
             DrawPoints(m, showTangents);
         }
 

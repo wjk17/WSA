@@ -9,7 +9,7 @@ namespace Esa
     {
         public static void StartCo(this IEnumerator e)
         {
-            _UI.UI.I.StartCoro(e);
+            UI_.UI.I.StartCoro(e);
         }
     }
     public class LayerMasks
@@ -50,7 +50,7 @@ namespace Esa
             if (debug) print("SYS Init");
 
             SingletonMgr.Init();
-            _UI.UI.I.Initialize();
+            UI_.UI.I.Initialize();
         }
         private void Update()
         {

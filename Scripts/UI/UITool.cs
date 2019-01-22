@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace Esa._UI
+namespace Esa.UI_
 {
     public static partial class UITool
     {
@@ -10,6 +10,10 @@ namespace Esa._UI
             return v / UI.scalerRefRes;
         }
         public static Vector2 MulRef(this Vector2 v)
+        {
+            return v * UI.scalerRefRes;
+        }
+        public static Vector3 MulRef(this Vector3 v)
         {
             return v * UI.scalerRefRes;
         }
@@ -41,16 +45,24 @@ namespace Esa._UI
         {
             UI.owner = mono.gameObject;
             UI.ClearGL();
-            GLUI.LoadOrtho();
             GLUI.BeginOrder(0);
+            GLUI.LoadOrtho();
         }
-        public static void BeginFrame(this MonoBehaviour mono, int order = 0)
+        public static void BeginOrtho(this object obj, int order = 0)
+        {
+            UI.owner = obj;
+            UI.ClearCmd();
+            UI.gl.order = order;
+            GLUI.BeginOrder(0);
+            GLUI.LoadOrtho();
+        }
+        public static void BeginOrtho(this MonoBehaviour mono, int glOrder = 0)
         {
             UI.owner = mono.gameObject;
             UI.ClearCmd();
-            GLUI.LoadOrtho();
-            UI.gl.order = order;
+            if (glOrder != 0) UI.gl.order = glOrder;
             GLUI.BeginOrder(0);
+            GLUI.LoadOrtho();
         }
         public static List<Vector2> ListReverseY(this IList<Vector2> vs) // input screen pos
         {

@@ -472,12 +472,20 @@ namespace Esa
         }
 
         // setpos 
+        public static void SetPosXZ(this Component com, Vector3 v)
+        {
+            com.transform.position = new Vector3(v.x, com.transform.position.y, v.z);
+        }
         public static void SetPosXZ(this Component com, float x, float z)
         {
             com.transform.position = new Vector3(x, com.transform.position.y, z);
         }
 
         // setlocalpos
+        public static void SetLocalPosXZ(this Component com, float x, float z)
+        {
+            com.transform.localPosition = new Vector3(x, com.transform.localPosition.y, z);
+        }
         public static void SetLocalPosX(this Component com, float f)
         {
             com.transform.localPosition = new Vector3(f, com.transform.localPosition.y, com.transform.localPosition.z);

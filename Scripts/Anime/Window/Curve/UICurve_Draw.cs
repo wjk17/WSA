@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace Esa._UI
+namespace Esa.UI_
 {
     public partial class UICurve
     {
@@ -38,7 +38,7 @@ namespace Esa._UI
         public Vector2Int drawAreaStart;
         private void Update()
         {
-            this.BeginFrame();
+            this.BeginOrtho();
 
             Curve2.colorCtrlLines = clrCtrlLinesUnSel;
             Curve2.colorBorder = clrBorder;

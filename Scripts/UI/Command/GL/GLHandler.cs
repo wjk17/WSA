@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-namespace Esa._UI
+namespace Esa.UI_
 {
     [Serializable]
     public class GLHandler : CmdHandler
     {
         public int order;
+        public string name;
         public GLHandler() : base() { }
-        public GLHandler(GameObject owner) : base(owner) { }
+        public GLHandler(object owner) : base(owner) { }
         public override void ExecuteCommand(Cmd command)
         {
             var cmd = command as GLCmd;

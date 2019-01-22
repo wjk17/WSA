@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-namespace Esa._UI
+namespace Esa.UI_
 {
     public static class InputCall_Tool
     {
@@ -18,6 +18,11 @@ namespace Esa._UI
         // checkOver 是否检测鼠标是否悬停（mono使用null）
         public static InputCall AddInput(this MonoBehaviour mono, Action updateFunc, int order, bool checkOver = true)
         {
+            GLHandler h = new GLHandler(mono.gameObject);
+            h.order = order;
+            h.name = mono.name;
+            UI.I.glHandlers.Add(h);
+            UI.I.imHandlers.Add(new IMHandler(mono.gameObject));
             return UI.I.inputs.Add_(new InputCall(mono, updateFunc, order, checkOver));
         }
     }
