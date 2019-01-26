@@ -13,6 +13,8 @@ namespace Esa.UI_
     [ExecuteInEditMode]
     public partial class UI : Singleton<UI>
     {
+        public Font font;
+        public int defaultFontSize = 32;
         public static string layerName = "UI";
         public static LayerMask layerMask { get { return LayerMask.GetMask(layerName); } }
         public static int layerNum { get { return (int)Mathf.Log(layerMask.value, 2); } }
@@ -47,6 +49,7 @@ namespace Esa.UI_
             if (SYS.debugUI) print("UI Initialize.");
 
             GLUI.texMaterial = texMaterial;
+            GLUI.font = font;
 
             inputs = new List<InputCall>();
             glHandlers = new List<GLHandler>();
@@ -56,9 +59,11 @@ namespace Esa.UI_
         }
         private void Update()
         {
+            GLUI.fontSize = defaultFontSize;
 #if UNITY_EDITOR
             if (!Application.isPlaying) return;
 #endif
+            Events.Update();
             EarlyUpdate();
             UpdateInput();
         }

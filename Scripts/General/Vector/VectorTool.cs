@@ -384,6 +384,14 @@ namespace Esa
         {
             return new Vector2Int(0, v2.y);
         }
+        public static Vector2 XY(this float xy)
+        {
+            return new Vector2(xy, xy);
+        }
+        public static Vector2 XY(this int xy)
+        {
+            return new Vector2(xy, xy);
+        }
         public static Vector2 X(this int x)
         {
             return new Vector2(x, 0);

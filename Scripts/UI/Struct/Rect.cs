@@ -14,6 +14,7 @@ namespace Esa
         public Vector2 pos;
         public Vector2 size;
         public Vector2 pivot;
+
         public static implicit operator Rect(UnityEngine.Rect rect)
         {
             return new Rect(rect.position, rect.size);
@@ -40,10 +41,10 @@ namespace Esa
             //pos -= rt.pivot.FlipY() * rt.rect.size;
             size = rt.rect.size;
         }
-        public Rect(Vector2 pos, float sideLength) : this(pos, Vector2.one * sideLength)
+        public Rect(Vector2 pos, float sideLength) : this(pos, sideLength.XY())
         {
         }
-        public Rect(Vector2 pos, float sideLength, Vector2 anchor) : this(pos, Vector2.one * sideLength, anchor)
+        public Rect(Vector2 pos, float sideLength, Vector2 anchor) : this(pos, sideLength.XY(), anchor)
         {
         }
         public Rect(Vector2 pos, Vector2 size)
@@ -72,6 +73,7 @@ namespace Esa
             pos -= size * os;
             this.pos = pos;
         }
+        public Vector2 center { get { return pos; } }
         public Vector2 cornerLB { get { return pos - size * Vectors.half2d; } }
         public Vector2 cornerLT { get { return pos - size * Vectors.half2d.ReverseY(); } }
         public Vector2 cornerRT { get { return pos + size * Vectors.half2d; } }
@@ -105,6 +107,10 @@ namespace Esa
                 vs[i] += size.Y() * pivot.y;
             }
             return vs;
+        }
+        public Vector2[] ToCWA()
+        {
+            return ToCW().ToArray();
         }
         public List<Vector2> ToCW()
         {

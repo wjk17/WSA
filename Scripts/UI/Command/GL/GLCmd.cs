@@ -11,6 +11,7 @@ namespace Esa.UI_
         PopMatrix,
         LoadOrtho,
         LoadMatrix,
+        DrawString,
         DrawGrid,
         DrawLineDirect,
         DrawLineOrtho,

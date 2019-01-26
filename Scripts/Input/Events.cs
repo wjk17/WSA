@@ -79,6 +79,7 @@ namespace Esa
         {
             return !used && Input.GetMouseButtonDown((int)button);
         }
+
         public static bool MouseUp(int button)
         {
             return !used && Input.GetMouseButtonUp(button);
@@ -230,6 +231,33 @@ namespace Esa
             }
         }
         public static string def_AxisMouseWheel = "Mouse ScrollWheel";
+        public static bool mouseDown0;
+        public static bool mouseDown1;
+        public static bool mouseDown2;
+        public static bool mouseUp0;
+        public static bool mouseUp1;
+        public static bool mouseUp2;
+        public static bool mouse0;
+        public static bool mouse1;
+        public static bool mouse2;
+        public static bool mouseDown1to3;
+        public static bool mouseUp1to3;
+        public static bool mouse1to3;
+        internal static void Update()
+        {
+            mouseDown0 = MouseDown0;
+            mouseDown1 = MouseDown1;
+            mouseDown2 = MouseDown2;
+            mouseUp0 = MouseUp0;
+            mouseUp1 = MouseUp1;
+            mouseUp2 = MouseUp2;
+            mouse0 = Mouse0;
+            mouse1 = Mouse1;
+            mouse2 = Mouse2;
+            mouseDown1to3 = MouseDown1to3;
+            mouseUp1to3 = MouseUp1to3;
+            mouse1to3 = Mouse1to3;
+        }
         public static float AxisMouseWheel
         {
             get { return Axis(def_AxisMouseWheel); }

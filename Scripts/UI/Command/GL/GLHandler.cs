@@ -21,12 +21,19 @@ namespace Esa.UI_
                 case GLCmdType.PushMatrix: GL.PushMatrix(); break;
                 case GLCmdType.PopMatrix: GL.PopMatrix(); break;
                 case GLCmdType.SetLineMat: GLUI.SetLineMaterial(); break;
+                case GLCmdType.DrawString:
+                    if (ArgType<Vector2, string, int, Vector2>(cmd))
+                    {
+                        GLUI._DrawString((Vector2)cmd.args[0], (string)cmd.args[1], (int)cmd.args[2], (Vector2)cmd.args[3]);
+                    }
+                    else Debug.Log("DrawString Error");
+                    break;
                 case GLCmdType.DrawGrid:
                     if (ArgType<Vector3, float, Color>(cmd))
                     {
                         GLUI._DrawGrid((Vector3)cmd.args[0], (float)cmd.args[1], (Color)cmd.args[2]);
                     }
-                    else Debug.Log("Error");
+                    else Debug.Log("DrawGrid Error");
                     break;
                 case GLCmdType.DrawLineDirect:
                     if (ArgType<Vector3, Vector3, Color, Color>(cmd))

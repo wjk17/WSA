@@ -5,6 +5,12 @@ namespace Esa.UI_
 {
     public static class DragWindowTool
     {
+        public static bool Hover(this MonoBehaviour mono)
+        {
+            var rt = new RectTrans(mono);
+            var rect = new Rect(rt.center, rt.sizeAbs);
+            return rect.Contains(UI.mousePosRef);
+        }
         public static List<DragWindow> inss = new List<DragWindow>();
         public static void DoDragWindow(this MonoBehaviour mono)
         {
@@ -29,23 +35,32 @@ namespace Esa.UI_
         Vector2 downPos;
         Vector2 downPosM;
         public Transform transform;
-
+        public RectTransform rectT;
+        public bool dragging;
         public DragWindow(Transform t)
         {
             transform = t;
+            rectT = t as RectTransform;
         }
         public void Check()
         {
-            if (Events.MouseDown0)
+            if (Events.mouseDown0)
             {
-                downPosM = UI.mousePosRef;
-                downPos = transform.UIPos();
+                var rt = new RectTrans(rectT);
+                var rect = new Rect(rt.center, rt.sizeAbs);
+                if (rect.Contains(UI.mousePosRef))
+                {
+                    dragging = true;
+                    downPosM = UI.mousePosRef;
+                    downPos = transform.UIPos();
+                }
             }
-            else if (Events.Mouse0)
+            else if (Events.mouse0 && dragging)
             {
                 var os = UI.mousePosRef - downPosM;
                 transform.SetUIPos(downPos + os);
             }
+            else dragging = false;
         }
     }
 }

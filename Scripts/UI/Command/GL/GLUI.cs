@@ -7,7 +7,7 @@ namespace Esa.UI_
     /// <summary>
     /// 左下角坐标
     /// </summary>
-    public static class GLUI
+    public static partial class GLUI
     {
         public static Material lineMaterial;
         public static Material texMaterial;

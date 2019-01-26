@@ -223,6 +223,7 @@ namespace Esa
         }
         /// <summary>
         /// 跟 FindObjectsOfType<T> 的区别是在于可以包括隐藏的对象，性能未做比较
+        /// 注意：运行时获得列表顺序可能与编辑器环境不同。
         /// </summary>
         public static List<T> GetComsScene<T>(bool includeInActive = true) where T : Component
         {

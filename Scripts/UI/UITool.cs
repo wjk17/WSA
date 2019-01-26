@@ -43,9 +43,7 @@ namespace Esa.UI_
         }
         public static void StartGL(this MonoBehaviour mono)
         {
-            UI.owner = mono.gameObject;
-            UI.ClearGL();
-            GLUI.BeginOrder(0);
+            StartGLWorld(mono);
             GLUI.LoadOrtho();
         }
         public static void BeginOrtho(this object obj, int order = 0)
