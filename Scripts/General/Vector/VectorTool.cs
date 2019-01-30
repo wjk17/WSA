@@ -416,6 +416,12 @@ namespace Esa
         {
             return new Vector2(0, v2.y);
         }
+
+
+        public static Vector2Int Add(this Vector2Int v2, int i)
+        {
+            return new Vector2Int(v2.x + i, v2.y + i);
+        }
         public static Vector2Int X(this Vector2Int v2)
         {
             return new Vector2Int(v2.x, 0);

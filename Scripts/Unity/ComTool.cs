@@ -176,6 +176,11 @@ namespace Esa
         Object.Destroy(target);
     }
 #endif
+        public static void DestroyGO(this Component target)
+        {
+            Object.Destroy(target.gameObject);
+        }
+
         public static T GetComOrAdd<T>(this Component c) where T : Component
         {
             var com = c.GetComponent<T>();

@@ -21,10 +21,6 @@ namespace Esa
             Delta();
             return trigger;
         }
-        //public bool Trigger()
-        //{
-        //    return Random.value < probability;
-        //}
         internal void Delta()
         {
             probability = Mathf.Lerp(probability, probabilityMax, Time.deltaTime);

@@ -24,9 +24,13 @@ namespace Esa
         {
             return list[0];
         }
-        public static T LastM1<T>(this IList<T> list)
+        public static T Last2<T>(this IList<T> list)
         {
             return list[list.Count - 2];
+        }
+        public static T SetLast<T>(this IList<T> list, T value)
+        {
+            return list[list.Count - 1] = value;
         }
         public static T Last<T>(this IList<T> list)
         {

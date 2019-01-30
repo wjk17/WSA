@@ -6,6 +6,10 @@ namespace Esa
 {
     public class Random
     {
+        public static int IntValue(float v)
+        {
+            return Mathf.RoundToInt(UR.value * v);
+        }
         public static float value
         {
             get
@@ -13,16 +17,18 @@ namespace Esa
                 return UR.value;
             }
         }
-        // Use this for initialization
         public static float Range(float min, float max)
         {
             return UR.Range(min, max);
         }
-
-        // Update is called once per frame
-        void Update()
+        public static int Range(Vector2Int range)
         {
-
+            return Range(range.x, range.y);
+        }
+        public static int Range(int min, int max)
+        {
+            var range = max - min;
+            return min + IntValue(range);
         }
     }
 }

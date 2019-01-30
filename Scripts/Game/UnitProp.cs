@@ -21,6 +21,7 @@ namespace Esa
         public int hpMax;
         public string hpText;
         public ProgBar hpBar;
+
         public int mp
         {
             set
@@ -40,6 +41,28 @@ namespace Esa
         public float agilityStoring;
         public ProgBar agilityBar;
 
+
+        public int strength = 20; // 力量 影响攻击力
+        public int stamina = 10; // 体力/活力
+        public int attack; // 攻击力
+
+
+        public void AddMP(int v)
+        {
+            mp += v;
+            EG.Jumpy(v.ToString(), Color.blue);
+        }
+        public void AddHP(int v)
+        {
+            hp += v;
+            EG.Jumpy(hp.ToString(), Color.green);
+        }
+        internal void SubHP(int v)
+        {
+            hp -= v;
+            EG.Jumpy(v.ToString(), Color.red);
+            EG.Blood();
+        }
         public bool AgilityCheck()
         {
             agilityStoring += Time.deltaTime * agility * 0.1f;
@@ -72,6 +95,7 @@ namespace Esa
         public Vector2 hpBarSize;
         public Vector2 mpBarSize;
         public Vector2 pos = Vector2.zero;
+
         public UnitProp()
         {
             mpBarSize = hpBarSize = new Vector2(120, 12);
