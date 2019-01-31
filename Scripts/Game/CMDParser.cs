@@ -7,8 +7,10 @@ namespace Esa
     public class CMDParser : MonoBehaviour
     {
         public static List<Char> chars;
+        public static List<CMD> process;
         public static void Execute(CMD cmd)
         {
+            if (process.Contains(cmd)) return;
             if (cmd.type == CMDType.ifThen)
             {
                 IfCMD(cmd);
@@ -21,9 +23,9 @@ namespace Esa
             if (level >= levelSeek.Count)
                 levelSeek.Add(0); // 创建新层级，执行位置0
 
-            //print("level: " + level + " args: " + cmd.args.Length + " seek: " + levelSeek[level]);
-            // 深度优先递归执行命令，将结果保存到命令自身。
-            // 将命令从树结构展平为列表，防止溢出
+            if (cmd.args == null) goto self;
+            // 深度优先递归执行命令，防止溢出，将结果保存到命令自身。
+            // TODO 将命令从树结构展平为列表，拷贝命令树
             for (int i = levelSeek[level]; i < cmd.args.Length; i++)
             {
                 levelSeek[level]++; // 执行位置右移
@@ -45,6 +47,7 @@ namespace Esa
                     else ExecuteCMD(c); // 非嵌套命令直接执行
                 }
             }
+            self:
             // 已经执行完所有子命令，执行自己
             ExecuteCMD(cmd);
             if (level > 0) // 如果有父命令，返回上层
@@ -65,7 +68,8 @@ namespace Esa
         }
         public static void ExecuteCMD(CMD cmd)
         {
-            //if (cmd.result != null) return;
+            if (process.Contains(cmd)) return;
+            process.Add(cmd);
             switch (cmd.type)
             {
                 case CMDType.getProp:
@@ -107,7 +111,7 @@ namespace Esa
 
         private static void IfCMD(CMD cmd)
         {
-            if(cmd.args[0] is CMD)
+            if (cmd.args[0] is CMD)
             {
                 Execute((CMD)cmd.args[0]);
             }

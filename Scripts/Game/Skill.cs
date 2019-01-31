@@ -26,6 +26,7 @@ namespace Esa
         }
         public void Cast()
         {
+            CMDParser.process = new List<CMD>();
             foreach (var cmd in cmds)
             {
                 CMDParser.Execute(cmd);
@@ -33,6 +34,7 @@ namespace Esa
         }
         public void Cast(Char owner, params Char[] targets)
         {
+            CMDParser.process = new List<CMD>();
             List<Char> list = new List<Char>();
             list.Add(owner);
             list.AddRange(targets);

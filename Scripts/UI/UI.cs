@@ -27,6 +27,7 @@ namespace Esa.UI_
         }
         [Header("CallBack")]
         public List<InputCall> inputs;
+        public List<InputCall> _inputs;
         public List<InputCall> called;
         public bool seeCalledList;
         public virtual int SortList(GLHandler a, GLHandler b)
@@ -52,6 +53,7 @@ namespace Esa.UI_
             GLUI.font = font;
 
             inputs = new List<InputCall>();
+            _inputs = new List<InputCall>();
             glHandlers = new List<GLHandler>();
             imHandlers = new List<IMHandler>();
             var wrapper = camera.GetComOrAdd<CameraEventWrapper>();
@@ -75,6 +77,11 @@ namespace Esa.UI_
         public void UpdateInput()
         {
             Events.used = false;
+            if (_inputs.Count > 0)
+            {
+                inputs.AddRange(_inputs);
+                _inputs.Clear();
+            }
             inputs.Sort(SortList);
             called = new List<InputCall>();
             foreach (var call in inputs)

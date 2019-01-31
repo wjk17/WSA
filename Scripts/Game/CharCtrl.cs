@@ -16,7 +16,7 @@ namespace Esa.UI_
 
 
         public ParticleSystem attackEffect;
-        
+
         public GameObject charCamBtn;
 
         public int doubleChopMP = 35;
@@ -34,16 +34,12 @@ namespace Esa.UI_
 
         public List<Skill> skills;
         public Char C { get { return GetComponent<Char>(); } }
-        public UnitProp P
-        {
-            get { return C.P; }
-            set { C.P = value; }
-        }
+        public UnitProp P { get { return C.P; } }
 
         private void Awake()
         {
             this.AddInput(Input, 0, false);
-            P = new UnitProp();
+            C.P = new UnitProp();
             P.LoadGame();
 
             Camera.main.SetLocalPosXZ(0, 0);
@@ -51,9 +47,7 @@ namespace Esa.UI_
         void Start()
         {
             animator = GetComponent<Animator>();
-
             skills = SkillMgr.I.skills.Clone();
-
         }
         void Input()
         {
@@ -108,14 +102,6 @@ namespace Esa.UI_
             // 消除惯性
             collider.GetComponent<Rigidbody>().velocity = Vector3.zero;
         }
-        private void StartBattle()
-        {
-            GetComponent<CopyPosition>().DoUpdate();
-
-            // 获取显示UI条的位置
-            var posView = Camera.main.WorldToViewportPoint(transform.position);
-            P.SetPos(posView.MulRef());
-        }
 
         //// 防御：回血回蓝
         //public void Healing()
@@ -167,7 +153,7 @@ namespace Esa.UI_
         //    collider.position = oPos;
         //    Game.pause = false;
         //}
-        IEnumerator _AttackAnim(float damage, float os, Enemy enemy)
+        IEnumerator _AttackAnim(float damage, float os, Char enemy)
         {
             Game.pause = true; // 这行是即刻运行的
             float t = 0f;

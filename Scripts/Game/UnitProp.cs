@@ -108,7 +108,7 @@ namespace Esa
         public void SetPos(Vector2 _pos)
         {
             pos = _pos;
-            AddBar(15, hpBar);
+            AddBar(25, hpBar);
             AddBar(5, mpBar);
             AddBar(7, agilityBar);
             pos.y -= 5; // name text            

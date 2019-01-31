@@ -42,8 +42,8 @@ namespace Esa
         public void InitSkill()
         {
             var attack = new Skill("攻击", "attack");
-            var damage = new CMD(CMDType.getProp, PropType.atk);
-            var hp = new CMD(CMDType.getProp, PropType.hp);
+            var damage = new CMD(CMDType.getProp, CharSelect.Owner, PropType.atk);
+            var hp = new CMD(CMDType.getProp, CharSelect.Target, PropType.hp);
             var hp2 = new CMD(CMDType.calculate, OP.minus, hp, damage);
             attack.AddCMD(CMDType.setProp, CharSelect.Target, PropType.hp, hp2); // 普通攻击
             AddSkill(attack);
@@ -55,8 +55,8 @@ namespace Esa
             var s2 = Cal(OP.GEqual, 50, random.Clone());
 
 
-            flee.AddCMD(If(success, If(s2, Print("大成功"), Print("小成功")), Print("失败")));
-            //flee.AddCMD(CMDType.ifThen, success, fl);
+            flee.AddCMD(If(success, Print("逃跑成功"), Print("逃跑失败")));
+            flee.AddCMD(If(success, fl));
             AddSkill(flee);
 
 

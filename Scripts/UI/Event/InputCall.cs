@@ -9,11 +9,11 @@ namespace Esa.UI_
         // 自动使用mono对象的名字和rectTransform
         public static InputCall AddInput(this MonoBehaviour mono)
         {
-            return UI.I.inputs.Add_(new InputCall(mono, null, 0));
+            return UI.I._inputs.Add_(new InputCall(mono, null, 0));
         }
         public static InputCall AddInput(this MonoBehaviour mono, int order)
         {
-            return UI.I.inputs.Add_(new InputCall(mono, null, order));
+            return UI.I._inputs.Add_(new InputCall(mono, null, order));
         }
         // checkOver 是否检测鼠标是否悬停（mono使用null）
         public static InputCall AddInput(this MonoBehaviour mono, Action updateFunc, int order, bool checkOver = true)
@@ -23,7 +23,7 @@ namespace Esa.UI_
             h.name = mono.name;
             UI.I.glHandlers.Add(h);
             UI.I.imHandlers.Add(new IMHandler(mono.gameObject));
-            return UI.I.inputs.Add_(new InputCall(mono, updateFunc, order, checkOver));
+            return UI.I._inputs.Add_(new InputCall(mono, updateFunc, order, checkOver));
         }
     }
     [Serializable]
