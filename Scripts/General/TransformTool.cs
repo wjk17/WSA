@@ -598,6 +598,10 @@ namespace Esa
         {
             trans.localEulerAngles = new Vector3(trans.localEulerAngles.x, f, trans.localEulerAngles.z);
         }
+        public static void SetEuler(this Transform trans, Vector3 euler)
+        {
+            trans.eulerAngles = euler;
+        }
         public static void SetEulerZ(this Transform trans, float f)
         {
             trans.eulerAngles = new Vector3(trans.eulerAngles.x, trans.eulerAngles.y, f);

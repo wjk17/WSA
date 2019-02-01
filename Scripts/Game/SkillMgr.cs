@@ -51,9 +51,7 @@ namespace Esa
             var flee = new Skill("逃跑", "flee");
             var fl = new CMD(CMDType.flee);
             var random = Cal(OP.Random, 100);  // 成功概率（命中率）百分比
-            var success = Cal(OP.GEqual, 50, random);
-            var s2 = Cal(OP.GEqual, 50, random.Clone());
-
+            var success = Cal(OP.GEqual, 90, random);
 
             flee.AddCMD(If(success, Print("逃跑成功"), Print("逃跑失败")));
             flee.AddCMD(If(success, fl));

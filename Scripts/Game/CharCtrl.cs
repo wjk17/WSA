@@ -78,9 +78,10 @@ namespace Esa.UI_
                     BattleMenu.I.Active();
                     // DoAction
                 }
+                return;
             }
 
-            if (KeyMgr.Idle || Battle.on) return;
+            if (KeyMgr.Idle) return;
 
             collider.SetLocalEulerY(eulerStart + KeyMgr.Dir * 45f);
             transform.SetLocalEulerY(collider.localEulerAngles.y);

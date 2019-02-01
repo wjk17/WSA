@@ -113,6 +113,16 @@ namespace Esa.UI_
         {
             Owner = owner;
             GLUI.SetLineMaterial();
+
+            var checkList = new List<GLHandler>();
+            foreach (var hdr in glHandlers)
+            {
+                var go = hdr.owner as GameObject;
+                if (go != null)
+                    checkList.Add(hdr);
+            }
+            glHandlers = checkList;
+
             glHandlers.Sort(SortList);
             foreach (var hdr in glHandlers)
             {

@@ -15,8 +15,9 @@ namespace Esa
         public Transform[] _enemyPos;
         public Transform[] _allyPos;
         public static Tran2 prevTrans;
-        private static Vector3 center;
-        private static float space;
+        private static Vector3 centerE;
+        private static Vector3 centerA;
+        private static Vector3 os;
 
         public static List<Char> enemys { get { return I._enemys; } set { I._enemys = value; } }
         public static List<Char> allys { get { return I._allys; } set { I._allys = value; } }
@@ -55,44 +56,40 @@ namespace Esa
             var b = enemyPos[1];
             var c = enemyPos[2];
             var d = enemyPos[3];
-            center = (a.position + d.position) * 0.5f;
+            centerE = (a.position + d.position) * 0.5f;
             // 因为pos对象是随手摆的，所以计算一下平均间隔
-            var s1 = Mathf.Abs(a.position.z - b.position.z);
-            var s2 = Mathf.Abs(b.position.z - c.position.z);
-            var s3 = Mathf.Abs(c.position.z - d.position.z);
-            space = (s1 + s2 + s3) / 3;
+            var s1 = -a.position + b.position;
+            var s2 = -b.position + c.position;
+            var s3 = -c.position + d.position;
+            os = (s1 + s2 + s3) / 3;
 
+            a = allyPos[0];
+            d = allyPos[3];
+            centerA = (a.position + d.position) * 0.5f;
+        }
+        public static Vector3[] Average(Vector3 pos, Vector3 os, int count, Vector3 pivot)
+        {
+            var poss = new Vector3[count];
+            var width = os * (count - 1);
+            for (int i = 0; i < count; i++)
+            {
+                poss[i] = pos + i * os - Vector3.Scale(pivot, width);
+            }
+            return poss;
         }
         private static void RandomEnemy()
         {
             enemys = new List<Char>();
             enemys.Add(CharMgr.NewChar(1));
-            //enemys.Add(CharMgr.NewChar(1));
-            //enemys.Add(CharMgr.NewChar(1));
-            //enemys.Add(CharMgr.NewChar(1));
+            enemys.Add(CharMgr.NewChar(1));
+            enemys.Add(CharMgr.NewChar(1));
+            enemys.Add(CharMgr.NewChar(1));
 
-            var centerT = enemyPos[0].Tran2().SetZ(center.z);
-            if (enemys.Count == 1)
+            var centerT = enemyPos[0].Tran2().SetZ(centerE.z);
+            var poss = Average(centerT.pos, os, enemys.Count, Vectors.half);
+            for (int i = 0; i < poss.Length; i++)
             {
-                enemy.SetTran2(centerT);
-            }
-            else if (enemys.Count == 2)
-            {
-                enemys[0].SetTran2(centerT.AddZ(-space * 0.5f));
-                enemys[1].SetTran2(centerT.AddZ(space * 0.5f));
-            }
-            else if (enemys.Count == 3)
-            {
-                enemys[0].SetTran2(centerT.AddZ(-space));
-                enemys[1].SetTran2(centerT);
-                enemys[2].SetTran2(centerT.AddZ(space));
-            }
-            else if (enemys.Count == 4)
-            {
-                enemys[0].SetTran2(centerT.AddZ(-space * 1.5f));
-                enemys[1].SetTran2(centerT.AddZ(-space * 0.5f));
-                enemys[2].SetTran2(centerT.AddZ(space * 0.5f));
-                enemys[3].SetTran2(centerT.AddZ(space * 1.5f));
+                enemys[i].SetTran2(centerT.SetPos(poss[i]));
             }
 
             Vector3 posView;
@@ -102,11 +99,15 @@ namespace Esa
                 enemy.P.SetPos(posView.MulRef());
             }
 
-
-
             allys = new List<Char>();
             allys.Add(CharCtrl.I.C);
-            ally.SetTran2(allyPos[0].Tran2());
+
+            centerT = allyPos[0].Tran2().SetZ(centerA.z);
+            poss = Average(centerT.pos, os, allys.Count, Vectors.half);
+            for (int i = 0; i < poss.Length; i++)
+            {
+                allys[i].SetTran2(centerT.SetPos(poss[i]));
+            }
 
             posView = Camera.main.WorldToViewportPoint(CharCtrl.I.transform.position);
             CharCtrl.I.P.SetPos(posView.MulRef());
@@ -127,11 +128,21 @@ namespace Esa
             UICornerRT.I.Active();
 
             CharCtrl.I.P.SaveGame(); // 保存玩家角色数据（自动存档）
-
+            CharCtrl.I.SetTran2(prevTrans);
             CharCtrl.I.Enable<CopyPosition>();
             Camera.main.Enable<FollowPosition>();
-        }
+            BattleMenu.I.Disactive();
 
+            ClearEnemys();
+        }
+        void ClearEnemys()
+        {
+            foreach (var enemy in enemys)
+            {
+                enemy.DestroyGO();
+            }
+            enemys.Clear();
+        }
         internal static void Remove(Char enemy)
         {
             enemys.Remove(enemy);
@@ -163,10 +174,12 @@ namespace Esa
             UICornerRT.I.Disactive();
             UIPop_InfoMenu.I.Disactive();
 
+
             Camera.main.Disable<FollowPosition>();
             Camera.main.SetPosXZ(18, 13.5f);
 
             CharCtrl.I.Disable<CopyPosition>();
+            prevTrans = CharCtrl.I.transform.Tran2();
             RandomEnemy(); // 随机生成敌人
         }
     }

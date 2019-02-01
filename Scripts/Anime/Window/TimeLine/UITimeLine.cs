@@ -70,7 +70,7 @@ namespace Esa.UI_
                     a.x = i + f * 0.5f;
                     Vector2 c = m_RulerToRef.MultiplyPoint(a);
                     c = rulerPos + c.ToLT();
-                    IMUI.DrawText(i.ToString(), c, Vectors.half2d);// 画字 帧号标签
+                    GLUI.DrawString(i.ToString(), c, Vectors.half2d);// 画字 帧号标签
                 }
             }
             // timeline

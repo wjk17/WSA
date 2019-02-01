@@ -87,7 +87,7 @@ namespace Esa.UI_
                         OnOver(i);
                         if (Events.Mouse1to3)
                         {
-                            rt.DrawButton(buttonStyle,colorDown, 2);
+                            rt.DrawButton(buttonStyle, colorDown, 2);
                             if (Events.MouseDown1to3 && !clicked)
                             {
                                 OnClick(i);
@@ -96,7 +96,7 @@ namespace Esa.UI_
                         }
                         else
                         {
-                            rt.DrawButton(buttonStyle,colorOver, 1);
+                            rt.DrawButton(buttonStyle, colorOver, 1);
                             if (drawTips)
                             {
                                 // tips
@@ -105,7 +105,7 @@ namespace Esa.UI_
                                 size += fontBorder;
 
                                 var os = offset + osFactor * size;
-                                IMUI.DrawText(str, UI.mousePos + os * UI.facterToRealPixel, Vectors.half2d);
+                                GLUI.DrawString(str, UI.mousePosRef + os, Vectors.half2d);
                                 GLUI.BeginOrder(3 + _drawOrder);
                                 var bg = new Rect(UI.mousePosRef + os, size, Vectors.half2d);
                                 bg.Draw(Color.white, true);
@@ -115,7 +115,7 @@ namespace Esa.UI_
                     else rt.DrawButton(buttonStyle, colorNormal, 0);
                     if (drawName)
                     {
-                        IMUI.DrawText(names[i], (rt.pos + nameOffset) * UI.facterToRealPixel, Vectors.half2d);
+                        GLUI.DrawString(names[i], (rt.pos + nameOffset), Vectors.half2d);
                     }
                     GLUI.BeginOrder(1 + _drawOrder);
                     if (textures[i] != null)

@@ -131,7 +131,7 @@ namespace Esa
             hpBar.Update((float)hp / hpMax);
             mpBar.Update((float)mp / mpMax);
             agilityBar.Update(agilityStoring);
-            IMUI.DrawText(charName, pos * UI.facterToRealPixel, Vectors.half2d);
+            GLUI.DrawString(charName, pos, Vectors.half2d);
         }
 
         public void LoadGame()

@@ -82,6 +82,13 @@ namespace Esa.UI_
                 inputs.AddRange(_inputs);
                 _inputs.Clear();
             }
+            var checkList = new List<InputCall>();
+            foreach (var input in inputs)
+            {
+                if (input.mono != null)
+                    checkList.Add(input);
+            }
+            inputs = checkList;
             inputs.Sort(SortList);
             called = new List<InputCall>();
             foreach (var call in inputs)
