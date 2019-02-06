@@ -523,6 +523,30 @@ namespace Esa
         {
             trans.transform.localPosition = new Vector3(trans.transform.localPosition.x, trans.transform.localPosition.y, f);
         }
+        // Set World Pos
+        public static void SetPosX(this GameObject go, float f)
+        {
+            go.transform.position = new Vector3(f, go.transform.position.y, go.transform.position.z);
+        }
+        public static void SetPosY(this GameObject go, float f)
+        {
+            go.transform.position = new Vector3(go.transform.position.x, f, go.transform.position.z);
+        }
+        public static void SetPosZ(this GameObject trans, float f)
+        {
+            trans.transform.position = new Vector3(trans.transform.position.x, trans.transform.position.y, f);
+        }
+
+        public static void SetPos(this GameObject go, Vector3 v)
+        {
+            go.transform.position = v;
+        }
+
+        public static void SetPos(this GameObject go, Vector4 v)
+        {
+            go.transform.position = new Vector3(v.x, v.y, v.z);
+        }
+
         // UI Pos
         public static Vector2 UIPos(this Transform trans)
         {

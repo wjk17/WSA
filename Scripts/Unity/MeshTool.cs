@@ -77,6 +77,18 @@ namespace Esa
             }
             return mesh;
         }
+        public static Material GetMat(this MonoBehaviour mono)
+        {
+            Material mat = null;
+            var smr = mono.GetComponent<SkinnedMeshRenderer>();
+            if (smr != null) mat = smr.sharedMaterial;
+            else
+            {
+                var mr = mono.GetComponent<MeshRenderer>();
+                if (mr != null) mat = mr.sharedMaterial;
+            }
+            return mat;
+        }
 
         public static void UseBinormalAsTangent(this SkinnedMeshRenderer smr)
         {
