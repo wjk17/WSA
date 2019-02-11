@@ -8,6 +8,21 @@ namespace Esa
 {
     public static class StringTool
     {
+        public static string Reverse(this string str)
+        {
+            var list = new List<string>();
+            var r = "";
+            for (int i = 0; i < str.Length; i++)
+            {
+                list.Add(str[i].ToString());
+            }
+            foreach (var item in list.Reverse_())
+            {
+                r += item;
+            }
+            return r;
+        }
+
         ////Hex字符不包含Ox的情况
         //long intVal1 = long.Parse(hexStr, System.Globalization.NumberStyles.HexNumber);
         ////Hex字符包含0x的情况

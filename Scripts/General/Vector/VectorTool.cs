@@ -7,6 +7,24 @@ namespace Esa
 {
     public static class VectorTool
     {
+        public static Vector2[] Average(this Vector2 pos, float os, int count, Vector2 pivot)
+        {
+            return Average(pos, Vector2.right * os, count, pivot);
+        }
+        public static Vector2[] Average(this Vector2 pos, Vector2 os, int count, Vector2 pivot)
+        {
+            var poss = new Vector2[count];
+            var width = os * (count - 1);
+            for (int i = 0; i < count; i++)
+            {
+                poss[i] = pos + i * os - Vector2.Scale(pivot, width);
+            }
+            return poss;
+        }
+        public static Vector3[] Average(this Vector3 pos, float os, int count, Vector3 pivot)
+        {
+            return Average(pos, Vector3.right * os, count, pivot);
+        }
         public static Vector3[] Average(this Vector3 pos, Vector3 os, int count, Vector3 pivot)
         {
             var poss = new Vector3[count];

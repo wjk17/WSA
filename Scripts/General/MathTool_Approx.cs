@@ -5,6 +5,10 @@ namespace Esa
 {
     public static partial class MathTool
     {
+        public static int RoundMul(this int a,float b)
+        {
+            return Mathf.RoundToInt(a * b);
+        }
         public static Vector2 RoundY(this Vector2 a)
         {
             a.y = Mathf.RoundToInt(a.y);

@@ -38,6 +38,7 @@ namespace Esa
         internal Vector2[] fourCorner { get { return new Vector2[] { cornerLT, cornerLB, cornerRB, cornerRT }; } }
         internal Vector2[] fourCornerGL { get { return new Vector2[] { cornerLB, cornerLT, cornerRT, cornerRB }; } }
         internal Vector2 center { get { return (cornerRT + cornerLB) * 0.5f; } }
+        internal Vector2 centerT { get { return (cornerRT + cornerLT) * 0.5f; } }
         internal Vector2 cornerLT { get { return new Vector2(cornerLB.x, cornerRT.y); } }
         internal Vector2 cornerRB { get { return new Vector2(cornerRT.x, cornerLB.y); } }
         internal Vector2 cornerRT { get { return parentOs + anchorMaxV + offsetMax; } }
