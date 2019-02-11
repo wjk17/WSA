@@ -67,16 +67,6 @@ namespace Esa
             d = allyPos[3];
             centerA = (a.position + d.position) * 0.5f;
         }
-        public static Vector3[] Average(Vector3 pos, Vector3 os, int count, Vector3 pivot)
-        {
-            var poss = new Vector3[count];
-            var width = os * (count - 1);
-            for (int i = 0; i < count; i++)
-            {
-                poss[i] = pos + i * os - Vector3.Scale(pivot, width);
-            }
-            return poss;
-        }
         private static void RandomEnemy()
         {
             enemys = new List<Char>();
@@ -86,7 +76,7 @@ namespace Esa
             enemys.Add(CharMgr.NewChar(1));
 
             var centerT = enemyPos[0].Tran2().SetZ(centerE.z);
-            var poss = Average(centerT.pos, os, enemys.Count, Vectors.half);
+            var poss = centerT.pos.Average(os, enemys.Count, Vectors.half);
             for (int i = 0; i < poss.Length; i++)
             {
                 enemys[i].SetTran2(centerT.SetPos(poss[i]));
@@ -103,7 +93,7 @@ namespace Esa
             allys.Add(CharCtrl.I.C);
 
             centerT = allyPos[0].Tran2().SetZ(centerA.z);
-            poss = Average(centerT.pos, os, allys.Count, Vectors.half);
+            poss = centerT.pos.Average(os, allys.Count, Vectors.half);
             for (int i = 0; i < poss.Length; i++)
             {
                 allys[i].SetTran2(centerT.SetPos(poss[i]));

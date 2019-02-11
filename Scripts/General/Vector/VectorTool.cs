@@ -7,6 +7,16 @@ namespace Esa
 {
     public static class VectorTool
     {
+        public static Vector3[] Average(this Vector3 pos, Vector3 os, int count, Vector3 pivot)
+        {
+            var poss = new Vector3[count];
+            var width = os * (count - 1);
+            for (int i = 0; i < count; i++)
+            {
+                poss[i] = pos + i * os - Vector3.Scale(pivot, width);
+            }
+            return poss;
+        }
         public static Vector4 Normalize3(this Vector4 v4)
         {
             Vector3 v3 = v4;

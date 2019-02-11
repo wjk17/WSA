@@ -8,6 +8,7 @@ namespace Esa.UI_
     {
         public static Font font;
         public static int fontSize;
+        public static Color fontColor = Color.white;
         public static void DrawString(string str, Vector2 pos)
         {
             DrawString(pos, str, fontSize);
@@ -47,7 +48,7 @@ namespace Esa.UI_
             RebuildMesh(str, out vs, out uv, fontSize, pivot);
             font.material.SetPass(0);
             GL.LoadOrtho();
-            GL.Color(Color.white);
+            GL.Color(fontColor);
             var factor = Vector2.one / UI.scalerRefRes;
             for (int i = 0; i < vs.Length; i += 4)
             {
