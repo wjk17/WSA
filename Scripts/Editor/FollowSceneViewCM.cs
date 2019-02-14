@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR && CINEMACHINE
+using Cinemachine;
 [ExecuteInEditMode]
-public class FollowSceneView : MonoBehaviour
+public class FollowSceneViewCM : MonoBehaviour
 {
     public bool on;
     public Transform cam;
+    public CinemachineVirtualCamera vCam;
     public void OnDrawGizmos()
     {
         if (!Application.isPlaying)
@@ -25,13 +27,17 @@ public class FollowSceneView : MonoBehaviour
             cam.position = scnCam.transform.position;
             cam.rotation = scnCam.transform.rotation;
         }
-        var c = cam.GetComponent<Camera>();
-        if (c != null)
+        if (vCam != null)
         {
-            c.nearClipPlane = scnCam.nearClipPlane;
-            c.farClipPlane = scnCam.farClipPlane;
-            c.fieldOfView = scnCam.fieldOfView;
-            c.orthographicSize = scnCam.orthographicSize;
+            var lens = vCam.m_Lens;
+            lens.NearClipPlane = scnCam.nearClipPlane;
+            lens.FarClipPlane = scnCam.farClipPlane;
+            lens.FieldOfView = scnCam.fieldOfView;
+            //lens.Orthographic = scnCam.orthographic;
+            lens.OrthographicSize = scnCam.orthographicSize;
+            vCam.m_Lens = lens;
+            vCam.transform.position = scnCam.transform.position;
+            vCam.transform.rotation = scnCam.transform.rotation;
         }
     }
 }

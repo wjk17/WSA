@@ -5,10 +5,11 @@ using UnityEngine;
 using UnityEngine.UI;
 namespace Esa.UI_
 {
+    using Note = Legacy.Note;
     public class UIScorePlayer : MonoBehaviour
     {
         public Slider slider;
-        public ScoreReader score;
+        public Legacy.ScoreReader score;
         public int beatIdx;
         public bool playing = true;
 

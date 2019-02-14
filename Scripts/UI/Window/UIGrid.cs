@@ -37,32 +37,29 @@ namespace Esa.UI_
         public Vector2 nameOffset;
 
         public bool initOnStart = true;
-        public int _drawOrder = 0;
         public int drawOrder = 0;
+
+        InputCall ic;
+        public Vector2 pivot = Vectors.half2d;
+        public Color fontColor = Color.black;
+        public int buttonStyle = 0;
         void Start()
         {
             if (initOnStart) Initialize();
         }
-        InputCall ic;
         public void Initialize()
         {
             if (SYS.debugUI) print("UIGrid Initialize");
+
+            this.DestroyImages();
             ic = this.AddInput(Input, drawOrder, false);
-            {
-                foreach (var img in transform.GetComChildren<Image>())
-                {
-                    Destroy(img);
-                }
-            }
         }
-        public Vector2 pivot = Vectors.half2d;
-        public Color fontColor = Color.black;
-        public int buttonStyle = 0;
         public void Input()
         {
             ic.order = drawOrder;
             this.BeginOrtho();
-            var startPos = this.AbsRefPos();
+            var rt = new RectTrans(this);
+            var startPos = rt.center;
             rects = new List<Rect>();
             for (int y = 0; y < gridCount.y; y++)
             {
@@ -76,10 +73,10 @@ namespace Esa.UI_
             foreach (var rt in rects)
             {
                 if (visible.NotEmpty() && !visible[i]) { i++; continue; }
-                IMUI.fontColor = fontColor;
-                GLUI.BeginOrder(0 + _drawOrder);
+                GLUI.fontColor = fontColor;
+                GLUI.BeginOrder(0);
 
-                if (!clickable[i]) rt.DrawButton(buttonStyle, colorDown, 2);
+                if (!clickable[i]) DrawButton(rt, 2);
                 else
                 {
                     if (rt.Contains(UI.mousePosRef) && clickable[i])
@@ -87,7 +84,7 @@ namespace Esa.UI_
                         OnOver(i);
                         if (Events.Mouse1to3)
                         {
-                            rt.DrawButton(buttonStyle, colorDown, 2);
+                            DrawButton(rt, 2);
                             if (Events.MouseDown1to3 && !clicked)
                             {
                                 OnClick(i);
@@ -96,7 +93,7 @@ namespace Esa.UI_
                         }
                         else
                         {
-                            rt.DrawButton(buttonStyle, colorOver, 1);
+                            DrawButton(rt, 1);
                             if (drawTips)
                             {
                                 // tips
@@ -106,31 +103,49 @@ namespace Esa.UI_
 
                                 var os = offset + osFactor * size;
                                 GLUI.DrawString(str, UI.mousePosRef + os, Vectors.half2d);
-                                GLUI.BeginOrder(3 + _drawOrder);
+                                GLUI.BeginOrder(3);
                                 var bg = new Rect(UI.mousePosRef + os, size, Vectors.half2d);
                                 bg.Draw(Color.white, true);
                             }
                         }
                     }
-                    else rt.DrawButton(buttonStyle, colorNormal, 0);
+                    else DrawButton(rt, 0);
                     if (drawName)
                     {
                         GLUI.DrawString(names[i], (rt.pos + nameOffset), Vectors.half2d);
                     }
-                    GLUI.BeginOrder(1 + _drawOrder);
-                    if (textures[i] != null)
+                    GLUI.BeginOrder(1);
+                    if (textures.NotEmpty() && textures[i] != null)
                     {
                         GLUI.DrawTex(textures[i], rt.ToPointsCWLT(-1));
                     }
 
                     GLUI.SetLineMat();
-                    GLUI.BeginOrder(0 + _drawOrder);
+                    GLUI.BeginOrder(0);
                 }
                 // 待做优化 tex和line分开两个loop
-                GLUI.BeginOrder(2 + _drawOrder);
+                GLUI.BeginOrder(2);
                 if (drawBorder) rt.Draw(drawBorderClr, false);
                 i++;
             }
+        }
+        public bool useSkin = true;
+        Color GetColor(int status)
+        {
+            switch (status)
+            {
+                case 0: return colorNormal;
+                case 1: return colorOver;
+                case 2: return colorDown;
+                default: throw new Exception();
+            }
+        }
+        void DrawButton(Rect rt, int status)
+        {
+            if (useSkin)
+                rt.DrawButton(buttonStyle, GetColor(status), status);
+            else
+                rt.Draw(colorNormal, true);
         }
         void OnOver(int idx)
         {

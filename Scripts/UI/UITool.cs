@@ -59,6 +59,7 @@ namespace Esa.UI_
             UI.owner = mono.gameObject;
             UI.ClearCmd();
             if (glOrder != 0) UI.gl.order = glOrder;
+            GLUI._insertOrder = 0;
             GLUI.BeginOrder(0);
             GLUI.LoadOrtho();
         }

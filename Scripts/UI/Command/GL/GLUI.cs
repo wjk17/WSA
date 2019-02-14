@@ -31,7 +31,7 @@ namespace Esa.UI_
         {
             _commandOrder = order;
             _secondOrder = 0;
-            _insertOrder = 0;
+            //_insertOrder = 0;
             keepOrder = true;
         }
         public static void EndOrder()
