@@ -7,18 +7,18 @@ namespace Esa
     using System;
     public enum Pitch // 音高 (12平均律 0~11)
     {
-        C,      // 1
-        CSharp, // #1 (b2)
-        D,      // 2
-        DSharp, // #2 (b3)
-        E,      // 3
-        F,      // 4
-        FSharp, // #4 (b5)
-        G,      // 5
-        GSharp, // #5 (b6)
-        A,      // 6
-        ASharp, // #6 (b7)
-        B,      // 7
+        C,      //0 1
+        CSharp, //1 #1 (b2)
+        D,      //2 2
+        DSharp, //3 #2 (b3)
+        E,      //4 3
+        F,      //5 4
+        FSharp, //6 #4 (b5)
+        G,      //7 5
+        GSharp, //8 #5 (b6)
+        A,      //9 6
+        ASharp, //10 #6 (b7)
+        B,      //11 7
     }
     [Serializable]
     public class Note // 音符
@@ -61,7 +61,7 @@ namespace Esa
                 case Pitch.A: return "A";
                 case Pitch.ASharp: return "A#";
                 case Pitch.B: return "B";
-                default: throw new Exception();
+                default: throw new Exception("Undef Pitch: " + p.ToString());
             }
         }
         string ToStrNum(Pitch p)

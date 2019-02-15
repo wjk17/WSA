@@ -21,6 +21,12 @@ namespace Esa.UI_
                 case GLCmdType.PushMatrix: GL.PushMatrix(); break;
                 case GLCmdType.PopMatrix: GL.PopMatrix(); break;
                 case GLCmdType.SetLineMat: GLUI.SetLineMaterial(); break;
+                case GLCmdType.SetFontColor:
+                    if (ArgType<Color>(cmd))
+                    {
+                        GLUI._SetFontColor((Color)cmd.args[0]);
+                    }
+                    break;
                 case GLCmdType.DrawString:
                     if (ArgType<Vector2, string, int, Vector2>(cmd))
                     {

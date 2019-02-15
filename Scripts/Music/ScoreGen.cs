@@ -25,10 +25,7 @@ namespace Esa
 
         void Start()
         {
-            this.AddInput(Input, 0);
-            var fontColor = Color.black;
-            GLUI.fontColor = fontColor;
-            GLUI.font.material.SetColor("_Color", fontColor);
+            this.AddInput(Input, 2, false);
 
             //para.bars = new List<Bar>();
             //for (int i = 0; i < 5; i++)
@@ -70,7 +67,8 @@ namespace Esa
         public string str;
         void Input()
         {
-            this.BeginOrtho();
+            this.BeginOrtho(-2);
+            GLUI.SetFontColor(Color.black);
             this.Draw(Palette.L8, true);
             var rt = new RectTrans(this);
             float barWidth = (rt.sizeAbs.x - margin.x * 2) / barPerLine;

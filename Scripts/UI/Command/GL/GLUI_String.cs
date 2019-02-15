@@ -9,6 +9,14 @@ namespace Esa.UI_
         public static Font font;
         public static int fontSize;
         public static Color fontColor = Color.white;
+        public static void SetFontColor(Color clr)
+        {
+            UI.AddCommand(Cmd(commandOrder, GLCmdType.SetFontColor, clr));
+        }
+        public static void _SetFontColor(Color clr)
+        {
+            font.material.SetColor("_Color", clr);
+        }
         public static void DrawString(char str, Vector2 pos)
         {
             DrawString(str.ToString(), pos);

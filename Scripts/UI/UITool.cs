@@ -46,11 +46,12 @@ namespace Esa.UI_
             StartGLWorld(mono);
             GLUI.LoadOrtho();
         }
-        public static void BeginOrtho(this object obj, int order = 0)
+        public static void BeginOrtho(this object obj, int glOrder = 0)
         {
             UI.owner = obj;
             UI.ClearCmd();
-            UI.gl.order = order;
+            if (glOrder != 0) UI.gl.order = glOrder;
+            GLUI._insertOrder = 0;
             GLUI.BeginOrder(0);
             GLUI.LoadOrtho();
         }

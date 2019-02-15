@@ -14,10 +14,10 @@ namespace Esa
         public static Vector2[] Average(this Vector2 pos, Vector2 os, int count, Vector2 pivot)
         {
             var poss = new Vector2[count];
-            var width = os * (count - 1);
+            var length = os * (count - 1);
             for (int i = 0; i < count; i++)
             {
-                poss[i] = pos + i * os - Vector2.Scale(pivot, width);
+                poss[i] = pos + i * os - Vector2.Scale(pivot, length);
             }
             return poss;
         }

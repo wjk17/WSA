@@ -5,14 +5,9 @@ using UnityEngine.UI;
 using System;
 namespace Esa.UI_
 {
-    public class UIGrid : MonoBehaviour
+    public class UIGrid_2_0 : MonoBehaviour
     {
-        [NonSerialized]
-        public List<Rect> rects;
-        public List<bool> clickable;
-        public List<bool> visible;
-        public List<string> names;
-        public List<Texture2D> textures;
+        public List<GridUnitProp> gridUnitProp;
 
         public bool drawName;
         public bool drawBorder;
@@ -30,19 +25,20 @@ namespace Esa.UI_
         public Action<int> onClick;
         public Action<int> onOver;
 
-        public Vector2 fontBorder = new Vector2(30, 0);
-        public Vector2 osFactor = new Vector2(-0.5f, 0.5f);
-        public Vector2 offset = new Vector2(-5, 5);
+        public Vector2 margin = new Vector2(5, 5);
 
         public Vector2 nameOffset;
 
         public bool initOnStart = true;
+        public int inputOrder = 0;
         public int drawOrder = 0;
 
-        InputCall ic;
         public Vector2 pivot = Vectors.half2d;
         public Color fontColor = Color.black;
         public int buttonStyle = 0;
+
+        public bool useSkin = true;
+
         void Start()
         {
             if (initOnStart) Initialize();
@@ -52,83 +48,71 @@ namespace Esa.UI_
             if (SYS.debugUI) print("UIGrid Initialize");
 
             this.DestroyImages();
-            ic = this.AddInput(Input, drawOrder, false);
+            this.AddInput(Input, inputOrder, false);
         }
+        public Vector2 osAbs;
         public void Input()
         {
-            ic.order = drawOrder;
-            this.BeginOrtho();
-            var startPos = this.AbsRefPos();
-            rects = new List<Rect>();
+            this.BeginOrtho(drawOrder);
+            var RT = new RectTrans(this);
+            var startPos = margin + RT.centerT;
+
+            var psy = startPos.Average(osAbs.Y(), gridCount.y, Vector2.zero);
             for (int y = 0; y < gridCount.y; y++)
             {
+                var os = osAbs != Vector2.zero ? osAbs : gridOs + gridSize;
+                var ps = psy[y].Average(os.x, gridCount.x, Vectors.halfRight2d);
                 for (int x = 0; x < gridCount.x; x++)
                 {
-                    rects.Add(new Rect(startPos + gridOsFactor * new Vector2(x, y) *
-                        (gridOs + gridSize), gridSize, pivot));
+                    var n = new Rect(ps[x], gridSize, pivot);
+                    gridUnitProp[y * gridCount.x + x].rect = n;
                 }
             }
             var i = 0; bool clicked = false;
-            foreach (var rt in rects)
+            foreach (var gup in gridUnitProp)
             {
-                if (visible.NotEmpty() && !visible[i]) { i++; continue; }
-                GLUI.fontColor = fontColor;
+                if (!gup.visible) { i++; continue; }
+                GLUI.SetFontColor(fontColor);
                 GLUI.BeginOrder(0);
 
-                if (!clickable[i]) DrawButton(rt, 2);
+                if (!gup.clickable) DrawButton(gup, 2);
                 else
                 {
-                    if (rt.Contains(UI.mousePosRef) && clickable[i])
+                    if (gup.Hover() && !Events.used)
                     {
                         OnOver(i);
                         if (Events.Mouse1to3)
                         {
-                            DrawButton(rt, 2);
+                            DrawButton(gup, 2);
                             if (Events.MouseDown1to3 && !clicked)
                             {
                                 OnClick(i);
                                 clicked = true;
                             }
                         }
-                        else
-                        {
-                            DrawButton(rt, 1);
-                            if (drawTips)
-                            {
-                                // tips
-                                var str = names[i];
-                                var size = IMUI.CalSize(str);
-                                size += fontBorder;
+                        else DrawButton(gup, 1);
+                        Events.Use();
+                    }
+                    else DrawButton(gup, 0);
 
-                                var os = offset + osFactor * size;
-                                GLUI.DrawString(str, UI.mousePosRef + os, Vectors.half2d);
-                                GLUI.BeginOrder(3);
-                                var bg = new Rect(UI.mousePosRef + os, size, Vectors.half2d);
-                                bg.Draw(Color.white, true);
-                            }
-                        }
-                    }
-                    else DrawButton(rt, 0);
                     if (drawName)
-                    {
-                        GLUI.DrawString(names[i], (rt.pos + nameOffset), Vectors.half2d);
-                    }
+                        gup.DrawName(nameOffset);
+
                     GLUI.BeginOrder(1);
-                    if (textures.NotEmpty() && textures[i] != null)
-                    {
-                        GLUI.DrawTex(textures[i], rt.ToPointsCWLT(-1));
-                    }
+
+                    if (gup.texture != null)
+                        gup.DrawTexture();
 
                     GLUI.SetLineMat();
                     GLUI.BeginOrder(0);
                 }
                 // 待做优化 tex和line分开两个loop
                 GLUI.BeginOrder(2);
-                if (drawBorder) rt.Draw(drawBorderClr, false);
+                if (drawBorder)
+                    gup.rect.Draw(drawBorderClr, false);
                 i++;
             }
         }
-        public bool useSkin = true;
         Color GetColor(int status)
         {
             switch (status)
@@ -139,12 +123,12 @@ namespace Esa.UI_
                 default: throw new Exception();
             }
         }
-        void DrawButton(Rect rt, int status)
+        void DrawButton(GridUnitProp p, int status)
         {
             if (useSkin)
-                rt.DrawButton(buttonStyle, GetColor(status), status);
+                p.rect.DrawButton(buttonStyle, GetColor(status), status);
             else
-                rt.Draw(colorNormal, true);
+                p.rect.Draw(GetColor(status), true);
         }
         void OnOver(int idx)
         {

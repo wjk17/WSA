@@ -53,7 +53,7 @@ namespace Esa
         {
             var min = rng[0];
             var max = rng[1];
-            for (Pitch i = min.pitch; i < max.pitch; i++)
+            for (Pitch i = min.pitch; i <= max.pitch; i++)
             {
                 N(new Note(min.scale, i));
             }
@@ -70,10 +70,23 @@ namespace Esa
             //src.fadeCurve = fadeCurve;
             //src.fadeDuration = fadeDuration;
         }
-        // Update is called once per frame
-        void Update()
+        public void UnHold()
         {
-
+            foreach (var src in srcs)
+            {
+                src.hold = false;
+            }
+        }
+        public void Hold(Note n)
+        {
+            foreach (var src in srcs)
+            {
+                if (src.pitch.Equals(n))
+                {
+                    src.hold = true;
+                    return;
+                }
+            }
         }
         public void Play(int i)
         {
