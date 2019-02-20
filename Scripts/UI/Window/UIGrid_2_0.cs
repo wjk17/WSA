@@ -75,7 +75,14 @@ namespace Esa.UI_
                 GLUI.SetFontColor(fontColor);
                 GLUI.BeginOrder(0);
 
-                if (!gup.clickable) DrawButton(gup, 2);
+                if (!gup.clickable)
+                {
+                    DrawButton(gup, 2);
+                    if (drawName)
+                        gup.DrawName(nameOffset);
+
+                    if (gup.Hover()) Events.Use();
+                }
                 else
                 {
                     if (gup.Hover() && !Events.used)

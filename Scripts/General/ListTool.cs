@@ -7,6 +7,13 @@ namespace Esa
 {
     public static partial class ListTool
     {
+        public static T[] CloneArray<T>(this T[] array) where T : new()
+        {
+            var ar = new T[array.Length];
+            Array.Copy(array, ar, array.Length);
+            return ar;
+        }
+
         // 根据指定序号重新排序
         public static T[] Arrange<T>(this T[] list, params int[] idx)
         {
@@ -123,6 +130,15 @@ namespace Esa
         public static List<T> Clone<T>(this List<T> list)
         {
             var n = new List<T>(list);
+            return n;
+        }
+        public static List<T> MemsClone<T>(this List<T> list) where T : ICloneable
+        {
+            var n = new List<T>();
+            foreach (var item in list)
+            {
+                n.Add((T)item.Clone());
+            }
             return n;
         }
         public static List<Vector2> Remap(this List<Vector2> list)

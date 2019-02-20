@@ -14,7 +14,11 @@ namespace Esa
         [Button]
         void ViewPath() { _path = path; }
         public PitchRange rng;
-        public float fadeDuration; // 淡出需要时间（秒）
+
+        public float adjustDuration = 4;
+        public AnimationCurve adjustCurve;
+
+        public float fadeDuration = 0.75f; // 淡出需要时间（秒）
         public AnimationCurve fadeCurve;
         public List<Source> srcs;
         void Start()
@@ -38,7 +42,7 @@ namespace Esa
             {
                 var rngMin = new PitchRange(rng.min, rng.min.sclMax);
                 CreateRange(rngMin);
-                for (var i = rng.min.scale + 1; i < rng.max.scale - 1; i++)
+                for (var i = rng.min.scale + 1; i <= rng.max.scale - 1; i++)
                 {
                     var min = new Note(i, Pitch.C);
                     var max = new Note(i, Pitch.B);
@@ -67,8 +71,7 @@ namespace Esa
             srcs.Add(src);
             src.pitch = n;
             src.inst = this;
-            //src.fadeCurve = fadeCurve;
-            //src.fadeDuration = fadeDuration;
+
         }
         public void UnHold()
         {

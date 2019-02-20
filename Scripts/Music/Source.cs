@@ -7,8 +7,8 @@ namespace Esa
     {
         public AudioSource audioSource;
         public float tFade; // 淡出进度
-        //public float fadeDuration; // 淡出需要时间（秒）
-        //public AnimationCurve fadeCurve;
+        public float tAdjust;
+
         public bool hold; // 延音
         public Note pitch;
         public InstSource inst;
@@ -23,16 +23,22 @@ namespace Esa
         }
         void Update()
         {
-            if (hold || tFade > 1.2) return;
+            if (tFade > inst.fadeDuration * 1.2f &&
+                tAdjust > inst.adjustDuration * 1.2f) return;
 
-            var delta = Time.deltaTime / inst.fadeDuration;
-            tFade += delta;
-            audioSource.volume = inst.fadeCurve.Evaluate(tFade);
+            tAdjust += Time.deltaTime;
+
+            audioSource.volume = inst.adjustCurve.Evaluate(tAdjust / inst.adjustDuration);
+
+            if (!hold) tFade += Time.deltaTime;
+
+            audioSource.volume *= inst.fadeCurve.Evaluate(tFade / inst.fadeDuration);
         }
         [Button]
         public void Play()
         {
             tFade = 0;
+            tAdjust = 0;
             audioSource.volume = 1;
             audioSource.Play();
         }

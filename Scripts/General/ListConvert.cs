@@ -24,7 +24,7 @@ namespace Esa
         {
             return list[0];
         }
-        public static T Last2<T>(this IList<T> list)
+        public static T Last_2<T>(this IList<T> list)
         {
             return list[list.Count - 2];
         }
@@ -35,6 +35,14 @@ namespace Esa
         public static T Last<T>(this IList<T> list)
         {
             return list[list.Count - 1];
+        }
+        public static void Append<T>(this IList<T> list) where T : new()
+        {
+            list.Add(new T());
+        }
+        public static void Repeat<T>(this IList<T> list) where T : ICloneable, new()
+        {
+            list.Add((T)list.Last().Clone());
         }
         public static void IListCopyTo<T>(this IList<T> source, IList<T> dst)
         {

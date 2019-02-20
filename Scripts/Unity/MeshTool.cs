@@ -55,24 +55,24 @@ namespace Esa
     }
     public static class MeshTool
     {
-        public static void SetMesh(this MonoBehaviour mono, Mesh mesh)
+        public static void SetMesh(this Component com, Mesh mesh)
         {
-            var smr = mono.GetComponent<SkinnedMeshRenderer>();
+            var smr = com.GetComponent<SkinnedMeshRenderer>();
             if (smr != null) smr.sharedMesh = mesh;
             else
             {
-                var mf = mono.GetComponent<MeshFilter>();
+                var mf = com.GetComponent<MeshFilter>();
                 if (mf != null) mf.sharedMesh = mesh;
             }
         }
-        public static Mesh GetMesh(this MonoBehaviour mono)
+        public static Mesh GetMesh(this Component com)
         {
             Mesh mesh = null;
-            var smr = mono.GetComponent<SkinnedMeshRenderer>();
+            var smr = com.GetComponent<SkinnedMeshRenderer>();
             if (smr != null) mesh = smr.sharedMesh;
             else
             {
-                var mf = mono.GetComponent<MeshFilter>();
+                var mf = com.GetComponent<MeshFilter>();
                 if (mf != null) mesh = mf.sharedMesh;
             }
             return mesh;

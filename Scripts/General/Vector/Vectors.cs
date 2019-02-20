@@ -17,7 +17,7 @@ namespace Esa
         public readonly static Vector2 half2d = half;
         public readonly static Vector2 halfRight2d = Vector2.right * 0.5f;
         public readonly static Vector2 halfLeft2d = Vector2.left * 0.5f;
-        public readonly static Vector3 halfDown2d = Vector2.down * 0.5f;
-        public readonly static Vector3 halfUp2d = Vector2.up * 0.5f;
+        public readonly static Vector2 halfDown2d = Vector2.down * 0.5f;
+        public readonly static Vector2 halfUp2d = Vector2.up * 0.5f;
     }
 }

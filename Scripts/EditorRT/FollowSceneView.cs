@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-#if UNITY_EDITOR
 [ExecuteInEditMode]
 public class FollowSceneView : MonoBehaviour
 {
+#if UNITY_EDITOR
     public bool on;
     public Transform cam;
     public void OnDrawGizmos()
@@ -34,5 +34,5 @@ public class FollowSceneView : MonoBehaviour
             c.orthographicSize = scnCam.orthographicSize;
         }
     }
-}
 #endif
+}
