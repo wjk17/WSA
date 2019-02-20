@@ -17,7 +17,10 @@ namespace Esa
         public KeyCode[] keysChord;
         private ScoreLoader loader;
         private ScoreGen gen;
-
+        public int chordIdx;
+        public ChordRT chordPlaying;
+        public int beatPerMinute = 120;
+        public float secondPerNote { get { return 60f / beatPerMinute; } }
         [Button]
         void SetKeysChord()
         {
@@ -88,7 +91,7 @@ namespace Esa
             grids = this.GetComChildren<UIGrid_2_0>();
         }
         void Start()
-        {
+        {            
             loader = FindObjectOfType<ScoreLoader>();
             gen = FindObjectOfType<ScoreGen>();
             grids[0].onClick = (i) => PlayPitch(PitchTool.Pitch8_to_12(i));
@@ -148,19 +151,100 @@ namespace Esa
                     PlayChord(i);
                 }
             }
-        }
-        private void PlayChord(int i)
-        {
-            //loader.chords
-        }
 
+            if (Events.KeyDown(KeyCode.Space))
+            {
+                chordIdx++;
+                if (chordIdx > 0 && chordIdx - 1 < loader.chordParser.chordArr.Count)
+                {
+                    PlayChordArr(chordIdx - 1);
+                }
+            }
+
+            if (chordPlaying != null && chordPlaying.notes.NotEmpty())
+            {
+                chordPlaying.Update();
+                if (chordPlaying.t >= chordPlaying.endTime.Last())
+                    chordPlaying = null;
+            }
+        }
+        private void PlayChordArr(int i)
+        {
+            PlayChord(loader.chordParser.chordArr[i] - 1);
+        }
+        private void PlayChord(int idx)
+        {
+            var chord = new ChordRT(loader.chords[idx], secondPerNote);
+            chord.playNote = PlayPitch;
+            chord.holdNote = HoldPitch;
+            chordPlaying = chord;
+        }
+        [Serializable]
+        public class ChordRT : Chord
+        {
+            public ChordRT(Chord chord, float secondPerNote)
+            {
+                notes = chord.notes;
+                pressed = new bool[notes.Count];
+                endTime = new float[notes.Count];
+                startTime = new float[notes.Count];
+                float start = 0f;
+                for (int i = 0; i < notes.Count; i++)
+                {
+                    startTime[i] = start * secondPerNote;
+                    endTime[i] = start + notes[i].value;
+                    endTime[i] *= secondPerNote;
+
+                    start += notes[i].value;
+                }
+
+            }
+            public bool[] pressed;
+            public float[] endTime;
+            public float[] startTime;
+            public Action<NoteMulti> playNote;
+            public Action<NoteMulti> holdNote;
+            public float t;
+            public void Update()
+            {
+                t += Time.deltaTime;
+                for (int i = 0; i < notes.Count; i++)
+                {
+                    if (!pressed[i] && t >= startTime[i])
+                    {
+                        pressed[i] = true;
+                        playNote(notes[i]);
+                        return;
+                    }
+                    if (t < endTime[i])
+                    {
+                        holdNote(notes[i]);
+                        return;
+                    }
+                }
+            }
+        }
+        void PlayPitch(NoteMulti note)
+        {
+            foreach (var n in note.notes)
+            {
+                src.Play(n);
+            }
+        }
+        void HoldPitch(NoteMulti note)
+        {
+            foreach (var n in note.notes)
+            {
+                src.Hold(n);
+                piano.notePress.Add(n);
+            }
+        }
         void HoldPitch(int i)
         {
             var note = GetPitch(i);
             src.Hold(note);
             piano.notePress.Add(note);
         }
-
         void PlayPitch(int i)
         {
             var n = GetPitch(i);

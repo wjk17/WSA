@@ -15,7 +15,7 @@ namespace Esa
 
         int scale;
         int pitchShift;
-        int divide;
+        public int beatPerNote = 4; // X/beatPerNote 拍，一个全音符占几拍
         float value;
 
         bool multiNote;
@@ -23,20 +23,22 @@ namespace Esa
         string str;
         bool comment;
         bool arrange;
+        public List<int> chordArr;
         public ChordParser()
         {
             chords = new List<Chord>();
             chords.Append();
 
-            value = 1f / divide; // 时值
+            value = 1f / beatPerNote; // 时值
 
             chord.Append();
             noteMulti.Append();
             noteMulti.value = value;
 
+            chordArr = new List<int>();
+
             scale = 5;
             pitchShift = 0;
-            divide = 4;
 
             multiNote = false;
 
@@ -75,7 +77,7 @@ namespace Esa
             str = "";
             if (arrange)
             {
-                Debug.Log(i);
+                chordArr.Add(i);
             }
 
             int pitch = PitchTool.Pitch8_to_12(i - 1);
@@ -169,7 +171,7 @@ namespace Esa
                     peek.value *= 1.5f;
                     break;
                 case '-':
-                    peek.value += 1f / divide;
+                    peek.value += 1f / beatPerNote;
                     break;
 
                 case ' ':
