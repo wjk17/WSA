@@ -32,7 +32,6 @@ namespace Esa
         void Start()
         {
             this.AddInput(Input, 2, false);
-            passIdx = -1;
         }
         [Button]
         void SetScaleToMiddle()
@@ -50,6 +49,8 @@ namespace Esa
         }
         public Color passFontColor = Color.blue;
         public int passIdx;
+        public bool drawLyric;
+
         void Input()
         {
             this.BeginOrtho(-2);
@@ -76,6 +77,44 @@ namespace Esa
             var psBar = basePos.Average(barWidth, barPerLine, Vectors.halfRight);
 
             int noteIdx = -1;
+            //var notes = loader.notesTotal;
+            //for (int i = 0; i < notes.Count; i++)
+            //{
+            //    var x = i % barPerLine;
+            //    var y = i / barPerLine;
+            //    var posBar = psBar[x] + Vector2.down * y * (lineSpace + fontSize);
+            //    var psNote = posBar.Average(barWidth, barPerLine, Vectors.halfRight);
+
+            //    // 弹过的音符变色
+            //    GLUI.SetFontColor(Color.black);
+            //    noteIdx++;
+            //    if (passIdx >= noteIdx)
+            //        GLUI.SetFontColor(passFontColor);
+
+            //    var note = notes[i];
+            //    var str = note.ToString().Reverse(); ;
+            //    if (str.Length == 2)
+            //    {
+            //        GLUI.DrawString(str[1], psNote[x] + fontSize * shiftOSNor, fontSizeShift, Vector2.up + Vectors.halfRight2d);
+            //    }
+            //    GLUI.DrawString(str[0], psNote[x], fontSize, Vector2.up + Vectors.halfRight2d);
+
+            //    // 变调小圆点
+            //    var scaleShift = note.scale - middleScale5;
+            //    var factor = Mathf.Sign(scaleShift);
+            //    scaleShift = Mathf.Abs(scaleShift);
+            //    for (int m = 0; m < scaleShift; m++)
+            //    {
+            //        var dir = Vector2.up * factor;
+            //        GLUI.DrawString(shiftMark,
+            //            psNote[x] + Vector2.down * fontSize * 0.5f +
+            //            dir * fontSize * shiftMarkOS +
+            //            dir * shiftMarkFontSize * m * shiftMarkOSFactor,
+            //            fontSize, Vectors.half2d);
+
+            //    }
+            //}
+
             for (int i = 0; i < para.bars.Count; i++)
             {
                 var bar = para.bars[i];
@@ -109,12 +148,14 @@ namespace Esa
                         }
                         GLUI.DrawString(str[0], psNote[k], fontSize, Vector2.up + Vectors.halfRight2d);
 
-                        // 歌词
-                        var word = loader.lyric[noteIdx];
-                        var sp = Vectors.halfDown2d * (lineSpace + fontSize);
-                        var pos = psNote[k] + sp;
-                        GLUI.DrawString(word, pos, fontSizeLyric, Vector2.up + Vectors.halfRight2d);
-
+                        if (drawLyric)
+                        {
+                            // 歌词
+                            var word = loader.lyric[noteIdx];
+                            var sp = Vectors.halfDown2d * (lineSpace + fontSize);
+                            var pos = psNote[k] + sp;
+                            GLUI.DrawString(word, pos, fontSizeLyric, Vector2.up + Vectors.halfRight2d);
+                        }
                         // 变调小圆点
                         var scaleShift = note.scale - middleScale5;
                         var factor = Mathf.Sign(scaleShift);

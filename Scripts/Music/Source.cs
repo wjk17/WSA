@@ -28,18 +28,19 @@ namespace Esa
 
             tAdjust += Time.deltaTime;
 
-            audioSource.volume = inst.adjustCurve.Evaluate(tAdjust / inst.adjustDuration);
+            audioSource.volume = volume * inst.adjustCurve.Evaluate(tAdjust / inst.adjustDuration);
 
             if (!hold) tFade += Time.deltaTime;
 
             audioSource.volume *= inst.fadeCurve.Evaluate(tFade / inst.fadeDuration);
         }
+        float volume;
         [Button]
-        public void Play()
+        public void Play(float volume)
         {
             tFade = 0;
             tAdjust = 0;
-            audioSource.volume = 1;
+            audioSource.volume = this.volume = volume;
             audioSource.Play();
         }
     }

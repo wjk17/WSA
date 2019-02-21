@@ -19,6 +19,11 @@ namespace Esa
         {
             notes = new List<Note>();
         }
+        public NoteMulti(float value, List<Note> notes)
+        {
+            this.value = value;
+            this.notes = notes;
+        }
         public NoteMulti(List<Note> notes)
         {
             this.notes = notes;
@@ -28,9 +33,19 @@ namespace Esa
             notes.Append();
         }
 
+        internal void ClearEmpty()
+        {
+            var n = new List<Note>();
+            foreach (var note in notes)
+            {
+                if (note.scale != 0) n.Add(note);
+            }
+            notes = n;
+        }
+
         public object Clone()
         {
-            return new NoteMulti(notes.MemsClone());
+            return new NoteMulti(value, notes.MemsClone());
         }
     }
     [Serializable]
@@ -42,8 +57,28 @@ namespace Esa
         {
             this.value = value;
         }
-        public NoteVal(int scale, Pitch pitch) : base(scale, pitch)
+        public NoteVal(int scale, Pitch pitch) : base(scale, pitch) { }
+        public static NoteVal operator +(NoteVal note, int i)
         {
+            var n = new NoteVal(note.scale, note.pitch, note.value);
+            var p = n.pitch + i;
+            loop:
+            if (p > Pitch.B)
+            {
+                p -= 12;
+                n.scale++;
+            }
+            else if (p < Pitch.C)
+            {
+                p += 12;
+                n.scale--;
+            }
+            else
+            {
+                n.pitch = p;
+                return n;
+            }
+            goto loop;
         }
     }
     [Serializable]
@@ -58,6 +93,28 @@ namespace Esa
         public static int operator -(Note a, Note b)
         {
             return (a.scale - b.scale) * 12 + (a.pitch - b.pitch);
+        }
+        public static Note operator +(Note note, int i)
+        {
+            var n = new Note(note.scale, note.pitch);
+            var p = n.pitch + i;
+            loop:
+            if (p > Pitch.B)
+            {
+                p -= 12;
+                n.scale++;
+            }
+            else if (p < Pitch.C)
+            {
+                p += 12;
+                n.scale--;
+            }
+            else
+            {
+                n.pitch = p;
+                return n;
+            }
+            goto loop;
         }
         public override bool Equals(object obj)
         {

@@ -60,6 +60,15 @@ namespace Esa
         {
             return !used && Input.GetKeyDown(code);
         }
+        public static bool KeyDown(params KeyCode[] codes)
+        {
+            if (used) return false;
+            foreach (var code in codes)
+            {
+                if (Input.GetKeyDown(code)) return true;
+            }
+            return false;
+        }
         public static bool KeyUp(KeyCode code)
         {
             return !used && Input.GetKeyUp(code);

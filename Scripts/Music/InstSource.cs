@@ -91,17 +91,17 @@ namespace Esa
                 }
             }
         }
-        public void Play(int i)
+        public void Play(int i, float volume = 1)
         {
-            srcs[i].Play();
+            srcs[i].Play(volume);
         }
-        public void Play(Note n)
+        public void Play(Note n,float volume = 1)
         {
             foreach (var src in srcs)
             {
                 if (src.pitch.Equals(n))
                 {
-                    src.Play();
+                    src.Play(volume);
                     return;
                 }
             }

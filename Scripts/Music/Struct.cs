@@ -22,6 +22,16 @@ namespace Esa
         {
             notes.Repeat();
         }
+        public void ClearEmpty()
+        {
+            var n = new List<NoteMulti>();
+            foreach (var note in notes)
+            {
+                note.ClearEmpty();
+                if (note.notes.Count != 0) n.Add(note);
+            }
+            notes = n;
+        }
     }
     [Serializable]
     public class Beat // 拍子

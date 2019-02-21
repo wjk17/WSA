@@ -5,7 +5,7 @@ namespace Esa
 {
     using UI_;
     using System;
-    public class InstKeyboard : MonoBehaviour
+    public class InstKeyboard : Singleton<InstKeyboard>
     {
         public List<UIGrid_2_0> grids;
         public InstSource src;
@@ -21,6 +21,8 @@ namespace Esa
         public ChordRT chordPlaying;
         public int beatPerMinute = 120;
         public float secondPerNote { get { return 60f / beatPerMinute; } }
+        public float chordVolume = 0.5f;
+
         [Button]
         void SetKeysChord()
         {
@@ -91,7 +93,7 @@ namespace Esa
             grids = this.GetComChildren<UIGrid_2_0>();
         }
         void Start()
-        {            
+        {
             loader = FindObjectOfType<ScoreLoader>();
             gen = FindObjectOfType<ScoreGen>();
             grids[0].onClick = (i) => PlayPitch(PitchTool.Pitch8_to_12(i));
@@ -151,8 +153,22 @@ namespace Esa
                     PlayChord(i);
                 }
             }
-
-            if (Events.KeyDown(KeyCode.Space))
+            if (Events.KeyDown(KeyCode.CapsLock))
+            {
+                UIChord.I.scaleShift = !UIChord.I.scaleShift;
+            }
+            if (Events.KeyDown(KeyCode.F1, KeyCode.F5))
+            {
+                loader.Start();
+            }
+            if (Events.KeyDown(KeyCode.BackQuote, KeyCode.Alpha1))
+            {
+                if (chordIdx > 0 && chordIdx - 1 < loader.chordParser.chordArr.Count)
+                {
+                    PlayChordArr(chordIdx - 1);
+                }
+            }
+            else if (Events.KeyDown(KeyCode.Space))
             {
                 chordIdx++;
                 if (chordIdx > 0 && chordIdx - 1 < loader.chordParser.chordArr.Count)
@@ -174,6 +190,7 @@ namespace Esa
         }
         private void PlayChord(int idx)
         {
+            UIChord.I.idx = idx;
             var chord = new ChordRT(loader.chords[idx], secondPerNote);
             chord.playNote = PlayPitch;
             chord.holdNote = HoldPitch;
@@ -228,7 +245,7 @@ namespace Esa
         {
             foreach (var n in note.notes)
             {
-                src.Play(n);
+                src.Play(n, chordVolume);
             }
         }
         void HoldPitch(NoteMulti note)
@@ -249,8 +266,11 @@ namespace Esa
         {
             var n = GetPitch(i);
 
+
+            var raw = GetPitchRaw(i);
+            if (UIChord.I.scaleShift) raw.scale++;
             if ((gen.passIdx + 1) < loader.notesTotal.Count
-                && n.Equals(loader.notesTotal[gen.passIdx + 1]))
+                && raw.Equals(loader.notesTotal[gen.passIdx + 1]))
                 gen.passIdx++;
 
             src.Play(n);
@@ -259,7 +279,24 @@ namespace Esa
         {
             var scl = scaleCurr + i / 12;
             var pitch = i % 12;
-            return new Note(scl, (Pitch)pitch);
+            var n = new Note(scl, (Pitch)pitch);
+
+
+            if (UIChord.I.scaleShift) n.scale++;
+            foreach (var pps in loader.ppShifts)
+            {
+                if ((gen.passIdx + 1) >= pps.idx)
+                    n += pps.shift;
+            }
+
+            return n;
+        }
+        Note GetPitchRaw(int i)
+        {
+            var scl = scaleCurr + i / 12;
+            var pitch = i % 12;
+            var n = new Note(scl, (Pitch)pitch);
+            return n;
         }
     }
 }

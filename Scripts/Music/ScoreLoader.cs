@@ -40,9 +40,11 @@ namespace Esa
         public string folder = @"\Score\";
         public string fileName = ".txt";
         public Encoding encoding = Encoding.UTF8;
-        [TextArea(1, 50)] public string text;
+        //[TextArea(1, 50)] 
+        public string text;
         public int step;
         public bool readAllOnStart = true;
+        public ChordParser chordParser;
 
         [Button]
         void GetPath()
@@ -51,7 +53,7 @@ namespace Esa
         }
 
         [Button]
-        void Start()
+        public void Start()
         {
             var enc = encoding.ToENC();
             if (File.Exists(filePath))
@@ -67,7 +69,6 @@ namespace Esa
             if (step < text.Length)
                 ReadParaChar(text[step++]);
         }
-        public ChordParser chordParser;
         [Button]
         void ReadAll()
         {
@@ -78,12 +79,24 @@ namespace Esa
                 else ReadParaChar(c);
             }
             chordParser.ClearEmpty();
-            chords = chordParser.chords;
+
+            UIChord.I.names = new string[chords.Count];
+            for (int i = 0; i < chords.Count; i++)
+            {
+                UIChord.I.names[i] = (i + 1).ToString();
+            }
         }
         [Button]
         void InitValues()
         {
+            var gen = FindObjectOfType<ScoreGen>();
+            gen.passIdx = -1;
+
             chordParser = new ChordParser();
+            var kb = FindObjectOfType<InstKeyboard>();
+            kb.chordIdx = 0;
+
+            UIChord.I.idx = -1;
 
             step = 0;
 
@@ -109,6 +122,9 @@ namespace Esa
             lyric = new Lyric();
             lyricMode = false;
             chordMode = false;
+
+            ppShifts = new List<PPShift>();
+            pitchParaShift = 0;                    
         }
         public Para para;
         public List<NoteVal> notesTotal;
@@ -132,17 +148,41 @@ namespace Esa
         public List<LinkLine> lines;
         public Stack<LinkLine> linesStack;
 
-        public List<Chord> chords;
+        public List<Chord> chords { get { return chordParser.chords; } }
 
         public Lyric lyric;
         public bool lyricMode;
 
         public bool chordMode;
 
+        public int pitchParaShift;
+        public bool pitchParaShifted = true;
+        [Serializable]
+        public struct PPShift
+        {
+            public PPShift(int idx, int shift)
+            {
+                this.idx = idx;
+                this.shift = shift;
+            }
+            public int idx;
+            public int shift;
+        }
+        public List<PPShift> ppShifts;
         private void ReadParaChar(char c)
         {
             switch (c)
             {
+                case 'B': // 如果谱是已经降了的，升回来到原调
+                    if (pitchParaShifted) pitchParaShift++;
+                    ppShifts.Add(new PPShift(notesTotal.Count, -1));
+                    break;
+
+                case 'S': // 相反
+                    if (pitchParaShifted) pitchParaShift--;
+                    ppShifts.Add(new PPShift(notesTotal.Count, 1));
+                    break;
+
                 case '@':
                     chordMode = true;
                     break;
@@ -182,6 +222,11 @@ namespace Esa
                     bar = new Bar();
                     break;
 
+                case '.':
+                    break;
+                case '-':
+                    break;
+
                 case '(': // Flat
                     scale--;
                     break;
@@ -213,6 +258,7 @@ namespace Esa
                     break;
 
                 case '0':
+                    break;//休止符暂不支持
                 case '1':
                 case '2':
                 case '3':
@@ -222,6 +268,7 @@ namespace Esa
                 case '7':
                     int i = PitchTool.Pitch8_to_12(int.Parse(c.ToString()) - 1);
                     var n = new NoteVal(scale, (Pitch)(pitch + i), value);
+                    n += pitchParaShift;
                     notes.Add(n);
                     notesTotal.Add(n);
 

@@ -24,6 +24,8 @@ namespace Esa
         bool comment;
         bool arrange;
         public List<int> chordArr;
+        public int baseScale = 4;
+
         public ChordParser()
         {
             chords = new List<Chord>();
@@ -37,7 +39,7 @@ namespace Esa
 
             chordArr = new List<int>();
 
-            scale = 5;
+            scale = baseScale;
             pitchShift = 0;
 
             multiNote = false;
@@ -79,7 +81,7 @@ namespace Esa
             {
                 chordArr.Add(i);
             }
-
+            if (i == 0) return;//休止符暂不支持
             int pitch = PitchTool.Pitch8_to_12(i - 1);
             note.scale = scale;
             note.pitch = (Pitch)(pitchShift + pitch);
@@ -105,42 +107,13 @@ namespace Esa
 
         internal void ClearEmpty()
         {
-            foreach (var chord in chords)
-            {
-                foreach (var nm in chord.notes)
-                {
-                    ClearNotes(nm);
-                }
-                ClearChord(chord);
-            }
-            ClearChords();
-        }
-        void ClearChords()
-        {
             var n = new List<Chord>();
             foreach (var chord in chords)
             {
+                chord.ClearEmpty();
                 if (chord.notes.Count != 0) n.Add(chord);
             }
             chords = n;
-        }
-        void ClearChord(Chord chord)
-        {
-            var n = new List<NoteMulti>();
-            foreach (var note in chord.notes)
-            {
-                if (note.notes.Count != 0) n.Add(note);
-            }
-            chord.notes = n;
-        }
-        void ClearNotes(NoteMulti noteMulti)
-        {
-            var n = new List<Note>();
-            foreach (var note in noteMulti.notes)
-            {
-                if (note.scale != 0) n.Add(note);
-            }
-            noteMulti.notes = n;
         }
         public void Read(char c)
         {
@@ -187,7 +160,10 @@ namespace Esa
                     break;
 
                 case '$':
+                    chord.ClearEmpty();
                     chord.Repeat();
+
+                    chord.Append();
                     noteMulti.Append();
                     noteMulti.value = value;
                     break;
