@@ -9,10 +9,12 @@ public class SetParent_ByName : MonoBehaviour
     public string parentName;
     public Vector3 localPosition;
     public bool worldPositionStays = true;
+    public bool setLocalPosition = false;
     public bool doOnAwake = true;
     private void Reset()
     {
         childs = new Transform[] { transform };
+        parent = transform.parent;
     }
     [Button("Clear")]
     void Clear()
@@ -32,7 +34,7 @@ public class SetParent_ByName : MonoBehaviour
         foreach (var child in childs)
         {
             child.SetParent(p, worldPositionStays);
-            child.localPosition = localPosition;
+            if (setLocalPosition) child.localPosition = localPosition;
         }
     }
 }
