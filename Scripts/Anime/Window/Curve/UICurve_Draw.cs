@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace Esa.UI
+namespace Esa.UI_
 {
     public partial class UICurve
     {
@@ -38,7 +38,7 @@ namespace Esa.UI
         public Vector2Int drawAreaStart;
         private void Update()
         {
-            this.FrameStart();
+            this.BeginOrtho();
 
             Curve2.colorCtrlLines = clrCtrlLinesUnSel;
             Curve2.colorBorder = clrBorder;
@@ -203,7 +203,7 @@ namespace Esa.UI
             b = m.MultiplyPoint(b);
             c = m.MultiplyPoint(c);
             d = m.MultiplyPoint(d);
-            GLUI.DrawQuads(a, b, c, d, color);
+            GLUI.DrawQuad(a, b, c, d, color);
         }
         void DrawLine(Vector2 a, Vector2 b, Color color, Matrix4x4 m) // 接口 
         {

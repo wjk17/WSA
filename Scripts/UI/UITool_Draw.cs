@@ -1,11 +1,23 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace Esa.UI
+namespace Esa.UI_
 {
     public static partial class UITool // Draw
     {
         public static bool debug;
+
+        public static Vector2[] UVOne
+        {
+            get
+            {
+                if (_UVOne == null) _UVOne = GetVS(Vector2.zero, Vector2.one, Vector2.zero);
+                return _UVOne;
+            }
+        }
+
+        static Vector2[] _UVOne;
         public static void Draw(this MonoBehaviour mono)
         {
             Draw(mono, Color.black);
@@ -22,13 +34,13 @@ namespace Esa.UI
         {
             if (solid)
             {
-                GLUI.DrawQuads(rt.ToPointsCWLT(), color);
+                GLUI.DrawQuad(rt.ToPointsCWLT(), color);
             }
             else Draw(rt.ToPointsCWLT(), color);
         }
         public static void DrawSquare(Vector2 pos, float size, Color color, bool solid)
         {
-            if (solid) GLUI.DrawQuads(ToPointsRect(pos, size), color);
+            if (solid) GLUI.DrawQuad(ToPointsRect(pos, size), color);
             else DrawSquare(pos, size, color);
         }
         public static void DrawSquare(Vector2 pos, float size, Color color)

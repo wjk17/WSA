@@ -23,14 +23,27 @@ namespace Esa
         [Header("偏移值")]
         public bool world = false;
         public Vector3 offset;
+        public bool getOffsetOnAwake = true;
         public bool getOffsetOnStart = true;
         public bool disableWhenSelect = true;
-        void Start()
+        void Reset()
         {
             x.bool2Label = y.bool2Label = z.bool2Label = "翻转";
+        }
+        private void Awake()
+        {
+            if (getOffsetOnAwake) GetOffset();
+        }
+        private void Start()
+        {
+            if (getOffsetOnStart) GetOffset();
+        }
+        [Button]
+        void GetOffset()
+        {
             originPos = world ? transform.position : transform.localPosition;
             offset = world ? transform.position - target.position
-                : transform.localPosition - target.localPosition;
+               : transform.localPosition - target.localPosition;
         }
         private void LateUpdate()
         {

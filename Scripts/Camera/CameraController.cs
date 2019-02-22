@@ -13,7 +13,7 @@
 using UnityEngine;
 using System.Collections;
 using System;
-namespace Esa.UI
+namespace Esa.UI_
 {
     public class CameraController : Singleton<CameraController>
     {
@@ -29,7 +29,7 @@ namespace Esa.UI
         public bool wheelControlOn = true;
         [HideInInspector]
         public float orthoCamSize;
-        public Vector3 orthoCamSizeMOM = new Vector3(0.1f, 0.45f, 10);
+        public Vector2 orthoCamSizeMM = new Vector2(0.1f, 10);
         public float tX;
         public float wheelSensitivity = 1f;
         public float dragSensitivity = 0.5f;
@@ -63,6 +63,10 @@ namespace Esa.UI
             pt.rotation = originRotation;//否则轴与摄像机旋转不一致会导致cameraRotate方向异常。
             if (pt.parent == transform) pt.SetParent(transform.parent, true);
             transform.SetParent(pivotGO.transform);
+
+            orthoCamSize = GetComponent<Camera>().orthographicSize;
+            SyncCamSize();
+            SetEulerWithTx(startEuler);
         }
 
         public void SetEulerWithTx(Vector3 euler)
@@ -72,14 +76,6 @@ namespace Esa.UI
         }
         private void Start()
         {
-            SetEulerWithTx(startEuler);
-
-            //#if UNITY_EDITOR
-            orthoCamSize = GetComponent<Camera>().orthographicSize;
-            //#else
-            //        orthoCamSize = GetComponent<Camera>().orthographicSize = orthoCamSizeMOM.y;
-            //#endif
-            SyncCamSize();
             cb = this.AddInput(GetInput, CB_Order);
         }
         public void SyncCamSize()
@@ -191,8 +187,8 @@ namespace Esa.UI
             if (Mathf.Abs(delta) > 0.01f)
             {
                 orthoCamSize -= delta;
-                if (orthoCamSize > orthoCamSizeMOM.z) orthoCamSize = orthoCamSizeMOM.z;
-                else if (orthoCamSize < orthoCamSizeMOM.x) orthoCamSize = orthoCamSizeMOM.x;
+                if (orthoCamSize > orthoCamSizeMM.y) orthoCamSize = orthoCamSizeMM.y;
+                else if (orthoCamSize < orthoCamSizeMM.x) orthoCamSize = orthoCamSizeMM.x;
                 SyncCamSize();
             }
         }

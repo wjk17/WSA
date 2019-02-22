@@ -60,6 +60,15 @@ namespace Esa
         {
             return !used && Input.GetKeyDown(code);
         }
+        public static bool KeyDown(params KeyCode[] codes)
+        {
+            if (used) return false;
+            foreach (var code in codes)
+            {
+                if (Input.GetKeyDown(code)) return true;
+            }
+            return false;
+        }
         public static bool KeyUp(KeyCode code)
         {
             return !used && Input.GetKeyUp(code);
@@ -79,6 +88,7 @@ namespace Esa
         {
             return !used && Input.GetMouseButtonDown((int)button);
         }
+
         public static bool MouseUp(int button)
         {
             return !used && Input.GetMouseButtonUp(button);
@@ -115,31 +125,96 @@ namespace Esa
         /// </summary>
         public static bool MouseDown0
         {
-            get { return !used && Input.GetMouseButtonDown(0); }
+            get
+            {
+#if UNITY_EDITOR
+                if (!Application.isPlaying)
+                    return Event.current.type == EventType.MouseDown && Event.current.button == 0;
+#endif
+                return !used && Input.GetMouseButtonDown(0);
+            }
         }
         public static bool MouseDown1
         {
-            get { return !used && Input.GetMouseButtonDown(1); }
+            get
+            {
+#if UNITY_EDITOR
+                if (!Application.isPlaying)
+                    return Event.current.type == EventType.MouseDown && Event.current.button == 1;
+#endif
+                return !used && Input.GetMouseButtonDown(1);
+            }
         }
         public static bool MouseDown2
         {
-            get { return !used && Input.GetMouseButtonDown(2); }
+            get
+            {
+#if UNITY_EDITOR
+                if (!Application.isPlaying)
+                    return Event.current.type == EventType.MouseDown && Event.current.button == 2;
+#endif
+                return !used && Input.GetMouseButtonDown(2);
+            }
         }
         /// <summary>
         /// MouseHold
         /// </summary>
         public static bool Mouse0
         {
-            get { return !used && Input.GetMouseButton(0); }
+            get
+            {
+#if UNITY_EDITOR
+                if (!Application.isPlaying)
+                    return Event.current.type == EventType.MouseDrag && Event.current.button == 0;
+#endif
+                return !used && Input.GetMouseButton(0);
+            }
         }
         public static bool Mouse1
         {
-            get { return !used && Input.GetMouseButton(1); }
+            get
+            {
+#if UNITY_EDITOR
+                if (!Application.isPlaying)
+                    return Event.current.type == EventType.MouseDrag && Event.current.button == 1;
+#endif
+                return !used && Input.GetMouseButton(1);
+            }
         }
         public static bool Mouse2
         {
-            get { return !used && Input.GetMouseButton(2); }
+            get
+            {
+#if UNITY_EDITOR
+                if (!Application.isPlaying)
+                    return Event.current.type == EventType.MouseDrag && Event.current.button == 2;
+#endif
+                return !used && Input.GetMouseButton(2);
+            }
         }
+#if UNITY_EDITOR
+        public static bool MouseMove
+        {
+            get
+            {
+                return Event.current.type == EventType.MouseMove;
+            }
+        }
+        public static Vector3 MousePos
+        {
+            get
+            {
+                return Event.current.mousePosition;
+            }
+        }
+        public static Vector3 MousePosLB
+        {
+            get
+            {
+                return Event.current.mousePosition.f_sub_y(Screen.height);
+            }
+        }
+#endif
         /// <summary>
         /// Mouse 1to3
         /// </summary>
@@ -165,6 +240,33 @@ namespace Esa
             }
         }
         public static string def_AxisMouseWheel = "Mouse ScrollWheel";
+        public static bool mouseDown0;
+        public static bool mouseDown1;
+        public static bool mouseDown2;
+        public static bool mouseUp0;
+        public static bool mouseUp1;
+        public static bool mouseUp2;
+        public static bool mouse0;
+        public static bool mouse1;
+        public static bool mouse2;
+        public static bool mouseDown1to3;
+        public static bool mouseUp1to3;
+        public static bool mouse1to3;
+        internal static void Update()
+        {
+            mouseDown0 = MouseDown0;
+            mouseDown1 = MouseDown1;
+            mouseDown2 = MouseDown2;
+            mouseUp0 = MouseUp0;
+            mouseUp1 = MouseUp1;
+            mouseUp2 = MouseUp2;
+            mouse0 = Mouse0;
+            mouse1 = Mouse1;
+            mouse2 = Mouse2;
+            mouseDown1to3 = MouseDown1to3;
+            mouseUp1to3 = MouseUp1to3;
+            mouse1to3 = Mouse1to3;
+        }
         public static float AxisMouseWheel
         {
             get { return Axis(def_AxisMouseWheel); }
@@ -187,6 +289,6 @@ namespace Esa
             if (Input.GetKeyDown(KeyCode.Alpha8)) return i; i++;
             if (Input.GetKeyDown(KeyCode.Alpha9)) return i; i++;
             if (Input.GetKeyDown(KeyCode.Alpha0)) return i; return -1;
-        }        
+        }
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 #if UNITY_EDITOR && CINEMACHINE
 using Cinemachine;
 [ExecuteInEditMode]
-public class FollowSceneView : MonoBehaviour
+public class FollowSceneViewCM : MonoBehaviour
 {
     public bool on;
     public Transform cam;

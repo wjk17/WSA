@@ -1,46 +1,58 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[System.Serializable]
-public struct TransPair
+namespace Esa
 {
-    public Transform a;
-    public Transform b;
-}
-[ExecuteInEditMode]
-public class PosDataLerp : MonoBehaviour
-{
-    public List<TransPair> pairs;
-    public List<Vector3> vectors;
-    //[Range(0, 1)]
-    //public float t;
-    public float gizmosRadius = 0.5f;
-    public Color gizmosColor = Color.red;
-    void Start()
+    using System;
+    [Serializable]
+    public struct TransPair
     {
+        public Transform a;
+        public Transform b;
+    }
+    [ExecuteInEditMode]
+    public class PosDataLerp : MonoBehaviour
+    {
+        public TransPair pair;
+        public List<Vector3> vectors;
+        public int count;
+        public float gizmosRadius = 0.5f;
+        public Color gizmosColor = Color.red;
+        void Start()
+        {
 
-    }
-    private void OnDrawGizmos()
-    {
-        if (!Application.isPlaying) UpdatePos();
-        foreach (var v in vectors)
+        }
+        private void OnDrawGizmos()
         {
+            if (!Application.isPlaying) UpdatePos();
             Gizmos.color = gizmosColor;
-            //Gizmos.DrawWireSphere(v, gizmosRadius);
+            foreach (var v in vectors)
+            {
+                Gizmos.DrawWireSphere(v, gizmosRadius);
+            }
         }
-    }
-    void Update()
-    {
-        UpdatePos();
-    }
-    void UpdatePos()
-    {
-        vectors = new List<Vector3>();
-        foreach (var pair in pairs)
+        void Update()
         {
-            //poss.Add(Vector3.Lerp(pair.a.position, pair.b.position, t));
-            vectors.Add(pair.b.position - pair.a.position);
+            UpdatePos();
+        }
+        public int[] skipId;
+        public int os;
+        public int range = 7;
+        void UpdatePos()
+        {
+            vectors = new List<Vector3>();
+            var factor = 1f / (count - 1);
+            for (int i = 0; i < count; i++)
+            {
+                foreach (var id in skipId)
+                {
+                    if (id == ((i + os) % range)) goto nextloop;
+                }
+                var t = i * factor;
+                vectors.Add(Vector3.Lerp(pair.a.position, pair.b.position, t));
+
+                nextloop: continue;
+            }
         }
     }
-    
 }

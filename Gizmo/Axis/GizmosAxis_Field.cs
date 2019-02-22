@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace Esa.UI
+namespace Esa.UI_
 {
     public partial class GizmosAxis
     {
@@ -25,7 +25,7 @@ namespace Esa.UI
 
         internal Vector3 deltaPosition;
         float originSize;
-        Vector3 originScale;
+        public float gizmosSize = 1f;
 
         string layerName = "Gizmos";
         LayerMask mask { get { return LayerMask.GetMask(layerName); } }
@@ -62,7 +62,7 @@ namespace Esa.UI
                 renderer.enabled = visible;
             }
         }
-        CameraController cc { get { return FindObjectOfType<CameraController>(); } }
+        CameraController cc { get { return CameraController.I; } }
         Camera cam { get { return cc.cam; } }
         Transform camT { get { return cam.transform; } }
     }

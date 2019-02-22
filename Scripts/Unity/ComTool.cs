@@ -3,13 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Object = UnityEngine.Object;
+using UnityEngine.UI;
 namespace Esa
 {
+    using UI_;
     public static class ComTool
     {
+        public static Vector3 WorldToRefPoint(this Camera cam, Vector3 pos)
+        {
+            return cam.WorldToViewportPoint(pos).MulRef();
+        }
         public static Vector2[] Rect(this RectTransform rt)
         {
-            var v = UI.UI.AbsRefPos(rt) - Vectors.half2d * rt.rect.size;
+            var v = UI_.UI.AbsRefPos(rt) - Vectors.half2d * rt.rect.size;
             return new Vector2[] { v, v + rt.rect.size };
         }
         public static T NameOf<T>(this string name, IList<T> components) where T : Component
@@ -63,6 +69,30 @@ namespace Esa
             if (keepParent) copy.SetParent(go.transform.parent);
             return copy;
         }
+        public static void Disable<T>(this Component com) where T : MonoBehaviour
+        {
+            com.GetComponent<T>().enabled = false;
+        }
+        public static void Enable<T>(this Component com) where T : MonoBehaviour
+        {
+            com.GetComponent<T>().enabled = true;
+        }
+        public static void Active(this Component com)
+        {
+            com.gameObject.SetActive(true);
+        }
+        public static void Active(this GameObject go)
+        {
+            go.SetActive(true);
+        }
+        public static void Disactive(this Component com)
+        {
+            com.gameObject.SetActive(false);
+        }
+        public static void Disactive(this GameObject go)
+        {
+            go.SetActive(false);
+        }
         public static bool ToggleActive(this Component com)
         {
             com.gameObject.SetActive(!com.gameObject.activeSelf);
@@ -109,6 +139,25 @@ namespace Esa
             a = b;
             b = c;
         }
+        public static void SetTextsColor(this Component target, Color color)
+        {
+            foreach (var text in target.GetComponentsInChildren<Text>(true))
+            {
+                text.color = color;
+            }
+        }
+        public static void DestroyImage(this Component target)
+        {
+            var img = target.GetComponent<Image>();
+            if (img != null) DestroyAuto(img);
+        }
+        public static void DestroyImages(this Component target)
+        {
+            foreach (var img in target.GetComponentsInChildren<Image>(true))
+            {
+                DestroyAuto(img);
+            }
+        }
 #if UNITY_EDITOR
         public static void DestroyAuto(this Object target)
         {
@@ -127,6 +176,11 @@ namespace Esa
         Object.Destroy(target);
     }
 #endif
+        public static void DestroyGO(this Component target)
+        {
+            Object.Destroy(target.gameObject);
+        }
+
         public static T GetComOrAdd<T>(this Component c) where T : Component
         {
             var com = c.GetComponent<T>();

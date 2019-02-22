@@ -15,6 +15,24 @@ namespace Esa
         {
             return pos.ToString() + rot.ToString();
         }
+        public Tran2 AddZ(float z)
+        {
+            var n = copy;
+            n.pos.z += z;
+            return n;
+        }
+        public Tran2 SetZ(float z)
+        {
+            var n = copy;
+            n.pos.z = z;
+            return n;
+        }
+        public Tran2 SetPos(Vector3 pos)
+        {
+            var n = copy;
+            n.pos = pos;
+            return n;
+        }
         public Tran2 copy
         {
             get { return (Tran2)Clone(); }

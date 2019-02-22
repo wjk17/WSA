@@ -2,22 +2,41 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-namespace Esa.UI
+namespace Esa.UI_
 {
     [Serializable]
     public class CmdHandler
     {
-        public RectTransform owner;
+        public object owner;
         public CmdHandler() { }
-        public CmdHandler(RectTransform owner) { this.owner = owner; }
+        public CmdHandler(object owner) { this.owner = owner; }
         public List<Cmd> cmds = new List<Cmd>();
         public virtual void ExecuteCommand(Cmd cmd) { }
         public virtual int SortList(Cmd a, Cmd b)
         {
             if (a.order > b.order) { return 1; }
             else if (a.order < b.order) { return -1; }
-            return 0;
+            return a.insertOrder.CompareTo(b.insertOrder);
         }
+        //public virtual int SortList(Cmd a, Cmd b)
+        //{
+        //    //_secondOrder
+        //    var c = a.order.CompareTo(b.order);
+        //    if (c != 0) return c;
+        //    else
+        //    {
+        //        if ( a.secondOrder)
+        //        else
+        //        {
+        //            return a.secondOrder.CompareTo(b.secondOrder);
+        //        }
+
+        //            c = ;
+        //        c = a.insertOrder.CompareTo(b.insertOrder);
+        //    }
+        //    else if (a.order < b.order) { return -1; }
+        //    return a.insertOrder.CompareTo(b.insertOrder);
+        //}
         public void Execute()
         {
             cmds.Sort(SortList);

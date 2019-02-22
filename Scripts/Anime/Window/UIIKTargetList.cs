@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-namespace Esa.UI
+namespace Esa.UI_
 {
     /// <summary>
     /// IK关节目标展开列表

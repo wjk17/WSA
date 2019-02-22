@@ -14,6 +14,11 @@ namespace Esa
     /// </summary>
     public class Singleton<T1> : SingletonBase where T1 : MonoBehaviour
     {
+        public bool active
+        {
+            get { return gameObject.activeInHierarchy; }
+            set { gameObject.SetActive(value); }
+        }
         /// <summary>
         /// 如果需要在场景开始时禁用单例对象，使用这个字段来禁用，否则会有找不到单例的可能出现。
         /// ↑已修改，可以找到

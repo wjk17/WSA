@@ -1,11 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace Esa.UI
+namespace Esa.UI_
 {
     public static partial class UITool
     {
+        public static Vector2 DivRef(this Vector2 v)
+        {
+            return v / UI.scalerRefRes;
+        }
         public static Vector2 MulRef(this Vector2 v)
+        {
+            return v * UI.scalerRefRes;
+        }
+        public static Vector3 MulRef(this Vector3 v)
         {
             return v * UI.scalerRefRes;
         }
@@ -23,22 +31,38 @@ namespace Esa.UI
         }
         public static void StartIM(this MonoBehaviour mono)
         {
-            UI.owner = mono.transform as RectTransform;
+            UI.owner = mono.gameObject;
             UI.ClearIM();
+        }
+        public static void StartGLWorld(this MonoBehaviour mono, int order = 0)
+        {
+            UI.owner = mono.gameObject;
+            UI.ClearGL();
+            UI.gl.order = order;
+            GLUI.BeginOrder(0);
         }
         public static void StartGL(this MonoBehaviour mono)
         {
-            UI.owner = mono.transform as RectTransform;
-            UI.ClearGL();
-            GLUI.BeginOrtho();
-            GLUI.BeginOrder(0);
+            StartGLWorld(mono);
+            GLUI.LoadOrtho();
         }
-        public static void FrameStart(this MonoBehaviour mono)
+        public static void BeginOrtho(this object obj, int glOrder = 0)
         {
-            UI.owner = mono.transform as RectTransform;
+            UI.owner = obj;
             UI.ClearCmd();
-            GLUI.BeginOrtho();
+            if (glOrder != 0) UI.gl.order = glOrder;
+            GLUI._insertOrder = 0;
             GLUI.BeginOrder(0);
+            GLUI.LoadOrtho();
+        }
+        public static void BeginOrtho(this MonoBehaviour mono, int glOrder = 0)
+        {
+            UI.owner = mono.gameObject;
+            UI.ClearCmd();
+            if (glOrder != 0) UI.gl.order = glOrder;
+            GLUI._insertOrder = 0;
+            GLUI.BeginOrder(0);
+            GLUI.LoadOrtho();
         }
         public static List<Vector2> ListReverseY(this IList<Vector2> vs) // input screen pos
         {
@@ -57,6 +81,15 @@ namespace Esa.UI
         {
             pos.y = UI.scaler.referenceResolution.y - pos.y;
             return pos;
+        }
+        public static Vector2 ToLTScreen(this Vector2 pos)
+        {
+            pos.y = Screen.height - pos.y;
+            return pos;
+        }
+        public static Vector3 XYToNDC(this Vector3 p) // input screen pos
+        {
+            return (p.XY() / UI.scaler.referenceResolution).SetZ(p.z);
         }
         public static Vector2 ToNDC(this Vector2 p) // input screen pos
         {

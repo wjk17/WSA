@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Esa.UI;
+using Esa.UI_;
 namespace Esa
 {
     /// <summary>
@@ -14,29 +14,37 @@ namespace Esa
         public Vector2 pos;
         public Vector2 size;
         public Vector2 pivot;
+
         public static implicit operator Rect(UnityEngine.Rect rect)
         {
             return new Rect(rect.position, rect.size);
         }
+
+        internal Rect Clone()
+        {
+            return new Rect(pos, size, pivot);
+        }
+
+        public Rect(MonoBehaviour mono) : this(mono.transform as RectTransform)
+        {
+        }
         /// <summary>
         /// BUG：横向Strech模式下pivot.y必须为0，竖向则x为0，双向则都为0。
         /// </summary>
-        /// <param name="rt"></param>
         public Rect(RectTransform rt)
         {
-            pos = UI.UI.AbsRefPos(rt);
+            pos = UI_.UI.AbsRefPos(rt);
 
             //pivot = rt.pivot.FlipY();
             pivot = Vectors.half2d;
 
             //pos -= rt.pivot.FlipY() * rt.rect.size;
             size = rt.rect.size;
-
         }
-        public Rect(Vector2 pos, float sideLength) : this(pos, Vector2.one * sideLength)
+        public Rect(Vector2 pos, float sideLength) : this(pos, sideLength.XY())
         {
         }
-        public Rect(Vector2 pos, float sideLength, Vector2 anchor) : this(pos, Vector2.one * sideLength, anchor)
+        public Rect(Vector2 pos, float sideLength, Vector2 anchor) : this(pos, sideLength.XY(), anchor)
         {
         }
         public Rect(Vector2 pos, Vector2 size)
@@ -53,22 +61,23 @@ namespace Esa
         {
             pos += size * pivot;
         }
-        public Vector2 LB()
+        public void SetPivot(Vector2 pivot)
         {
-            return pos - size * Vectors.half2d;
+            var os = pivot - this.pivot;
+            pos += size * os;
+            this.pivot = pivot;
         }
-        public Vector2 LT()
+        public void SetPos(Vector2 pos, Vector2 pivot)
         {
-            return pos - size * Vectors.half2d.ReverseY();
+            var os = pivot - this.pivot;
+            pos -= size * os;
+            this.pos = pos;
         }
-        public Vector2 RT()
-        {
-            return pos + size * Vectors.half2d;
-        }
-        public Vector2 RB()
-        {
-            return pos + size * Vectors.half2d.ReverseY();
-        }
+        public Vector2 center { get { return pos; } }
+        public Vector2 cornerLB { get { return pos - size * Vectors.half2d; } }
+        public Vector2 cornerLT { get { return pos - size * Vectors.half2d.ReverseY(); } }
+        public Vector2 cornerRT { get { return pos + size * Vectors.half2d; } }
+        public Vector2 cornerRB { get { return pos + size * Vectors.half2d.ReverseY(); } }
         /// <summary>
         /// LT
         /// </summary>
@@ -84,19 +93,6 @@ namespace Esa
         /// ClockWise
         /// </summary>
         /// <returns></returns>
-        public List<Vector2> ToPointsCW_()
-        {
-            var vs = new List<Vector2>();
-            vs.Add(pos);
-            vs.Add(pos + size * Vector2.right);
-            vs.Add(pos + size);
-            vs.Add(pos + size * Vector2.up);
-            //vs.Add(pos + size * pivot.FlipRev());
-            //vs.Add(pos + size * pivot.FlipRevY());
-            //vs.Add(pos + size * pivot);
-            //vs.Add(pos + size * pivot.FlipRevX());
-            return vs;
-        }
         public List<Vector2> ToPointsCW()
         {
             var vs = new List<Vector2>();
@@ -111,6 +107,10 @@ namespace Esa
                 vs[i] += size.Y() * pivot.y;
             }
             return vs;
+        }
+        public Vector2[] ToCWA()
+        {
+            return ToCW().ToArray();
         }
         public List<Vector2> ToCW()
         {

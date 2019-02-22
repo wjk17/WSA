@@ -1,32 +1,34 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public static class GOTool
+namespace Esa
 {
-    public static Transform GetOrAddTransScnRoot(string name)
+    public static class GOTool
     {
-        Transform obj;
-        var find = TransTool.SearchScnRootCache(name);
-        if (find != null) obj = find;
-        else
+        public static Transform GetOrAddTransScnRoot(string name)
         {
-            var c = new GameObject(name);
-            obj = c.transform;
+            Transform obj;
+            var find = TransTool.SearchScnRootCache(name);
+            if (find != null) obj = find;
+            else
+            {
+                var c = new GameObject(name);
+                obj = c.transform;
+            }
+            return obj;
         }
-        return obj;        
-    }
-    public static Transform GetOrAddTrans(this Transform parent, string name)
-    {
-        Transform obj;
-        var find = parent.SearchCache(name);
-        if (find != null) obj = find;
-        else
+        public static Transform GetOrAddTrans(this Transform parent, string name)
         {
-            var c = new GameObject(name);
-            obj = c.transform;
-            obj.SetParent(parent);
+            Transform obj;
+            var find = parent.SearchCache(name);
+            if (find != null) obj = find;
+            else
+            {
+                var c = new GameObject(name);
+                obj = c.transform;
+                obj.SetParent(parent);
+            }
+            return obj;
         }
-        return obj;
     }
 }

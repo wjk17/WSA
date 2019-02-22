@@ -73,8 +73,8 @@ public class FretsPos : MonoBehaviour, IFind
                 var cl = bl / cos;
                 var c = cn * cl;
 
-                var a = posDatas.pairs[chord].a.position;
-
+                //var a = posDatas.pairs[chord].a.position;
+                var a = Vector3.zero;
                 t.position = a + c;
                 frets.Add(t);
             }

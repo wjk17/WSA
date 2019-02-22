@@ -24,35 +24,57 @@ namespace Esa
         {
             return list[0];
         }
-        public static T LastM1<T>(this IList<T> list)
+        public static T Last_2<T>(this IList<T> list)
         {
             return list[list.Count - 2];
+        }
+        public static T SetLast<T>(this IList<T> list, T value)
+        {
+            return list[list.Count - 1] = value;
         }
         public static T Last<T>(this IList<T> list)
         {
             return list[list.Count - 1];
         }
-        public static T[] IListToArray<T>(IList<T> list)
-
+        public static void Append<T>(this IList<T> list) where T : new()
         {
+            list.Add(new T());
+        }
+        public static void Repeat<T>(this IList<T> list) where T : ICloneable, new()
+        {
+            list.Add((T)list.Last().Clone());
+        }
+        public static void IListCopyTo<T>(this IList<T> source, IList<T> dst)
+        {
+            for (int i = 0; i < source.Count; i++)
+            {
+                dst[i] = source[i];
+            }
+        }
+        public static T[] IListToArray<T>(IList<T> list)
+        {
+            if (list == null) return null;
             var count = list.Count;
-            var ns = new T[count];
+            // 是 Array 直接返回
             if (list.GetType() == typeof(T[]))
             {
-                ns = (T[])list;
+                return (T[])list;
             }
+            // List 转 Array
             else if (list.GetType() == typeof(List<T>))
             {
-                ns = ((List<T>)list).ToArray();
+                return ((List<T>)list).ToArray();
             }
+            // 其他 IList 转 Array
             else
             {
+                var ns = new T[count];
                 for (int i = 0; i < count; i++)
                 {
                     ns[i] = list[i];
                 }
+                return ns;
             }
-            return ns;
         }
 
         public static void Swap<T>(this IList<T> list, int a, int b)

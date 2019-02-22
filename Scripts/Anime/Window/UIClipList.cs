@@ -5,7 +5,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
-namespace Esa.UI
+namespace Esa.UI_
 {
     public class UIClipList : Singleton<UIClipList>
     {

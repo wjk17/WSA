@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
-namespace Esa.UI
+namespace Esa.UI_
 {
     [ExecuteInEditMode]
     public class Button_Row : MonoBehaviour
@@ -73,6 +73,7 @@ namespace Esa.UI
         }
         void ItemClick(int idx)
         {
+            AudioMgr.I.PlaySound("Click");
             if (onClick != null) onClick(idx);
         }
     }

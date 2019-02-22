@@ -2,12 +2,40 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-namespace Esa.UI
+namespace Esa.UI_
 {
     public class SavePng : MonoBehaviour
     {
+        bool grab;
+        public Vector3 oPos;
+        public float os = 10f;
+        private void OnPreRender()
+        {
+
+            if (grab)
+            {
+                oPos = transform.parent.position;
+                transform.parent.Translate(Vector3.forward * os, Space.Self);
+            }
+        }
+        private void OnPostRender()
+        {
+            if (grab)
+            {
+                Grab();
+                transform.parent.position = oPos;
+
+                grab = false;
+            }
+
+        }
         [Button]
         public void SavePNG()
+        {
+            grab = true;
+        }
+
+        void Grab()
         {
             // Create a texture the size of the screen, RGB24 format
             int width = Screen.width;

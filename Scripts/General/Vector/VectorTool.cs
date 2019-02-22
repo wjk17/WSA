@@ -7,6 +7,47 @@ namespace Esa
 {
     public static class VectorTool
     {
+        public static Vector2[] Average(this Vector2 pos, float os, int count, Vector2 pivot)
+        {
+            return Average(pos, Vector2.right * os, count, pivot);
+        }
+        public static Vector2[] Average(this Vector2 pos, Vector2 os, int count, Vector2 pivot)
+        {
+            var poss = new Vector2[count];
+            var length = os * (count - 1);
+            for (int i = 0; i < count; i++)
+            {
+                poss[i] = pos + i * os - Vector2.Scale(pivot, length);
+            }
+            return poss;
+        }
+        public static Vector3[] Average(this Vector3 pos, float os, int count, Vector3 pivot)
+        {
+            return Average(pos, Vector3.right * os, count, pivot);
+        }
+        public static Vector3[] Average(this Vector3 pos, Vector3 os, int count, Vector3 pivot)
+        {
+            var poss = new Vector3[count];
+            var width = os * (count - 1);
+            for (int i = 0; i < count; i++)
+            {
+                poss[i] = pos + i * os - Vector3.Scale(pivot, width);
+            }
+            return poss;
+        }
+        public static Vector4 Normalize3(this Vector4 v4)
+        {
+            Vector3 v3 = v4;
+            var n3 = v3.normalized;
+            v4.x = n3.x;
+            v4.y = n3.y;
+            v4.z = n3.z;
+            return v4;
+        }
+        public static Vector2Int Mul(this Vector2Int v, float f)
+        {
+            return new Vector2Int(Mathf.RoundToInt(v.x * f), Mathf.RoundToInt(v.y * f));
+        }
         public static int eleCount(this Vector2Int v)
         {
             return v.x * v.y;
@@ -108,6 +149,27 @@ namespace Esa
             return new Vector3((minX + maxX) / 2.0f, (minY + maxY) / 2.0f, (minZ + maxZ) / 2.0f);
         }
         // 计算中心点
+        public static Vector3 GetCenter(this Mesh mesh)
+        {
+            var pos = Vector3.zero;
+            foreach (var v in mesh.vertices)
+            {
+                pos += v;
+            }
+            pos /= (mesh.vertices.Length - 1);
+            return pos;
+        }
+
+        public static Vector3 GetCenter(this IList<Vector3> vs)
+        {
+            var pos = Vector3.zero;
+            foreach (var v in vs)
+            {
+                pos += v;
+            }
+            pos /= (vs.Count - 1);
+            return pos;
+        }
         public static Vector3 GetCenter(GameObject[] g)
         {
             Vector3 center = Vector3.zero;
@@ -166,17 +228,47 @@ namespace Esa
         }
         public static Vector3 Divide(this Vector3 a, Vector3 b)
         {
-            Vector3 n;
-            n.x = a.x / b.x;
-            n.y = a.y / b.y;
-            n.z = a.z / b.z;
-            return n;
+            a.x = a.x / b.x;
+            a.y = a.y / b.y;
+            a.z = a.z / b.z;
+            return a;
         }
         public static void Divide(ref Vector3 a, Vector3 b)
         {
             a.x = a.x / b.x;
             a.y = a.y / b.y;
             a.z = a.z / b.z;
+        }
+        public static Vector2Int DivideToInt(this Vector2 a, float b)
+        {
+            var i = new Vector2Int();
+            i.x = Mathf.RoundToInt(a.x / b);
+            i.y = Mathf.RoundToInt(a.y / b);
+            return i;
+        }
+        public static Vector3Int DivideToInt(this Vector3 a, float b)
+        {
+            var i = new Vector3Int();
+            i.x = Mathf.RoundToInt(a.x / b);
+            i.y = Mathf.RoundToInt(a.y / b);
+            i.z = Mathf.RoundToInt(a.z / b);
+            return i;
+        }
+        public static Vector3Int DivideToInt(this Vector3 a, Vector3 b)
+        {
+            var i = new Vector3Int();
+            i.x = Mathf.RoundToInt(a.x / b.x);
+            i.y = Mathf.RoundToInt(a.y / b.y);
+            i.z = Mathf.RoundToInt(a.z / b.z);
+            return i;
+        }
+        public static Vector2 Snap(this Vector2 a, float b)
+        {
+            return (Vector2)a.DivideToInt(b) * b;
+        }
+        public static Vector3 Snap(this Vector3 a, float b)
+        {
+            return (Vector3)a.DivideToInt(b) * b;
         }
         /// <summary>
         /// 曼哈顿距离
@@ -205,12 +297,11 @@ namespace Esa
         {
             return new Vector3(Mathf.Abs(a.x), Mathf.Abs(a.y), Mathf.Abs(a.z));
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="vec"></param>
-        /// <param name="f"></param>
-        /// <returns></returns>
+        //set components
+        public static Vector3 SetZ(this Vector2 vec, float f)
+        {
+            return new Vector3(vec.x, vec.y, f);
+        }
         public static Vector2 SetX(this Vector2 vec, float f)
         {
             return new Vector2(f, vec.y);
@@ -243,7 +334,16 @@ namespace Esa
         {
             return new Vector3(vec.x, vec.y, f);
         }
+        public static Vector3 AddZ(this Vector3 vec, float f)
+        {
+            return new Vector3(vec.x, vec.y, vec.z + f);
+        }
         /// v2 to v3
+        public static Vector3 XY1(this Vector2 v2)
+        {
+            return new Vector3(v2.x, v2.y, 1f);
+
+        }
         public static Vector3 X0Y(this Vector2 v2)
         {
             return new Vector3(v2.x, 0f, v2.y);
@@ -312,6 +412,30 @@ namespace Esa
         {
             return new Vector2Int(0, v2.y);
         }
+        public static Vector2 XY(this float xy)
+        {
+            return new Vector2(xy, xy);
+        }
+        public static Vector2 XY(this int xy)
+        {
+            return new Vector2(xy, xy);
+        }
+        public static Vector2 X(this int x)
+        {
+            return new Vector2(x, 0);
+        }
+        public static Vector2 X(this float x)
+        {
+            return new Vector2(x, 0);
+        }
+        public static Vector2 Y(this int y)
+        {
+            return new Vector2(0, y);
+        }
+        public static Vector2 Y(this float y)
+        {
+            return new Vector2(0, y);
+        }
         public static Vector2 Y(this Vector2 v2)
         {
             return new Vector2(0, v2.y);
@@ -319,6 +443,12 @@ namespace Esa
         public static Vector2 To0Y(this Vector2 v2)
         {
             return new Vector2(0, v2.y);
+        }
+
+
+        public static Vector2Int Add(this Vector2Int v2, int i)
+        {
+            return new Vector2Int(v2.x + i, v2.y + i);
         }
         public static Vector2Int X(this Vector2Int v2)
         {
@@ -332,7 +462,19 @@ namespace Esa
         {
             return new Vector2(v2.x, 0);
         }
-
+        // v3 XYZ
+        public static Vector3 Z(this Vector3 v)
+        {
+            return new Vector3(0, 0, v.z);
+        }
+        public static Vector3 Y(this Vector3 v)
+        {
+            return new Vector3(0, v.y, 0);
+        }
+        public static Vector3 X(this Vector3 v)
+        {
+            return new Vector3(v.x, 0, 0);
+        }
         internal static Vector2Int Clamp(object v)
         {
             throw new NotImplementedException();

@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-namespace Esa.UI
+namespace Esa.UI_
 {
     public class LineClip
     {

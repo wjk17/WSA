@@ -25,7 +25,7 @@ public class DirectionalLightPosControl : MonoBehaviour
         Vector3 dir = mat.GetVector(propNameDir);
         dir *= (transform.position - target.position).magnitude;
         transform.position = target.position + dir;
-        weight = mat.GetVector(propNameWeight);
+        //weight = mat.GetVector(propNameWeight);
     }
     void SetLightDir(Vector3 dir)
     {
@@ -48,6 +48,6 @@ public class DirectionalLightPosControl : MonoBehaviour
         }
 
         SetLightDir(transform.position - target.position);
-        SetWeight(weight);
+        //SetWeight(weight);
     }
 }

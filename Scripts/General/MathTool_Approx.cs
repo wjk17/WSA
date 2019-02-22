@@ -5,6 +5,10 @@ namespace Esa
 {
     public static partial class MathTool
     {
+        public static int RoundMul(this int a,float b)
+        {
+            return Mathf.RoundToInt(a * b);
+        }
         public static Vector2 RoundY(this Vector2 a)
         {
             a.y = Mathf.RoundToInt(a.y);
@@ -96,12 +100,33 @@ namespace Esa
             float v = Mathf.Round(f * factor) * factor2;
             return v;
         }
+        public static string ToStrApprox(this IList<Vector2> vs, int fracCount = 3, string splitStr = ", ")
+        {
+            var str = "";
+            foreach (var v in vs)
+            {
+                if (str.Length > 0) str += "\r\n";
+                str += v.ToStr(fracCount, splitStr);
+            }
+            return str;
+        }
+        public static string ToStrApprox(this IList<Vector3> vs, int fracCount = 3, string splitStr = ", ")
+        {
+            var str = "";
+            foreach (var v in vs)
+            {
+                if (str.Length > 0) str += "\r\n";
+                str += v.ToStr(fracCount, splitStr) + "\r\n";
+            }
+            return str;
+        }
         public static string ToStr(this Vector3 v, int fracCount = 3, string splitStr = ", ")
         {
             return Keep(v.x, fracCount).ToString() + splitStr +
                 Keep(v.y, fracCount).ToString() + splitStr +
                 Keep(v.z, fracCount).ToString();
         }
+        // todo 去除字符串的小数点        
         public static string ToStr(this Vector2 v, int fracCount = 3, string splitStr = ", ")
         {
             return Keep(v.x, fracCount).ToString() + splitStr +

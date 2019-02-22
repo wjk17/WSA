@@ -11,6 +11,14 @@ namespace Esa
         public const float v10 = 10f / 255f;
         public static readonly Color L10 = new Color(v10, v10, v10);
         public static readonly Color L1 = new Color(0.1f, 0.1f, 0.1f);
+        public static readonly Color L2 = new Color(0.2f, 0.2f, 0.2f);
+        public static readonly Color L3 = new Color(0.3f, 0.3f, 0.3f);
+        public static readonly Color L4 = new Color(0.4f, 0.4f, 0.4f);
+        public static readonly Color L5 = new Color(0.5f, 0.5f, 0.5f);
+        public static readonly Color L6 = new Color(0.6f, 0.6f, 0.6f);
+        public static readonly Color L7 = new Color(0.7f, 0.7f, 0.7f);
+        public static readonly Color L8 = new Color(0.8f, 0.8f, 0.8f);
+        public static readonly Color L9 = new Color(0.9f, 0.9f, 0.9f);
         public static Color HtmlToColor(string str)
         {
             var f = 1f / 255f;

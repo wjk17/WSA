@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-namespace Esa.UI
+namespace Esa.UI_
 {
     [Serializable]
     public class _Cursor
@@ -13,6 +13,12 @@ namespace Esa.UI
     [ExecuteInEditMode]
     public partial class UI : Singleton<UI>
     {
+        public Font font;
+        public int defaultFontSize = 32;
+        public static string layerName = "UI";
+        public static LayerMask layerMask { get { return LayerMask.GetMask(layerName); } }
+        public static int layerNum { get { return (int)Mathf.Log(layerMask.value, 2); } }
+
         public _Cursor cursorOverNPC;
         public _Cursor cursorDefault;
         public static Transform Root
@@ -21,8 +27,16 @@ namespace Esa.UI
         }
         [Header("CallBack")]
         public List<InputCall> inputs;
+        public List<InputCall> _inputs;
         public List<InputCall> called;
-        public bool seeCalledList = true;
+        public bool seeCalledList;
+        public virtual int SortList(GLHandler a, GLHandler b)
+        {
+            if (a.order > b.order) { return 1; } ///顺序从低到高
+            else if (a.order < b.order) { return -1; }
+
+            return ((GameObject)a.owner).name.CompareTo(((GameObject)b.owner).name);
+        }
         public virtual int SortList(InputCall a, InputCall b)
         {
             if (a.order > b.order) { return 1; } ///顺序从低到高
@@ -36,8 +50,10 @@ namespace Esa.UI
             if (SYS.debugUI) print("UI Initialize.");
 
             GLUI.texMaterial = texMaterial;
+            GLUI.font = font;
 
             inputs = new List<InputCall>();
+            _inputs = new List<InputCall>();
             glHandlers = new List<GLHandler>();
             imHandlers = new List<IMHandler>();
             var wrapper = camera.GetComOrAdd<CameraEventWrapper>();
@@ -45,9 +61,11 @@ namespace Esa.UI
         }
         private void Update()
         {
+            GLUI.fontSize = defaultFontSize;
 #if UNITY_EDITOR
             if (!Application.isPlaying) return;
 #endif
+            Events.Update();
             EarlyUpdate();
             UpdateInput();
         }
@@ -59,6 +77,18 @@ namespace Esa.UI
         public void UpdateInput()
         {
             Events.used = false;
+            if (_inputs.Count > 0)
+            {
+                inputs.AddRange(_inputs);
+                _inputs.Clear();
+            }
+            var checkList = new List<InputCall>();
+            foreach (var input in inputs)
+            {
+                if (input.mono != null)
+                    checkList.Add(input);
+            }
+            inputs = checkList;
             inputs.Sort(SortList);
             called = new List<InputCall>();
             foreach (var call in inputs)
@@ -82,7 +112,7 @@ namespace Esa.UI
                     call.mouseOver = call.rt.Contains(mousePosRef);
                     if (call.mouseOver) return;
                 }
-                if (Events.used) return;
+                //if (Events.used) return;
             }
         }
         public void StartCoro(System.Collections.IEnumerator ie)
@@ -150,6 +180,13 @@ namespace Esa.UI
 #endif
                 return (Input.mousePosition * facterToReference).
                     f_sub_y(scaler.referenceResolution.y);
+            }
+        }
+        public static Vector2 mousePosView // LB 本来就是左下坐标
+        {
+            get
+            {
+                return Input.mousePosition / I.screenSize;
             }
         }
         public static Vector2 mousePosRef // LB 本来就是左下坐标

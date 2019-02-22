@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Esa.UI
+namespace Esa.UI_
 {
     // UI控件
     public partial class UITimeLine : Singleton<UITimeLine>
@@ -28,7 +28,7 @@ namespace Esa.UI
         public bool clip = false;
         private void Update()
         {
-            this.FrameStart();
+            this.BeginOrtho();
             this.Draw(Color.grey);
             var pos = UI.AbsRefPos(rtArea) - rtArea.rect.size * 0.5f;
             var scl = rtAreaSize / SizeInt;
@@ -70,7 +70,7 @@ namespace Esa.UI
                     a.x = i + f * 0.5f;
                     Vector2 c = m_RulerToRef.MultiplyPoint(a);
                     c = rulerPos + c.ToLT();
-                    IMUI.DrawText(i.ToString(), c, Vectors.half2d);// 画字 帧号标签
+                    GLUI.DrawString(i.ToString(), c, Vectors.half2d);// 画字 帧号标签
                 }
             }
             // timeline
