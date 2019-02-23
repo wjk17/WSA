@@ -1,0 +1,3712 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1126392564236838}
+  m_IsPrefabAsset: 1
+--- !u!1 &1126392564236838
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 224438163153536458}
+  m_Layer: 5
+  m_Name: PianoPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1457290600644934
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 224602014027219668}
+  - component: {fileID: 114028187965089064}
+  m_Layer: 5
+  m_Name: Chord
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1468757035498994
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 224031328024823802}
+  - component: {fileID: 114045562797483214}
+  - component: {fileID: 114122436424265884}
+  m_Layer: 5
+  m_Name: Score
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1638420311806922
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 224791240486489942}
+  m_Layer: 5
+  m_Name: ChordNum
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1720292923384090
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 224434398633713512}
+  m_Layer: 5
+  m_Name: Switch
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1732238863643468
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 224214517200727276}
+  - component: {fileID: 114806266408596468}
+  m_Layer: 5
+  m_Name: 8 tone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1914160692845542
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 224563715721503122}
+  - component: {fileID: 114375314615769658}
+  m_Layer: 5
+  m_Name: Keyboard
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1973698850831364
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 224447528107883364}
+  - component: {fileID: 114231158225345454}
+  m_Layer: 5
+  m_Name: half tone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &114028187965089064
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1457290600644934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a81108cd3b6c5b4da57544a0d3fc87d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startActive: 1
+  idx: -1
+  chordNum: {fileID: 224791240486489942}
+  rtSS: {fileID: 224434398633713512}
+  colorSSOn: {r: 0, g: 1, b: 0, a: 1}
+  colorSSOff: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  fontSizeNum: 36
+  names:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  - 13
+  - 14
+  - 15
+  - 16
+  - 17
+  sizeOs: {x: 0, y: 50}
+  colorSel: {r: 0.23800004, g: 0.44202372, b: 1, a: 1}
+  colorNormal: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  scaleShift: 0
+--- !u!114 &114045562797483214
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1468757035498994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32c4de2a114384c4088a074f34bf1536, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loader: {fileID: 114122436424265884}
+  barPerLine: 20
+  lineSpace: 43
+  beatSpaceAdd: -1
+  noteSpaceAdd: -5
+  fontSize: 32
+  fontSizeLyric: 24
+  fontSizeShift: 24
+  fontSizeH1: 32
+  fontSizeH2: 20
+  h2Os: {x: 176, y: -19}
+  bodyOs: {x: -85, y: 75}
+  shiftOSNor: {x: -0.4, y: 0.3}
+  margin: {x: 40, y: 40}
+  middleScale5: 5
+  shiftMark: "\xB7"
+  shiftMarkFontSize: 32
+  shiftMarkOSFactor: 0.4
+  shiftMarkOS: 0.6
+  passFontColor: {r: 0, g: 0, b: 1, a: 1}
+  passIdx: -1
+  drawLyric: 0
+--- !u!114 &114122436424265884
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1468757035498994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d0deea2897558f4e9bfe2afa853d11a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  filePath: "G:/yx/Unity/TurnBasedGame/Assets/StreamingAssets\\Score\\Do As Infinity-\u6DF1\u3044\u68EE.txt"
+  folder: \Score\
+  fileName: "Do As Infinity-\u6DF1\u3044\u68EE.txt"
+  encoding: 3
+  text: "BB\r\n(#2 #2 (#6)), ((4 _4 5.-)), \r\n(#2 #2 (#6)), ((4 _4 5.-)), __#6[__1_2],\r\n__#6[__1_2],
+    __#6[__1_2], __#6[__1_2-], __#6,\r\n[_1] __#6 [_1], [_4 4], [2 #2], [4]\r\n__#6
+    _#6., [2 #2], [4] __#6 #6 __#6,\r\n[1]__#6[1], __#6 #6. __#6, __#6__#6[__1_2],\r\n__#6[__1_2],
+    __#6[__1_2], __#6[__12], __#6,\r\n__#6[_1]__#6[_1], [_4], [4], [_2_#2],\r\n[_4]__#6#6,
+    [__2__#2], [_4]__#6, #6 __#6,\r\n[_1]__#6[_1], __#6#6.-,\r\n[3], [__2__2], [2.],
+    [_2_5],\r\n\r\nSS SSSSSS\r\n[_#4__#4_#4], [__#45.], [_2_5],\r\n[_#4__#4_#4], [__#45.],
+    [_3_2],\r\n0 0 0 0, 7 0 0 0,\r\n[_3 __#4 _5], [__6 7.], [_3],\r\n[2, [1]], [[_1.]__7],
+    [7],\r\n\r\n[_3 __#4 _5], [__6 7], [6],\r\n[#4], [6], [_6.][__5], [5],\r\n\r\n[_3
+    __#4 _5], [__6 7.], [_3],\r\n[2, [1]], [[_1.]__7], [7],\r\n \r\n[_3 __#4 _5],
+    [__6 7], [6],\r\n[_#4__#4], [3#__4], [5.-],\r\n\r\n\r\n\r\n[_3 __#4 _5], [__6
+    7.], [_3],\r\n[2, [1]], [[_1.]__7], [7],\r\n\r\n[_3 __#4 _5], [__6 7], [6],\r\n[#4],
+    [#6], [_#6__7__5], [5],\r\n\r\n[_3 __#4 _5], [__6 7.], [_3],\r\n[2, [1]], [[_1.]__7],
+    [7],\r\n\r\n[_3 __#4 _5], [__6 7.-],\r\n[_#4__#4], [3__#4], [5--],\r\n\r\n\r\n\r\n\r\n[_3
+    __#4 _5], [__6 7.], [_3],\r\n[2, [1]], [[_1.]__7], [7],\r\n\r\n[_3 __#4 _5], [__6
+    7], [6],\r\n[_#4__#4], [3__#4], [_5][__#4], [3.-],\r\n[3----]\r\n\r\n\r\n@\r\n/D/
+    <#6[#24]>. _<[124]> 4- ,\r\n/F/ <6[14]>. _<#6[4]> #6- ,\r\n\r\n/3/ <5#6[#2]>.
+    <4#6[2]>.- ,\r\n/4/ <56[2]>. <5#6[2]>.- ,\r\n\r\n/5/ <46[1]> <5#6[24]>.- ,\r\n\r\n/6/
+    _1_5[1] _5_7[2] ,\r\n/7/ _2_#46 _3_5_7,\r\n/8/ _1_35 _5_7[2] ,\r\n/9/ <25><2#4><23><2#4>
+    ,\r\n\r\n/10/ <(7)73#4> $$$ ,\r\n/11/ <357> _<357> <137>. <137>,\r\n/12/ <2#46>
+    $ <257> <#46>,\r\n/13/ <#267> <267> <357> $,\r\n/14/ _3_5_71.5,\r\n/15/ (_7)_#46_3_57,\r\n/16/
+    <357>---,\r\n\r\n@\r\n/1/ 1  2  1  2\r\n/5/ 3  4  4  4\r\n/9/ 3  3  3  5\r\n/13/6
+    \ 7  8  9\r\n/17/10 11 12 11\r\n/21/13 11 12 11\r\n/25/13 11 12 11\r\n/29/13 11
+    12 11\r\n/33/13 14 15 14\r\n/37/15 16.\r\n\r\n"
+  step: 0
+  readAllOnStart: 1
+  chordParser:
+    chords:
+    - notes:
+      - value: 0.375
+        notes:
+        - scale: 4
+          pitch: 10
+        - scale: 5
+          pitch: 3
+        - scale: 5
+          pitch: 5
+      - value: 0.125
+        notes:
+        - scale: 5
+          pitch: 0
+        - scale: 5
+          pitch: 2
+        - scale: 5
+          pitch: 5
+      - value: 0.5
+        notes:
+        - scale: 4
+          pitch: 5
+    - notes:
+      - value: 0.375
+        notes:
+        - scale: 4
+          pitch: 9
+        - scale: 5
+          pitch: 0
+        - scale: 5
+          pitch: 5
+      - value: 0.125
+        notes:
+        - scale: 4
+          pitch: 10
+        - scale: 5
+          pitch: 5
+      - value: 0.5
+        notes:
+        - scale: 4
+          pitch: 10
+    - notes:
+      - value: 0.375
+        notes:
+        - scale: 4
+          pitch: 7
+        - scale: 4
+          pitch: 10
+        - scale: 5
+          pitch: 3
+      - value: 0.625
+        notes:
+        - scale: 4
+          pitch: 5
+        - scale: 4
+          pitch: 10
+        - scale: 5
+          pitch: 2
+    - notes:
+      - value: 0.375
+        notes:
+        - scale: 4
+          pitch: 7
+        - scale: 4
+          pitch: 9
+        - scale: 5
+          pitch: 2
+      - value: 0.625
+        notes:
+        - scale: 4
+          pitch: 7
+        - scale: 4
+          pitch: 10
+        - scale: 5
+          pitch: 2
+    - notes:
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 5
+        - scale: 4
+          pitch: 9
+        - scale: 5
+          pitch: 0
+      - value: 0.625
+        notes:
+        - scale: 4
+          pitch: 7
+        - scale: 4
+          pitch: 10
+        - scale: 5
+          pitch: 2
+        - scale: 5
+          pitch: 5
+    - notes:
+      - value: 0.125
+        notes:
+        - scale: 4
+          pitch: 0
+      - value: 0.125
+        notes:
+        - scale: 4
+          pitch: 7
+      - value: 0.25
+        notes:
+        - scale: 5
+          pitch: 0
+      - value: 0.125
+        notes:
+        - scale: 4
+          pitch: 7
+      - value: 0.125
+        notes:
+        - scale: 4
+          pitch: 11
+      - value: 0.25
+        notes:
+        - scale: 5
+          pitch: 2
+    - notes:
+      - value: 0.125
+        notes:
+        - scale: 4
+          pitch: 2
+      - value: 0.125
+        notes:
+        - scale: 4
+          pitch: 6
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 9
+      - value: 0.125
+        notes:
+        - scale: 4
+          pitch: 4
+      - value: 0.125
+        notes:
+        - scale: 4
+          pitch: 7
+      - value: 0.125
+        notes:
+        - scale: 4
+          pitch: 11
+    - notes:
+      - value: 0.125
+        notes:
+        - scale: 4
+          pitch: 0
+      - value: 0.125
+        notes:
+        - scale: 4
+          pitch: 4
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 7
+      - value: 0.125
+        notes:
+        - scale: 4
+          pitch: 7
+      - value: 0.125
+        notes:
+        - scale: 4
+          pitch: 11
+      - value: 0.25
+        notes:
+        - scale: 5
+          pitch: 2
+    - notes:
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 2
+        - scale: 4
+          pitch: 7
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 2
+        - scale: 4
+          pitch: 6
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 2
+        - scale: 4
+          pitch: 4
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 2
+        - scale: 4
+          pitch: 6
+    - notes:
+      - value: 0.25
+        notes:
+        - scale: 3
+          pitch: 11
+        - scale: 4
+          pitch: 11
+        - scale: 4
+          pitch: 4
+        - scale: 4
+          pitch: 6
+      - value: 0.25
+        notes:
+        - scale: 3
+          pitch: 11
+        - scale: 4
+          pitch: 11
+        - scale: 4
+          pitch: 4
+        - scale: 4
+          pitch: 6
+      - value: 0.25
+        notes:
+        - scale: 3
+          pitch: 11
+        - scale: 4
+          pitch: 11
+        - scale: 4
+          pitch: 4
+        - scale: 4
+          pitch: 6
+      - value: 0.25
+        notes:
+        - scale: 3
+          pitch: 11
+        - scale: 4
+          pitch: 11
+        - scale: 4
+          pitch: 4
+        - scale: 4
+          pitch: 6
+    - notes:
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 4
+        - scale: 4
+          pitch: 7
+        - scale: 4
+          pitch: 11
+      - value: 0.125
+        notes:
+        - scale: 4
+          pitch: 4
+        - scale: 4
+          pitch: 7
+        - scale: 4
+          pitch: 11
+      - value: 0.375
+        notes:
+        - scale: 4
+          pitch: 0
+        - scale: 4
+          pitch: 4
+        - scale: 4
+          pitch: 11
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 0
+        - scale: 4
+          pitch: 4
+        - scale: 4
+          pitch: 11
+    - notes:
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 2
+        - scale: 4
+          pitch: 6
+        - scale: 4
+          pitch: 9
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 2
+        - scale: 4
+          pitch: 6
+        - scale: 4
+          pitch: 9
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 2
+        - scale: 4
+          pitch: 7
+        - scale: 4
+          pitch: 11
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 6
+        - scale: 4
+          pitch: 9
+    - notes:
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 3
+        - scale: 4
+          pitch: 9
+        - scale: 4
+          pitch: 11
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 2
+        - scale: 4
+          pitch: 9
+        - scale: 4
+          pitch: 11
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 4
+        - scale: 4
+          pitch: 7
+        - scale: 4
+          pitch: 11
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 4
+        - scale: 4
+          pitch: 7
+        - scale: 4
+          pitch: 11
+    - notes:
+      - value: 0.125
+        notes:
+        - scale: 4
+          pitch: 4
+      - value: 0.125
+        notes:
+        - scale: 4
+          pitch: 7
+      - value: 0.125
+        notes:
+        - scale: 4
+          pitch: 11
+      - value: 0.375
+        notes:
+        - scale: 4
+          pitch: 0
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 7
+    - notes:
+      - value: 0.125
+        notes:
+        - scale: 3
+          pitch: 11
+      - value: 0.125
+        notes:
+        - scale: 4
+          pitch: 6
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 9
+      - value: 0.125
+        notes:
+        - scale: 4
+          pitch: 4
+      - value: 0.125
+        notes:
+        - scale: 4
+          pitch: 7
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 11
+    - notes:
+      - value: 1
+        notes:
+        - scale: 4
+          pitch: 4
+        - scale: 4
+          pitch: 7
+        - scale: 4
+          pitch: 11
+    - notes:
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 0
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 2
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 0
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 2
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 4
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 5
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 5
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 5
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 4
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 4
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 4
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 7
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 9
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 11
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 12
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 14
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 16
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 17
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 19
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 17
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 21
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 17
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 19
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 17
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 21
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 17
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 19
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 17
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 21
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 17
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 19
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 17
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 21
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 23
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 24
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 23
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 24
+      - value: 0.25
+        notes:
+        - scale: 4
+          pitch: 26
+    beatPerNote: 4
+    chordArr: 010000000200000001000000020000000300000004000000040000000400000003000000030000000300000005000000060000000700000008000000090000000a0000000b0000000c0000000b0000000d0000000b0000000c0000000b0000000d0000000b0000000c0000000b0000000d0000000b0000000c0000000b0000000d0000000e0000000f0000000e0000000f00000010000000
+    baseScale: 4
+  para:
+    bars:
+    - beats:
+      - notes:
+        - scale: 4
+          pitch: 5
+          value: 4
+      - notes:
+        - scale: 4
+          pitch: 5
+          value: 4
+      - notes:
+        - scale: 4
+          pitch: 0
+          value: 4
+    - beats:
+      - notes:
+        - scale: 3
+          pitch: 7
+          value: 4
+      - notes:
+        - scale: 3
+          pitch: 7
+          value: 8
+      - notes:
+        - scale: 3
+          pitch: 9
+          value: 4
+    - beats:
+      - notes:
+        - scale: 4
+          pitch: 5
+          value: 4
+      - notes:
+        - scale: 4
+          pitch: 5
+          value: 4
+      - notes:
+        - scale: 4
+          pitch: 0
+          value: 4
+    - beats:
+      - notes:
+        - scale: 3
+          pitch: 7
+          value: 4
+      - notes:
+        - scale: 3
+          pitch: 7
+          value: 8
+      - notes:
+        - scale: 3
+          pitch: 9
+          value: 4
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 16
+        - scale: 6
+          pitch: 2
+          value: 16
+        - scale: 6
+          pitch: 4
+          value: 8
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 16
+        - scale: 6
+          pitch: 2
+          value: 16
+        - scale: 6
+          pitch: 4
+          value: 8
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 16
+        - scale: 6
+          pitch: 2
+          value: 16
+        - scale: 6
+          pitch: 4
+          value: 8
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 16
+        - scale: 6
+          pitch: 2
+          value: 16
+        - scale: 6
+          pitch: 4
+          value: 8
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 16
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 2
+          value: 8
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 16
+      - notes:
+        - scale: 6
+          pitch: 2
+          value: 8
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 7
+          value: 8
+      - notes:
+        - scale: 6
+          pitch: 7
+          value: 4
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 4
+          value: 4
+      - notes:
+        - scale: 6
+          pitch: 5
+          value: 4
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 7
+          value: 4
+        - scale: 6
+          pitch: 0
+          value: 16
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 8
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 4
+          value: 4
+      - notes:
+        - scale: 6
+          pitch: 5
+          value: 4
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 7
+          value: 4
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 16
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 4
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 16
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 2
+          value: 4
+        - scale: 6
+          pitch: 0
+          value: 16
+        - scale: 6
+          pitch: 2
+          value: 4
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 16
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 4
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 16
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 16
+        - scale: 6
+          pitch: 0
+          value: 16
+        - scale: 6
+          pitch: 2
+          value: 16
+        - scale: 6
+          pitch: 4
+          value: 8
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 16
+        - scale: 6
+          pitch: 2
+          value: 16
+        - scale: 6
+          pitch: 4
+          value: 8
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 16
+        - scale: 6
+          pitch: 2
+          value: 16
+        - scale: 6
+          pitch: 4
+          value: 8
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 16
+        - scale: 6
+          pitch: 2
+          value: 16
+        - scale: 6
+          pitch: 4
+          value: 4
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 16
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 16
+        - scale: 6
+          pitch: 2
+          value: 8
+        - scale: 6
+          pitch: 0
+          value: 16
+        - scale: 6
+          pitch: 2
+          value: 8
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 7
+          value: 8
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 7
+          value: 4
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 4
+          value: 8
+        - scale: 6
+          pitch: 5
+          value: 8
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 7
+          value: 8
+        - scale: 6
+          pitch: 0
+          value: 16
+        - scale: 6
+          pitch: 0
+          value: 4
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 4
+          value: 16
+        - scale: 6
+          pitch: 5
+          value: 16
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 7
+          value: 8
+        - scale: 6
+          pitch: 0
+          value: 16
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 4
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 16
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 2
+          value: 8
+        - scale: 6
+          pitch: 0
+          value: 16
+        - scale: 6
+          pitch: 2
+          value: 8
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 16
+        - scale: 6
+          pitch: 0
+          value: 4
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 6
+          value: 4
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 4
+          value: 16
+        - scale: 6
+          pitch: 4
+          value: 16
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 4
+          value: 4
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 4
+          value: 8
+        - scale: 6
+          pitch: 9
+          value: 8
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 8
+        - scale: 6
+          pitch: 0
+          value: 16
+        - scale: 6
+          pitch: 0
+          value: 8
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 16
+        - scale: 6
+          pitch: 1
+          value: 4
+    - beats:
+      - notes:
+        - scale: 5
+          pitch: 8
+          value: 8
+        - scale: 6
+          pitch: 1
+          value: 8
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 8
+        - scale: 6
+          pitch: 0
+          value: 16
+        - scale: 6
+          pitch: 0
+          value: 8
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 16
+        - scale: 6
+          pitch: 1
+          value: 4
+    - beats:
+      - notes:
+        - scale: 5
+          pitch: 10
+          value: 8
+        - scale: 5
+          pitch: 8
+          value: 8
+    - beats:
+      - notes:
+        - scale: 5
+          pitch: 6
+          value: 4
+      - notes:
+        - scale: 5
+          pitch: 6
+          value: 4
+      - notes:
+        - scale: 5
+          pitch: 6
+          value: 4
+      - notes:
+        - scale: 5
+          pitch: 6
+          value: 4
+    - beats:
+      - notes:
+        - scale: 5
+          pitch: 5
+          value: 4
+      - notes:
+        - scale: 5
+          pitch: 6
+          value: 4
+      - notes:
+        - scale: 5
+          pitch: 6
+          value: 4
+      - notes:
+        - scale: 5
+          pitch: 6
+          value: 4
+    - beats:
+      - notes:
+        - scale: 5
+          pitch: 10
+          value: 8
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 16
+      - notes:
+        - scale: 6
+          pitch: 1
+          value: 8
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 3
+          value: 16
+      - notes:
+        - scale: 6
+          pitch: 5
+          value: 4
+    - beats:
+      - notes:
+        - scale: 5
+          pitch: 10
+          value: 8
+    - beats:
+      - notes:
+        - scale: 5
+          pitch: 8
+          value: 4
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 6
+          value: 4
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 6
+          value: 8
+        - scale: 6
+          pitch: 5
+          value: 16
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 5
+          value: 4
+    - beats:
+      - notes:
+        - scale: 5
+          pitch: 10
+          value: 8
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 16
+      - notes:
+        - scale: 6
+          pitch: 1
+          value: 8
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 3
+          value: 16
+      - notes:
+        - scale: 6
+          pitch: 5
+          value: 4
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 3
+          value: 4
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 4
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 3
+          value: 4
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 3
+          value: 8
+        - scale: 6
+          pitch: 1
+          value: 16
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 1
+          value: 4
+    - beats:
+      - notes:
+        - scale: 5
+          pitch: 10
+          value: 8
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 16
+      - notes:
+        - scale: 6
+          pitch: 1
+          value: 8
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 3
+          value: 16
+      - notes:
+        - scale: 6
+          pitch: 5
+          value: 4
+    - beats:
+      - notes:
+        - scale: 5
+          pitch: 10
+          value: 8
+    - beats:
+      - notes:
+        - scale: 5
+          pitch: 8
+          value: 4
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 6
+          value: 4
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 6
+          value: 8
+        - scale: 6
+          pitch: 5
+          value: 16
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 5
+          value: 4
+    - beats:
+      - notes:
+        - scale: 5
+          pitch: 10
+          value: 8
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 16
+      - notes:
+        - scale: 6
+          pitch: 1
+          value: 8
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 3
+          value: 16
+      - notes:
+        - scale: 6
+          pitch: 5
+          value: 4
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 3
+          value: 4
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 8
+        - scale: 6
+          pitch: 0
+          value: 16
+    - beats:
+      - notes:
+        - scale: 5
+          pitch: 10
+          value: 4
+        - scale: 6
+          pitch: 0
+          value: 16
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 1
+          value: 4
+    - beats:
+      - notes:
+        - scale: 5
+          pitch: 10
+          value: 8
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 16
+      - notes:
+        - scale: 6
+          pitch: 1
+          value: 8
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 3
+          value: 16
+      - notes:
+        - scale: 6
+          pitch: 5
+          value: 4
+    - beats:
+      - notes:
+        - scale: 5
+          pitch: 10
+          value: 8
+    - beats:
+      - notes:
+        - scale: 5
+          pitch: 8
+          value: 4
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 6
+          value: 4
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 6
+          value: 8
+        - scale: 6
+          pitch: 5
+          value: 16
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 5
+          value: 4
+    - beats:
+      - notes:
+        - scale: 5
+          pitch: 10
+          value: 8
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 16
+      - notes:
+        - scale: 6
+          pitch: 1
+          value: 8
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 3
+          value: 16
+      - notes:
+        - scale: 6
+          pitch: 5
+          value: 4
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 3
+          value: 4
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 4
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 4
+          value: 4
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 4
+          value: 8
+        - scale: 6
+          pitch: 5
+          value: 16
+        - scale: 6
+          pitch: 1
+          value: 16
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 1
+          value: 4
+    - beats:
+      - notes:
+        - scale: 5
+          pitch: 10
+          value: 8
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 16
+      - notes:
+        - scale: 6
+          pitch: 1
+          value: 8
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 3
+          value: 16
+      - notes:
+        - scale: 6
+          pitch: 5
+          value: 4
+    - beats:
+      - notes:
+        - scale: 5
+          pitch: 10
+          value: 8
+    - beats:
+      - notes:
+        - scale: 5
+          pitch: 8
+          value: 4
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 6
+          value: 4
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 6
+          value: 8
+        - scale: 6
+          pitch: 5
+          value: 16
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 5
+          value: 4
+    - beats:
+      - notes:
+        - scale: 5
+          pitch: 10
+          value: 8
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 16
+      - notes:
+        - scale: 6
+          pitch: 1
+          value: 8
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 3
+          value: 16
+      - notes:
+        - scale: 6
+          pitch: 5
+          value: 4
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 8
+        - scale: 6
+          pitch: 0
+          value: 16
+    - beats:
+      - notes:
+        - scale: 5
+          pitch: 10
+          value: 4
+        - scale: 6
+          pitch: 0
+          value: 16
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 1
+          value: 4
+    - beats:
+      - notes:
+        - scale: 5
+          pitch: 10
+          value: 8
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 16
+      - notes:
+        - scale: 6
+          pitch: 1
+          value: 8
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 3
+          value: 16
+      - notes:
+        - scale: 6
+          pitch: 5
+          value: 4
+    - beats:
+      - notes:
+        - scale: 5
+          pitch: 10
+          value: 8
+    - beats:
+      - notes:
+        - scale: 5
+          pitch: 8
+          value: 4
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 6
+          value: 4
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 6
+          value: 8
+        - scale: 6
+          pitch: 5
+          value: 16
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 5
+          value: 4
+    - beats:
+      - notes:
+        - scale: 5
+          pitch: 10
+          value: 8
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 16
+      - notes:
+        - scale: 6
+          pitch: 1
+          value: 8
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 3
+          value: 16
+      - notes:
+        - scale: 6
+          pitch: 5
+          value: 4
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 3
+          value: 4
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 0
+          value: 8
+        - scale: 6
+          pitch: 0
+          value: 16
+    - beats:
+      - notes:
+        - scale: 5
+          pitch: 10
+          value: 4
+        - scale: 6
+          pitch: 0
+          value: 16
+    - beats:
+      - notes:
+        - scale: 6
+          pitch: 1
+          value: 8
+        - scale: 6
+          pitch: 0
+          value: 16
+    - beats:
+      - notes:
+        - scale: 5
+          pitch: 10
+          value: 4
+  notesTotal:
+  - scale: 4
+    pitch: 5
+    value: 4
+  - scale: 4
+    pitch: 5
+    value: 4
+  - scale: 4
+    pitch: 0
+    value: 4
+  - scale: 3
+    pitch: 7
+    value: 4
+  - scale: 3
+    pitch: 7
+    value: 8
+  - scale: 3
+    pitch: 9
+    value: 4
+  - scale: 4
+    pitch: 5
+    value: 4
+  - scale: 4
+    pitch: 5
+    value: 4
+  - scale: 4
+    pitch: 0
+    value: 4
+  - scale: 3
+    pitch: 7
+    value: 4
+  - scale: 3
+    pitch: 7
+    value: 8
+  - scale: 3
+    pitch: 9
+    value: 4
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 2
+    value: 16
+  - scale: 6
+    pitch: 4
+    value: 8
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 2
+    value: 16
+  - scale: 6
+    pitch: 4
+    value: 8
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 2
+    value: 16
+  - scale: 6
+    pitch: 4
+    value: 8
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 2
+    value: 16
+  - scale: 6
+    pitch: 4
+    value: 8
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 2
+    value: 8
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 2
+    value: 8
+  - scale: 6
+    pitch: 7
+    value: 8
+  - scale: 6
+    pitch: 7
+    value: 4
+  - scale: 6
+    pitch: 4
+    value: 4
+  - scale: 6
+    pitch: 5
+    value: 4
+  - scale: 6
+    pitch: 7
+    value: 4
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 0
+    value: 8
+  - scale: 6
+    pitch: 4
+    value: 4
+  - scale: 6
+    pitch: 5
+    value: 4
+  - scale: 6
+    pitch: 7
+    value: 4
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 0
+    value: 4
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 2
+    value: 4
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 2
+    value: 4
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 0
+    value: 4
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 2
+    value: 16
+  - scale: 6
+    pitch: 4
+    value: 8
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 2
+    value: 16
+  - scale: 6
+    pitch: 4
+    value: 8
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 2
+    value: 16
+  - scale: 6
+    pitch: 4
+    value: 8
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 2
+    value: 16
+  - scale: 6
+    pitch: 4
+    value: 4
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 2
+    value: 8
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 2
+    value: 8
+  - scale: 6
+    pitch: 7
+    value: 8
+  - scale: 6
+    pitch: 7
+    value: 4
+  - scale: 6
+    pitch: 4
+    value: 8
+  - scale: 6
+    pitch: 5
+    value: 8
+  - scale: 6
+    pitch: 7
+    value: 8
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 0
+    value: 4
+  - scale: 6
+    pitch: 4
+    value: 16
+  - scale: 6
+    pitch: 5
+    value: 16
+  - scale: 6
+    pitch: 7
+    value: 8
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 0
+    value: 4
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 2
+    value: 8
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 2
+    value: 8
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 0
+    value: 4
+  - scale: 6
+    pitch: 6
+    value: 4
+  - scale: 6
+    pitch: 4
+    value: 16
+  - scale: 6
+    pitch: 4
+    value: 16
+  - scale: 6
+    pitch: 4
+    value: 4
+  - scale: 6
+    pitch: 4
+    value: 8
+  - scale: 6
+    pitch: 9
+    value: 8
+  - scale: 6
+    pitch: 0
+    value: 8
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 0
+    value: 8
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 1
+    value: 4
+  - scale: 5
+    pitch: 8
+    value: 8
+  - scale: 6
+    pitch: 1
+    value: 8
+  - scale: 6
+    pitch: 0
+    value: 8
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 0
+    value: 8
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 1
+    value: 4
+  - scale: 5
+    pitch: 10
+    value: 8
+  - scale: 5
+    pitch: 8
+    value: 8
+  - scale: 5
+    pitch: 6
+    value: 4
+  - scale: 5
+    pitch: 6
+    value: 4
+  - scale: 5
+    pitch: 6
+    value: 4
+  - scale: 5
+    pitch: 6
+    value: 4
+  - scale: 5
+    pitch: 5
+    value: 4
+  - scale: 5
+    pitch: 6
+    value: 4
+  - scale: 5
+    pitch: 6
+    value: 4
+  - scale: 5
+    pitch: 6
+    value: 4
+  - scale: 5
+    pitch: 10
+    value: 8
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 1
+    value: 8
+  - scale: 6
+    pitch: 3
+    value: 16
+  - scale: 6
+    pitch: 5
+    value: 4
+  - scale: 5
+    pitch: 10
+    value: 8
+  - scale: 5
+    pitch: 8
+    value: 4
+  - scale: 6
+    pitch: 6
+    value: 4
+  - scale: 6
+    pitch: 6
+    value: 8
+  - scale: 6
+    pitch: 5
+    value: 16
+  - scale: 6
+    pitch: 5
+    value: 4
+  - scale: 5
+    pitch: 10
+    value: 8
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 1
+    value: 8
+  - scale: 6
+    pitch: 3
+    value: 16
+  - scale: 6
+    pitch: 5
+    value: 4
+  - scale: 6
+    pitch: 3
+    value: 4
+  - scale: 6
+    pitch: 0
+    value: 4
+  - scale: 6
+    pitch: 3
+    value: 4
+  - scale: 6
+    pitch: 3
+    value: 8
+  - scale: 6
+    pitch: 1
+    value: 16
+  - scale: 6
+    pitch: 1
+    value: 4
+  - scale: 5
+    pitch: 10
+    value: 8
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 1
+    value: 8
+  - scale: 6
+    pitch: 3
+    value: 16
+  - scale: 6
+    pitch: 5
+    value: 4
+  - scale: 5
+    pitch: 10
+    value: 8
+  - scale: 5
+    pitch: 8
+    value: 4
+  - scale: 6
+    pitch: 6
+    value: 4
+  - scale: 6
+    pitch: 6
+    value: 8
+  - scale: 6
+    pitch: 5
+    value: 16
+  - scale: 6
+    pitch: 5
+    value: 4
+  - scale: 5
+    pitch: 10
+    value: 8
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 1
+    value: 8
+  - scale: 6
+    pitch: 3
+    value: 16
+  - scale: 6
+    pitch: 5
+    value: 4
+  - scale: 6
+    pitch: 3
+    value: 4
+  - scale: 6
+    pitch: 0
+    value: 8
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 5
+    pitch: 10
+    value: 4
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 1
+    value: 4
+  - scale: 5
+    pitch: 10
+    value: 8
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 1
+    value: 8
+  - scale: 6
+    pitch: 3
+    value: 16
+  - scale: 6
+    pitch: 5
+    value: 4
+  - scale: 5
+    pitch: 10
+    value: 8
+  - scale: 5
+    pitch: 8
+    value: 4
+  - scale: 6
+    pitch: 6
+    value: 4
+  - scale: 6
+    pitch: 6
+    value: 8
+  - scale: 6
+    pitch: 5
+    value: 16
+  - scale: 6
+    pitch: 5
+    value: 4
+  - scale: 5
+    pitch: 10
+    value: 8
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 1
+    value: 8
+  - scale: 6
+    pitch: 3
+    value: 16
+  - scale: 6
+    pitch: 5
+    value: 4
+  - scale: 6
+    pitch: 3
+    value: 4
+  - scale: 6
+    pitch: 0
+    value: 4
+  - scale: 6
+    pitch: 4
+    value: 4
+  - scale: 6
+    pitch: 4
+    value: 8
+  - scale: 6
+    pitch: 5
+    value: 16
+  - scale: 6
+    pitch: 1
+    value: 16
+  - scale: 6
+    pitch: 1
+    value: 4
+  - scale: 5
+    pitch: 10
+    value: 8
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 1
+    value: 8
+  - scale: 6
+    pitch: 3
+    value: 16
+  - scale: 6
+    pitch: 5
+    value: 4
+  - scale: 5
+    pitch: 10
+    value: 8
+  - scale: 5
+    pitch: 8
+    value: 4
+  - scale: 6
+    pitch: 6
+    value: 4
+  - scale: 6
+    pitch: 6
+    value: 8
+  - scale: 6
+    pitch: 5
+    value: 16
+  - scale: 6
+    pitch: 5
+    value: 4
+  - scale: 5
+    pitch: 10
+    value: 8
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 1
+    value: 8
+  - scale: 6
+    pitch: 3
+    value: 16
+  - scale: 6
+    pitch: 5
+    value: 4
+  - scale: 6
+    pitch: 0
+    value: 8
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 5
+    pitch: 10
+    value: 4
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 1
+    value: 4
+  - scale: 5
+    pitch: 10
+    value: 8
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 1
+    value: 8
+  - scale: 6
+    pitch: 3
+    value: 16
+  - scale: 6
+    pitch: 5
+    value: 4
+  - scale: 5
+    pitch: 10
+    value: 8
+  - scale: 5
+    pitch: 8
+    value: 4
+  - scale: 6
+    pitch: 6
+    value: 4
+  - scale: 6
+    pitch: 6
+    value: 8
+  - scale: 6
+    pitch: 5
+    value: 16
+  - scale: 6
+    pitch: 5
+    value: 4
+  - scale: 5
+    pitch: 10
+    value: 8
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 1
+    value: 8
+  - scale: 6
+    pitch: 3
+    value: 16
+  - scale: 6
+    pitch: 5
+    value: 4
+  - scale: 6
+    pitch: 3
+    value: 4
+  - scale: 6
+    pitch: 0
+    value: 8
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 5
+    pitch: 10
+    value: 4
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 6
+    pitch: 1
+    value: 8
+  - scale: 6
+    pitch: 0
+    value: 16
+  - scale: 5
+    pitch: 10
+    value: 4
+  - scale: 5
+    pitch: 10
+    value: 4
+  notes:
+  - scale: 5
+    pitch: 10
+    value: 4
+  beats: []
+  beat:
+    notes: []
+  bars:
+  - beats:
+    - notes:
+      - scale: 4
+        pitch: 5
+        value: 4
+    - notes:
+      - scale: 4
+        pitch: 5
+        value: 4
+    - notes:
+      - scale: 4
+        pitch: 0
+        value: 4
+  - beats:
+    - notes:
+      - scale: 3
+        pitch: 7
+        value: 4
+    - notes:
+      - scale: 3
+        pitch: 7
+        value: 8
+    - notes:
+      - scale: 3
+        pitch: 9
+        value: 4
+  - beats:
+    - notes:
+      - scale: 4
+        pitch: 5
+        value: 4
+    - notes:
+      - scale: 4
+        pitch: 5
+        value: 4
+    - notes:
+      - scale: 4
+        pitch: 0
+        value: 4
+  - beats:
+    - notes:
+      - scale: 3
+        pitch: 7
+        value: 4
+    - notes:
+      - scale: 3
+        pitch: 7
+        value: 8
+    - notes:
+      - scale: 3
+        pitch: 9
+        value: 4
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 16
+      - scale: 6
+        pitch: 2
+        value: 16
+      - scale: 6
+        pitch: 4
+        value: 8
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 16
+      - scale: 6
+        pitch: 2
+        value: 16
+      - scale: 6
+        pitch: 4
+        value: 8
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 16
+      - scale: 6
+        pitch: 2
+        value: 16
+      - scale: 6
+        pitch: 4
+        value: 8
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 16
+      - scale: 6
+        pitch: 2
+        value: 16
+      - scale: 6
+        pitch: 4
+        value: 8
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 16
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 2
+        value: 8
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 16
+    - notes:
+      - scale: 6
+        pitch: 2
+        value: 8
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 7
+        value: 8
+    - notes:
+      - scale: 6
+        pitch: 7
+        value: 4
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 4
+        value: 4
+    - notes:
+      - scale: 6
+        pitch: 5
+        value: 4
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 7
+        value: 4
+      - scale: 6
+        pitch: 0
+        value: 16
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 8
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 4
+        value: 4
+    - notes:
+      - scale: 6
+        pitch: 5
+        value: 4
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 7
+        value: 4
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 16
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 4
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 16
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 2
+        value: 4
+      - scale: 6
+        pitch: 0
+        value: 16
+      - scale: 6
+        pitch: 2
+        value: 4
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 16
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 4
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 16
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 16
+      - scale: 6
+        pitch: 0
+        value: 16
+      - scale: 6
+        pitch: 2
+        value: 16
+      - scale: 6
+        pitch: 4
+        value: 8
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 16
+      - scale: 6
+        pitch: 2
+        value: 16
+      - scale: 6
+        pitch: 4
+        value: 8
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 16
+      - scale: 6
+        pitch: 2
+        value: 16
+      - scale: 6
+        pitch: 4
+        value: 8
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 16
+      - scale: 6
+        pitch: 2
+        value: 16
+      - scale: 6
+        pitch: 4
+        value: 4
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 16
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 16
+      - scale: 6
+        pitch: 2
+        value: 8
+      - scale: 6
+        pitch: 0
+        value: 16
+      - scale: 6
+        pitch: 2
+        value: 8
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 7
+        value: 8
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 7
+        value: 4
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 4
+        value: 8
+      - scale: 6
+        pitch: 5
+        value: 8
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 7
+        value: 8
+      - scale: 6
+        pitch: 0
+        value: 16
+      - scale: 6
+        pitch: 0
+        value: 4
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 4
+        value: 16
+      - scale: 6
+        pitch: 5
+        value: 16
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 7
+        value: 8
+      - scale: 6
+        pitch: 0
+        value: 16
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 4
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 16
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 2
+        value: 8
+      - scale: 6
+        pitch: 0
+        value: 16
+      - scale: 6
+        pitch: 2
+        value: 8
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 16
+      - scale: 6
+        pitch: 0
+        value: 4
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 6
+        value: 4
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 4
+        value: 16
+      - scale: 6
+        pitch: 4
+        value: 16
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 4
+        value: 4
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 4
+        value: 8
+      - scale: 6
+        pitch: 9
+        value: 8
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 8
+      - scale: 6
+        pitch: 0
+        value: 16
+      - scale: 6
+        pitch: 0
+        value: 8
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 16
+      - scale: 6
+        pitch: 1
+        value: 4
+  - beats:
+    - notes:
+      - scale: 5
+        pitch: 8
+        value: 8
+      - scale: 6
+        pitch: 1
+        value: 8
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 8
+      - scale: 6
+        pitch: 0
+        value: 16
+      - scale: 6
+        pitch: 0
+        value: 8
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 16
+      - scale: 6
+        pitch: 1
+        value: 4
+  - beats:
+    - notes:
+      - scale: 5
+        pitch: 10
+        value: 8
+      - scale: 5
+        pitch: 8
+        value: 8
+  - beats:
+    - notes:
+      - scale: 5
+        pitch: 6
+        value: 4
+    - notes:
+      - scale: 5
+        pitch: 6
+        value: 4
+    - notes:
+      - scale: 5
+        pitch: 6
+        value: 4
+    - notes:
+      - scale: 5
+        pitch: 6
+        value: 4
+  - beats:
+    - notes:
+      - scale: 5
+        pitch: 5
+        value: 4
+    - notes:
+      - scale: 5
+        pitch: 6
+        value: 4
+    - notes:
+      - scale: 5
+        pitch: 6
+        value: 4
+    - notes:
+      - scale: 5
+        pitch: 6
+        value: 4
+  - beats:
+    - notes:
+      - scale: 5
+        pitch: 10
+        value: 8
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 16
+    - notes:
+      - scale: 6
+        pitch: 1
+        value: 8
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 3
+        value: 16
+    - notes:
+      - scale: 6
+        pitch: 5
+        value: 4
+  - beats:
+    - notes:
+      - scale: 5
+        pitch: 10
+        value: 8
+  - beats:
+    - notes:
+      - scale: 5
+        pitch: 8
+        value: 4
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 6
+        value: 4
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 6
+        value: 8
+      - scale: 6
+        pitch: 5
+        value: 16
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 5
+        value: 4
+  - beats:
+    - notes:
+      - scale: 5
+        pitch: 10
+        value: 8
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 16
+    - notes:
+      - scale: 6
+        pitch: 1
+        value: 8
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 3
+        value: 16
+    - notes:
+      - scale: 6
+        pitch: 5
+        value: 4
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 3
+        value: 4
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 4
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 3
+        value: 4
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 3
+        value: 8
+      - scale: 6
+        pitch: 1
+        value: 16
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 1
+        value: 4
+  - beats:
+    - notes:
+      - scale: 5
+        pitch: 10
+        value: 8
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 16
+    - notes:
+      - scale: 6
+        pitch: 1
+        value: 8
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 3
+        value: 16
+    - notes:
+      - scale: 6
+        pitch: 5
+        value: 4
+  - beats:
+    - notes:
+      - scale: 5
+        pitch: 10
+        value: 8
+  - beats:
+    - notes:
+      - scale: 5
+        pitch: 8
+        value: 4
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 6
+        value: 4
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 6
+        value: 8
+      - scale: 6
+        pitch: 5
+        value: 16
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 5
+        value: 4
+  - beats:
+    - notes:
+      - scale: 5
+        pitch: 10
+        value: 8
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 16
+    - notes:
+      - scale: 6
+        pitch: 1
+        value: 8
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 3
+        value: 16
+    - notes:
+      - scale: 6
+        pitch: 5
+        value: 4
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 3
+        value: 4
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 8
+      - scale: 6
+        pitch: 0
+        value: 16
+  - beats:
+    - notes:
+      - scale: 5
+        pitch: 10
+        value: 4
+      - scale: 6
+        pitch: 0
+        value: 16
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 1
+        value: 4
+  - beats:
+    - notes:
+      - scale: 5
+        pitch: 10
+        value: 8
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 16
+    - notes:
+      - scale: 6
+        pitch: 1
+        value: 8
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 3
+        value: 16
+    - notes:
+      - scale: 6
+        pitch: 5
+        value: 4
+  - beats:
+    - notes:
+      - scale: 5
+        pitch: 10
+        value: 8
+  - beats:
+    - notes:
+      - scale: 5
+        pitch: 8
+        value: 4
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 6
+        value: 4
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 6
+        value: 8
+      - scale: 6
+        pitch: 5
+        value: 16
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 5
+        value: 4
+  - beats:
+    - notes:
+      - scale: 5
+        pitch: 10
+        value: 8
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 16
+    - notes:
+      - scale: 6
+        pitch: 1
+        value: 8
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 3
+        value: 16
+    - notes:
+      - scale: 6
+        pitch: 5
+        value: 4
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 3
+        value: 4
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 4
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 4
+        value: 4
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 4
+        value: 8
+      - scale: 6
+        pitch: 5
+        value: 16
+      - scale: 6
+        pitch: 1
+        value: 16
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 1
+        value: 4
+  - beats:
+    - notes:
+      - scale: 5
+        pitch: 10
+        value: 8
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 16
+    - notes:
+      - scale: 6
+        pitch: 1
+        value: 8
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 3
+        value: 16
+    - notes:
+      - scale: 6
+        pitch: 5
+        value: 4
+  - beats:
+    - notes:
+      - scale: 5
+        pitch: 10
+        value: 8
+  - beats:
+    - notes:
+      - scale: 5
+        pitch: 8
+        value: 4
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 6
+        value: 4
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 6
+        value: 8
+      - scale: 6
+        pitch: 5
+        value: 16
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 5
+        value: 4
+  - beats:
+    - notes:
+      - scale: 5
+        pitch: 10
+        value: 8
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 16
+    - notes:
+      - scale: 6
+        pitch: 1
+        value: 8
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 3
+        value: 16
+    - notes:
+      - scale: 6
+        pitch: 5
+        value: 4
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 8
+      - scale: 6
+        pitch: 0
+        value: 16
+  - beats:
+    - notes:
+      - scale: 5
+        pitch: 10
+        value: 4
+      - scale: 6
+        pitch: 0
+        value: 16
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 1
+        value: 4
+  - beats:
+    - notes:
+      - scale: 5
+        pitch: 10
+        value: 8
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 16
+    - notes:
+      - scale: 6
+        pitch: 1
+        value: 8
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 3
+        value: 16
+    - notes:
+      - scale: 6
+        pitch: 5
+        value: 4
+  - beats:
+    - notes:
+      - scale: 5
+        pitch: 10
+        value: 8
+  - beats:
+    - notes:
+      - scale: 5
+        pitch: 8
+        value: 4
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 6
+        value: 4
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 6
+        value: 8
+      - scale: 6
+        pitch: 5
+        value: 16
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 5
+        value: 4
+  - beats:
+    - notes:
+      - scale: 5
+        pitch: 10
+        value: 8
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 16
+    - notes:
+      - scale: 6
+        pitch: 1
+        value: 8
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 3
+        value: 16
+    - notes:
+      - scale: 6
+        pitch: 5
+        value: 4
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 3
+        value: 4
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 0
+        value: 8
+      - scale: 6
+        pitch: 0
+        value: 16
+  - beats:
+    - notes:
+      - scale: 5
+        pitch: 10
+        value: 4
+      - scale: 6
+        pitch: 0
+        value: 16
+  - beats:
+    - notes:
+      - scale: 6
+        pitch: 1
+        value: 8
+      - scale: 6
+        pitch: 0
+        value: 16
+  - beats:
+    - notes:
+      - scale: 5
+        pitch: 10
+        value: 4
+  bar:
+    beats: []
+  lines: []
+  lyric:
+    strs: []
+    multiChars: 0
+  lyricMode: 0
+  chordMode: 1
+  pitchParaShift: -6
+  pitchParaShifted: 1
+  ppShifts:
+  - idx: 0
+    shift: -1
+  - idx: 0
+    shift: -1
+  - idx: 89
+    shift: 1
+  - idx: 89
+    shift: 1
+  - idx: 89
+    shift: 1
+  - idx: 89
+    shift: 1
+  - idx: 89
+    shift: 1
+  - idx: 89
+    shift: 1
+  - idx: 89
+    shift: 1
+  - idx: 89
+    shift: 1
+--- !u!114 &114231158225345454
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1973698850831364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bf35f3acf6ad554e90e356d1a5e53f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridUnitProp:
+  - clickable: 1
+    visible: 1
+    name: '#1'
+    texture: {fileID: 0}
+  - clickable: 1
+    visible: 1
+    name: '#2'
+    texture: {fileID: 0}
+  - clickable: 0
+    visible: 0
+    name: 
+    texture: {fileID: 0}
+  - clickable: 1
+    visible: 1
+    name: '#4'
+    texture: {fileID: 0}
+  - clickable: 1
+    visible: 1
+    name: '#5'
+    texture: {fileID: 0}
+  - clickable: 1
+    visible: 1
+    name: '#6'
+    texture: {fileID: 0}
+  - clickable: 0
+    visible: 0
+    name: 
+    texture: {fileID: 0}
+  drawName: 1
+  drawBorder: 1
+  drawBorderClr: {r: 0, g: 0, b: 0, a: 1}
+  drawTips: 0
+  gridCount: {x: 7, y: 1}
+  gridOs: {x: 5, y: 10}
+  gridOsFactor: {x: 1, y: 1}
+  gridSize: {x: 56.68, y: 119.2}
+  colorNormal: {r: 0.044705883, g: 0.044705883, b: 0.047058824, a: 1}
+  colorOver: {r: 0.07, g: 0.07, b: 0.07, a: 1}
+  colorDown: {r: 0.02, g: 0.02, b: 0.02, a: 1}
+  margin: {x: 0, y: 0}
+  nameOffset: {x: 0, y: -60}
+  initOnStart: 1
+  inputOrder: 0
+  drawOrder: 1
+  pivot: {x: 0.5, y: 1}
+  fontColor: {r: 1, g: 1, b: 1, a: 1}
+  buttonStyle: 0
+  useSkin: 0
+  osAbs: {x: 80, y: 0}
+--- !u!114 &114375314615769658
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1914160692845542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 032141a1aed5cd14da98d7112bcdd643, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startActive: 1
+  grids:
+  - {fileID: 114806266408596468}
+  - {fileID: 114231158225345454}
+  src: {fileID: 0}
+  piano: {fileID: 0}
+  scaleCurr: 5
+  scaleMid: 5
+  keys: 71000000320000007700000033000000650000007200000035000000740000003600000079000000370000007500000069000000
+  keysLow: 7a00000073000000780000006400000063000000760000006700000062000000680000006e0000006a0000006d0000002c000000
+  keysChord: 
+  chordIdx: 0
+  chordPlaying:
+    notes: []
+    pressed: 
+    endTime: []
+    startTime: []
+    t: 0
+  beatPerMinute: 20
+  chordVolume: 0.78
+--- !u!114 &114806266408596468
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1732238863643468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bf35f3acf6ad554e90e356d1a5e53f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridUnitProp:
+  - clickable: 1
+    visible: 1
+    name: 1
+    texture: {fileID: 0}
+  - clickable: 1
+    visible: 1
+    name: 2
+    texture: {fileID: 0}
+  - clickable: 1
+    visible: 1
+    name: 3
+    texture: {fileID: 0}
+  - clickable: 1
+    visible: 1
+    name: 4
+    texture: {fileID: 0}
+  - clickable: 1
+    visible: 1
+    name: 5
+    texture: {fileID: 0}
+  - clickable: 1
+    visible: 1
+    name: 6
+    texture: {fileID: 0}
+  - clickable: 1
+    visible: 1
+    name: 7
+    texture: {fileID: 0}
+  - clickable: 1
+    visible: 1
+    name: 8
+    texture: {fileID: 0}
+  drawName: 1
+  drawBorder: 1
+  drawBorderClr: {r: 0, g: 0, b: 0, a: 1}
+  drawTips: 0
+  gridCount: {x: 8, y: 1}
+  gridOs: {x: 5, y: 10}
+  gridOsFactor: {x: 1, y: 1}
+  gridSize: {x: 80, y: 200}
+  colorNormal: {r: 0.85, g: 0.85, b: 0.85, a: 1}
+  colorOver: {r: 1, g: 1, b: 1, a: 1}
+  colorDown: {r: 0.35647058, g: 0.36747277, b: 0.39607844, a: 1}
+  margin: {x: 0, y: 0}
+  nameOffset: {x: 0, y: -150}
+  initOnStart: 1
+  inputOrder: 1
+  drawOrder: 0
+  pivot: {x: 0.5, y: 1}
+  fontColor: {r: 0, g: 0, b: 0, a: 1}
+  buttonStyle: 0
+  useSkin: 0
+  osAbs: {x: 80, y: 0}
+--- !u!224 &224031328024823802
+RectTransform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1468757035498994}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 224438163153536458}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 174.83}
+  m_SizeDelta: {x: 1549.1, y: 550.46}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!224 &224214517200727276
+RectTransform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1732238863643468}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 224563715721503122}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 690.7, y: 219.05}
+  m_Pivot: {x: 0.5, y: 1}
+--- !u!224 &224434398633713512
+RectTransform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1720292923384090}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 224438163153536458}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -185.5, y: 400.05997}
+  m_SizeDelta: {x: 25, y: 25}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!224 &224438163153536458
+RectTransform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1126392564236838}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 224031328024823802}
+  - {fileID: 224602014027219668}
+  - {fileID: 224791240486489942}
+  - {fileID: 224434398633713512}
+  - {fileID: 224563715721503122}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!224 &224447528107883364
+RectTransform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1973698850831364}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.000022, y: 1.000022, z: 1.000022}
+  m_Children: []
+  m_Father: {fileID: 224563715721503122}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 690.7, y: 338.1}
+  m_Pivot: {x: 0.5, y: 1}
+--- !u!224 &224563715721503122
+RectTransform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1914160692845542}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 224214517200727276}
+  - {fileID: 224447528107883364}
+  m_Father: {fileID: 224438163153536458}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 1600, y: -282}
+  m_SizeDelta: {x: 579.6, y: 164.6}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!224 &224602014027219668
+RectTransform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1457290600644934}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 224438163153536458}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -136}
+  m_SizeDelta: {x: 1403.1, y: 50.3}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!224 &224791240486489942
+RectTransform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1638420311806922}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 224438163153536458}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -123, y: 400.06}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
