@@ -10,7 +10,7 @@ namespace Esa
     {
         Thumb, Index, Middle, Ring, Pinky
     }
-    [ExecuteInEditMode]
+    //[ExecuteInEditMode]
     public class FretsIK : MonoBehaviour
     {
         public FretsPos fretsPos;
