@@ -10,7 +10,7 @@ namespace Esa
     {
         Thumb, Index, Middle, Ring, Pinky
     }
-    [ExecuteInEditMode]
+    //[ExecuteInEditMode]
     public class FretsIK : MonoBehaviour
     {
         public FretsPos fretsPos;
@@ -45,7 +45,7 @@ namespace Esa
 
         public float minValue = -45;
 
-        [HideInInspector] [ToggleAttribute] public bool solveOn = false;
+         [Toggle] public bool solveOn = false;
 
         Avatar avatar { get { if (_avatar == null) _avatar = UIDOFEditor.I.avatar; return _avatar; } }
         Avatar _avatar;
