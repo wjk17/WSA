@@ -20,7 +20,7 @@ namespace Esa.UI_
         {
             if (FindObjectOfType<FretsIK>() == null) enabled = false;
         }
-        void DoPlaying()
+        void DoPlaying() // 每帧执行
         {
             var speed = slider.value;
             timer += Time.deltaTime * speed;
@@ -74,6 +74,8 @@ namespace Esa.UI_
                     break;
                 }
             }
+            // 根据 手的位置和 目标品格 的位置 相隔的品格数
+            // 来选择使用哪根手指
             os = ik.fret - ik.hand;
             if (os <= -1) ik.finger = 1;
             else if (os <= 0) ik.finger = 2;

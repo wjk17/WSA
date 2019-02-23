@@ -25,7 +25,9 @@ namespace Esa
         {
             foreach (var unit in units)
             {
-                var target = UIDOFEditor.I.avatar.GetTransDOF(unit.bone);
+                var ava = GetComponentInParent<Avatar>();
+                var target = ava.GetTransDOF(unit.bone);
+                //var target = UIDOFEditor.I.avatar.GetTransDOF(unit.bone);
                 ast.euler.y = Mathf.Lerp(ast.euler.y, target.euler.y, unit.weight);
             }
             ast.Update();

@@ -51,6 +51,8 @@ namespace Esa
         public bool mirror;
         public bool loop = true;
 
+        public string clipName;
+
         void Start()
         {
             playTime = 0;
@@ -91,14 +93,7 @@ namespace Esa
             }
             if (clips.Count > 0)
             {
-                SetClip("Walk");
-                Mirror(current);
-
-                SetClip("Slash");
-                ScaleClip(current, 0.25f);
-                //OffsetClip(current, 10);
-                current.frameRange.y = (int)(current.frameRange.y * 0.5f);
-
+                SetClip(clipName);
                 if (SYS.debugAnime) print(current.clipName + " length: " + current.frameRange.y);
             }
         }
@@ -128,19 +123,6 @@ namespace Esa
                     foreach (var key in curve.keys)
                     {
                         key.time *= factor;
-                    }
-                }
-            }
-        }
-        private void OffsetClip(Clip clip, int i)
-        {
-            foreach (var oc in clip.curves)
-            {
-                foreach (var curve in oc.curves)
-                {
-                    foreach (var key in curve.keys)
-                    {
-                        key.idx += i;
                     }
                 }
             }

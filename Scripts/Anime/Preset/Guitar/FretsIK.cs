@@ -13,7 +13,7 @@ namespace Esa
     //[ExecuteInEditMode]
     public class FretsIK : MonoBehaviour
     {
-        public FretsPos fretsPos;
+        public FretsPos fretsPos; // 只提供位置数据，每个品格和对应的手掌、手腕位置
         public int fretsCount = 22;
         public float gizmosRadius = 0.05f;
         public Color gizmosColor = Color.red;

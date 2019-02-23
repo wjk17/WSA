@@ -31,9 +31,9 @@ public class FretsPos : MonoBehaviour, IFind
     void ClearGOs()
     {
         this.Clear();
-        frets.Clear();
-        hands1.Clear();
-        hands2.Clear();
+        frets.Clear(); // 品格位置（中心，而不是品柱）
+        hands1.Clear(); // 手掌位置
+        hands2.Clear(); // 手腕位置
     }
     private void Update()
     {
